@@ -1,0 +1,63 @@
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dragula.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+  <div class="row">
+  <a href="index.html">Scene Graph</a>
+  <a href="character.html">Character Info</a>
+  <a href="character-graph.html">Character Graph</a>
+  <button id="reset" onclick="reset()" style="float: right;">Reset data</button>
+  </div>
+   <div class='parent'>
+    <div class = "row">
+    <div class="column">
+      <h1>Dexter "Dex" Raymond</h1>
+      <div class="column">
+      <h2>Investigative Abilities</h2>
+      <ul>
+        <li>Accounting</li>
+        <li>Assess Honesty</li>
+        <li>Bargain</li>
+      </ul>
+    </div>
+    <div class="column">
+      <h2>General Abilities</h2>
+      <ul>
+        <li>Athletics 🎲 🎲</li>
+        <li>Cool 🎲</li>
+        <li>Conceal 🎲</li>
+      </ul>
+    </div>
+    <div class="heading" style="padding-top:150px;">
+    <center><p><strong>Character Problems and Edges</strong> <em>(drag and drop to add)</p></em></center>
+    </div>
+    <div id="list-container-character">
+      <ol id="character-list" type="1">
+      </ol>
+    </div>
+  </div>
+  <div class="column">
+     <div class="row">
+      <center><h2>Problems</h2></center>
+        <div id="list-container-problems">
+          <ol id="problems-list" type="1">
+          </ol>
+        </div>
+     </div>
+     <div class="row">
+      <center><h2>Edges</h2></center>
+       <div id="list-container-edges">
+         <ol id="edges-list" type="1">
+         </ol>
+       </div>
+     </div>
+  </div>
+</div>
+</div>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.js'></script>
+  <script src='character.js'></script>
+</body>
