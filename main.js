@@ -9,6 +9,8 @@ var binding = "";
 var currentSceneText = []; 
 var currentSceneClues = [];
 var currentSceneCluesKnown = [];
+var allClues = [];
+var allCluesKnown = [];
 
 // Create the prolog sesssion and load mini_prom_week_example.prolog.
 session = pl.create();
@@ -41,14 +43,21 @@ function get_callback(funcWhenDone)
   return callbackFunc;
 } 
 
+loadAll()
 
 window.onload = function () {
-  //loadSceneGraph();
+  loadAll();
+  
+}
+
+function loadAll() {
+  currentSceneText = []; 
+  currentSceneClues = [];
+  currentSceneCluesKnown = [];
   clear_output_area();
   loadSceneName();
   loadSceneType();
   loadSceneText();
-  //loadSceneClues();
 }
 
 function clear_output_area() {
@@ -102,7 +111,6 @@ function loadSceneClues() {
         var answer = answers[i];
         var result_name = answer.lookup("Description");
         var clue_known = answer.lookup("Known");
-        //console.log(result_name);
         if (result_name !== null){
           currentSceneClues.push(result_name);
           currentSceneCluesKnown.push(clue_known)
@@ -116,12 +124,10 @@ function loadSceneClues() {
 }
 
 function renderScene() {
-  console.log(currentSceneText)
   if (currentScene=="sadies_sob_story"){
     for (var i = 0; i < 5; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
-    console.log(currentSceneClues);
     for (var i = 0; i < 4; i++) {
       var checkbox;
       var clue_known = currentSceneCluesKnown[i];
@@ -136,16 +142,57 @@ function renderScene() {
   }
 }
 
-
 // When you click the checkbox for a clue, have this update the result in the database
 $(document).on("click", "input[name='clue']", function () {
   var checked = $(this).prop('checked');
-  var clueText = this.nextSibling.data//.trim().substring(3);
-  console.log(clueText);
-  var change_clue_known = function(binding) {
+  var clueText = this.nextSibling.data;
+  var binding = function(answer) {
+    var tag = answer.lookup("Clue");
   }
 
-  var statement = "change_clue_known(Clue," + clueText + ", " + checked + ").";
+  var statement = "clue_known(Clue, PrevKnown),clue_description(Clue, " + clueText + "), retract( clue_known(Clue, PrevKnown) ), asserta( clue_known(Clue, " + checked + ")).";
   session.query(statement);
-  session.answer(change_clue_known);
+  session.answer(binding);
 });
+
+// handles clicking link to show all clues
+var el = document.getElementById('clues_link');
+el.onclick = loadClues;
+
+// handles clicking link to show all clues
+var el2 = document.getElementById('scenes_link');
+el2.onclick = loadAll;
+
+function loadClues() {
+  allClues = [];
+  allCluesKnown = [];
+  clear_output_area();
+  var get_all_bindings = function(answers) {
+    for (var i = 0; i < answers.length; i++) {
+        var answer = answers[i];
+        var result_name = answer.lookup("Description");
+        var clue_known = answer.lookup("Known");
+        if (result_name !== null){
+          allClues.push(result_name);
+          allCluesKnown.push(clue_known)
+        }
+    }
+    renderClues();
+  }
+  
+  session.query("clue_description(Clue, Description), clue_known(Clue, Known).");
+  session.answers(get_callback(get_all_bindings));
+}
+
+function renderClues() {
+  for (var i = 0; i < allClues.length; i++) {
+    var checkbox;
+      var clue_known = allCluesKnown[i];
+      if (clue_known == "true") {
+        checkbox = "<input type='checkbox' name='clue' checked>";
+      } else {
+        checkbox = "<input type='checkbox' name='clue'>";
+      }
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + checkbox + allClues[i] + "</p>";
+  } 
+}

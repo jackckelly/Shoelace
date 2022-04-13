@@ -1,6 +1,3 @@
- 
-
-
 // Create the prolog sesssion and load mini_prom_week_example.prolog.
 session = pl.create();
 session.consult("database.prolog");
@@ -56,8 +53,47 @@ function loadClues() {
 }
 
 function renderClues() {
+  console.log(allCluesKnown);
   for (var i = 0; i < allClues.length; i++) {
-    clueInfo.innerHTML = clueInfo.innerHTML + "<p>" + allClues[i] + "</p>";
+    var checkbox;
+      var clue_known = allCluesKnown[i];
+      if (clue_known == "true") {
+        checkbox = "<input type='checkbox' name='clue' checked>";
+      } else {
+        checkbox = "<input type='checkbox' name='clue'>";
+      }
+    clueInfo.innerHTML = clueInfo.innerHTML + "<p>" + checkbox + allClues[i] + "</p>";
   }
   
+}
+
+
+// When you click the checkbox for a clue, have this update the result in the database
+$(document).on("click", "input[name='clue']", function () {
+  console.log("clicking box");
+  var checked = $(this).prop('checked');
+  var clueText = this.nextSibling.data;//.trim().substring(3);
+  //console.log(clueText);
+  var binding = function(answer) {
+    console.log(answer.lookup("PrevKnown"));
+    var tag = answer.lookup("Clue");
+    checkIfClueKnown(tag); 
+  }
+
+  var statement = "clue_known(Clue, PrevKnown),clue_description(Clue, " + clueText + "), retract( clue_known(Clue, PrevKnown) ), asserta( clue_known(Clue, " + checked + ")).";
+  session.query(statement);
+  session.answer(binding);
+});
+
+/*var binding = function(answer) {
+      scene_output_area.innerHTML = scene_output_area.innerHTML + "<h2>" + answer.lookup("Name");  + "</h2>";
+  }*/
+function checkIfClueKnown(tag) {
+  var binding = function(answer) {
+    console.log("Checking if known...");
+    console.log(answer.lookup("Known"));
+  }
+  console.log(tag);
+  session.query("clue_known(" + tag + ", Known).");
+  session.answer(binding);
 }

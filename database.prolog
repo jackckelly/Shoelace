@@ -928,7 +928,7 @@ find_physical_injury(Challenge, ExtraProblem) :-
     challenge_extra_problem(Challenge, ExtraProblem).
 
 change_clue_known(Clue, Description, Known) :-
-	clue(Clue), 
+	clue_known(Clue, PrevKnown),
 	clue_description(Clue, Description), 
-	retract(clue_known(Clue, PrevKnown)),
-	asserta(clue_known(Clue, Known)).
+	retract( clue_known(Clue, PrevKnown) ),
+	asserta( clue_known(Clue, Known) ).
