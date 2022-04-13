@@ -691,6 +691,7 @@ source_investigative_abilities(louisa_reynolds, psychology).
 :- dynamic(problem_effect/2).
 
 problem(sucker_for_a_pretty_face).
+problem_name(sucker_for_a_pretty_face, "Sucker for a Pretty Face").
 problem_number(sucker_for_a_pretty_face, 1).
 problem_type(sucker_for_a_pretty_face, continuity).
 problem_description(sucker_for_a_pretty_face, "You change lovers as frequently as clothes.").
@@ -726,13 +727,11 @@ item_type(letter_from_george_preston, letter).
 :- dynamic(edge_number/2).
 :- dynamic(edge_name/2).
 :- dynamic(edge_description/2).
-:- dynamic(edge_effect/2).
 
 edge(ice_queen).
 edge_number(ice_queen, 1).
 edge_name(ice_queen, "Ice Queen").
-edge_description(ice_queen, "You're getting better at prioritizing things that matter.").
-edge_effect(ice_queen, "Spend to get an extra die on Cool or Stability or a +2 on a General/Mental test, then discard").
+edge_description(ice_queen, "You're getting better at prioritizing things that matter. Spend to get an extra die on Cool or Stability or a +2 on a General/Mental test, then discard").
 
 
 :- dynamic(challenge/1).
@@ -887,7 +886,7 @@ player_problem(sucker_for_a_pretty_face).
 player_investigative_ability(accounting).
 player_investigative_ability(assess_honesty).
 player_general_ability(athletics, 1).
-pushes(4).
+player_pushes(4).
 
 
 :- dynamic(antagonist_reaction/1).

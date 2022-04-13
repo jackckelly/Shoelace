@@ -55,6 +55,11 @@ function loadAll() {
   currentSceneClues = [];
   currentSceneCluesKnown = [];
   clear_output_area();
+  loadScene();
+  loadGraph();
+}
+
+function loadScene() {
   loadSceneName();
   loadSceneType();
   loadSceneText();
@@ -99,7 +104,6 @@ function loadSceneText() {
   }
   
   session.query("scene_text(" + currentScene + ", Text).");
-  //session.answers(show(binding), 1000);
   session.answers(get_callback(get_all_bindings));
 }
 
@@ -155,19 +159,32 @@ $(document).on("click", "input[name='clue']", function () {
   session.answer(binding);
 });
 
+/*
+ ********************************
+ * Handles clicking link in the nav bar
+ * 
+ ******************************** 
+ */
+
 // handles clicking link to show all clues
 var el = document.getElementById('clues_link');
 el.onclick = loadClues;
 
-// handles clicking link to show all clues
 var el2 = document.getElementById('scenes_link');
 el2.onclick = loadAll;
+
+var el3 = document.getElementById('player_link');
+el3.onclick = loadPlayerSheet;
+
+var el4 = document.getElementById('edges_link');
+el3.onclick = loadEdges;
 
 function loadClues() {
   allClues = [];
   allCluesKnown = [];
   clear_output_area();
   var get_all_bindings = function(answers) {
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>All Clues</h2>";
     for (var i = 0; i < answers.length; i++) {
         var answer = answers[i];
         var result_name = answer.lookup("Description");
@@ -195,4 +212,124 @@ function renderClues() {
       }
     sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + checkbox + allClues[i] + "</p>";
   } 
+}
+
+function loadGraph() {
+  var graphDefinition = "graph TD\nsadies_sob_story[Sadie's Sob Story]\nfullers_electrical_repair[Fuller's Electrical Repair]\ncharming_charlie[Charming Charlie]\nthe_psychical_investigator[The Psychical Investigator]\nthe_peculiar_death_of_myron_fink[The Peculiar Death of Myron Fink]\nfuller_himself[Fuller Himself]\ntemple_of_nepthys[Temple of Nepthys]\nthe_leg_breaker[The Leg Breaker]\ncharlie_comes_clean[Charlie Comes Clean]\nwhat_the_cops_know[What the Cops Know]\ninterviewing_the_neighbors[Interviewing the Neighbors]\ngeorges_apartment[George's Apartment]\naddie_needs_answers[Addie Needs Answers]\nmen_gone_missing[Men Gone Missing]\nbreaking_into_fullers[Breaking Into Fuller's]\nthe_thing_in_the_morgue[The Thing in the Morgue]\nquestioning_pearl[Questioning Pearl]\nmiracle_machine[Miracle Machine]\ngoing_on_the_grid[Going on the Grid]\nsadie_and_the_scoop[Sadie and the Scoop]\nsadies_sob_story --> fullers_electrical_repair\nsadies_sob_story --> the_peculiar_death_of_myron_fink\nsadies_sob_story --> what_the_cops_know\nfullers_electrical_repair --> fuller_himself\nfullers_electrical_repair --> charming_charlie\ncharming_charlie --> the_peculiar_death_of_myron_fink\ncharming_charlie --> fuller_himself\ncharming_charlie --> the_leg_breaker\ncharming_charlie --> temple_of_nepthys\nthe_psychical_investigator --> temple_of_nepthys\nthe_peculiar_death_of_myron_fink --> what_the_cops_know\nthe_peculiar_death_of_myron_fink --> interviewing_the_neighbors\nfuller_himself --> charming_charlie\nfuller_himself --> the_psychical_investigator\nfuller_himself --> temple_of_nepthys\nfuller_himself --> what_the_cops_know\nfuller_himself --> georges_apartment\ntemple_of_nepthys --> the_leg_breaker\ntemple_of_nepthys --> miracle_machine\ntemple_of_nepthys --> addie_needs_answers\nthe_leg_breaker --> charlie_comes_clean\nthe_leg_breaker --> breaking_into_fullers\ncharlie_comes_clean --> breaking_into_fullers\nwhat_the_cops_know --> the_peculiar_death_of_myron_fink\nwhat_the_cops_know --> the_thing_in_the_morgue\ninterviewing_the_neighbors --> georges_apartment\ngeorges_apartment --> questioning_pearl\ngeorges_apartment --> the_psychical_investigator\naddie_needs_answers --> men_gone_missing\nmen_gone_missing --> breaking_into_fullers\nbreaking_into_fullers --> sadie_and_the_scoop\nquestioning_pearl --> miracle_machine\nmiracle_machine --> going_on_the_grid\ngoing_on_the_grid --> breaking_into_fullers\nclassDef completed fill:#f9f,stroke:#333,stroke-width:4px;";
+  parseGraph(graphDefinition);
+}
+
+function parseGraph(graphDefinition) {
+  $('#graphInfo').empty();
+  var element = document.querySelector("#graphInfo");
+
+  var insertSvg = function(svgCode, bindFunctions){
+    element.innerHTML = svgCode;
+  };
+  mermaid.mermaidAPI.render('graphInfo', graphDefinition, insertSvg);
+}
+
+// When you click the node, load the appropriate page
+$(document).on("click", "g[class='nodes'] g[class='node']", function () {
+  currentScene = $(this).attr('id');
+  var text = $(this).find('foreignObject div').html();
+  loadAll(); 
+});
+
+
+// When you click the node, load the appropriate page
+$(document).on("click", "g[class='nodes'] g[class='node completed']", function () {
+  currentScene = $(this).attr('id');
+  console.log("Current scene is " + currentScene);
+  var text = $(this).find('foreignObject div').html();
+  loadAll(); 
+});
+
+function loadPlayerSheet() {
+  clear_output_area();
+  sceneInfo.innerHTML = sceneInfo.innerHTML + "<h1>Player Sheet</h1>";
+  loadPlayerEdges(); 
+}
+
+function loadPlayerEdges() {
+  sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>Edges</h2>"; 
+  var get_all_bindings = function(answers) {
+    for (var i = 0; i < answers.length; i++) {
+        var answer = answers[i];
+        var result_name = answer.lookup("Name");
+        var result_description = answer.lookup("Description");
+        if (result_name !== null){
+          sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>" + result_name + "</strong> -- " + result_description + "</p>";
+        }
+    }
+    bindings = [];
+    loadPlayerProblems();
+  }
+
+  session.query("player_edge(Edge), edge_name(Edge, Name), edge_description(Edge, Description).");
+  session.answers(get_callback(get_all_bindings));
+}
+
+function loadPlayerProblems() {
+  sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>Problems</h2>"; 
+  var get_all_bindings = function(answers) {
+    for (var i = 0; i < answers.length; i++) {
+        var answer = answers[i];
+        var result_name = answer.lookup("Name");
+        var result_description = answer.lookup("Description");
+        if (result_name !== null){
+          sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>" + result_name + "</strong> -- " + result_description + "</p>";
+        }
+    }
+    bindings = [];
+    loadPlayerInvestigativeAbilities();
+  }
+
+  session.query("player_problem(Problem), problem_name(Problem, Name), problem_description(Problem, Description).");
+  session.answers(get_callback(get_all_bindings));
+}
+
+function loadPlayerInvestigativeAbilities() {
+  sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>Investigative Abilities</h2>";
+  var get_all_bindings = function(answers) {
+    for (var i = 0; i < answers.length; i++) {
+        var answer = answers[i];
+        var result_name = answer.lookup("Name");
+        if (result_name !== null){
+          sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + result_name + "</p>";
+        }
+    }
+    bindings = []; 
+    loadPlayerGeneralAbilities();
+  }
+  
+  session.query("player_investigative_ability(Ability), investigative_ability(Ability, Name, Description, Type).");
+  session.answers(get_callback(get_all_bindings));
+}
+
+function loadPlayerGeneralAbilities() {
+  var get_all_bindings = function(answers) {
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>General Abilities</h2>";
+    for (var i = 0; i < answers.length; i++) {
+        var answer = answers[i];
+        var result_name = answer.lookup("Name");
+        if (result_name !== null){
+          sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + result_name + "</p>";
+        }
+    }
+    //bindings = []; 
+    loadPlayerPushes();
+  }
+  
+  session.query("player_general_ability(Ability, Value), general_ability(Ability, Name, Description, Type).");
+  session.answers(get_callback(get_all_bindings));
+}
+
+function loadPlayerPushes() {
+  var binding = function(answer) {
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>Player Pushes: </strong>" + answer.lookup("Value"); + "</p>";
+  }
+  
+  session.query("player_pushes(Value).");
+  session.answer(binding);
 }
