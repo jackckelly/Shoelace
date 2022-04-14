@@ -9,19 +9,35 @@
 }
 
 html * {
-  font-size: 16px;
+  /*font-size: 16px;*/
   line-height: 1.525;
-  font-family: 'Open Sans', sans-serif;
+  /*font-family: 'Open Sans', sans-serif;*/
+  
+}
+
+h1, h2 {
+  font-family: 'Alata', sans-serif;
+  text-transform: uppercase;
+}
+
+p {
+  font-family: 'Bitter', serif;
 }
 
 ul {
-    list-style-type:none;
+  list-style-type:none;
 }
 
 li {
-        padding-left: 1.5em;
-        text-indent:-1.5em;
-    }
+  padding-left: 1.5em;
+  text-indent:-1.5em;
+}
+
+.node {
+  color: white !important;
+  font-family: 'Alata', sans-serif;
+  /*text-transform: uppercase;*/
+}
 
 .column {
   float: left;
@@ -40,7 +56,9 @@ li {
   text-indent: -22px ;
 } 
 
+
 svg {
+  /*background-color: #333;*/
   margin-left: -190;
   height: 1800px;
   width: 1200px;
@@ -49,6 +67,7 @@ svg {
 }
 
 .svg-container {
+
   display: inline-block;
   position: relative;
   width: 100%;
@@ -61,12 +80,6 @@ svg {
   position: absolute;
   top: 10px;
   left: 0;
-}
-
-svg .rect {
-  fill: gold;
-  stroke: steelblue;
-  stroke-width: 5px;
 }
 
 .challenge {
