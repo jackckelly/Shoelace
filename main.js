@@ -43,12 +43,20 @@ function get_callback(funcWhenDone)
   return callbackFunc;
 } 
 
-loadAll()
+/*
+ ********************************
+ * Handles clicking link in the nav bar
+ * 
+ ******************************** 
+ */
+document.getElementById('clues_link').onclick = loadClues;
+document.getElementById('scenes_link').onclick = loadAll;
+document.getElementById('player_link').onclick = loadPlayerSheet;
+document.getElementById('edges_link').onclick = loadEdges;
+document.getElementById('problems_link').onclick = loadProblems;
+document.getElementById('characters_link').onclick = loadCharacters;
 
-window.onload = function () {
-  loadAll();
-  
-}
+loadAll()
 
 function loadAll() {
   currentSceneText = []; 
@@ -133,18 +141,30 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 4; i++) {
-      var checkbox;
-      var clue_known = currentSceneCluesKnown[i];
-      if (clue_known == "true") {
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+    }
+    for (var i = 5; i < 6; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    for (var i = 4; i < currentSceneCluesKnown.length; i++) {
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+    }
+    for (var i = 6; i < currentSceneText.length; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+  }
+}
+
+function renderClue(clue, known) {
+  var checkbox;
+      if (known == "true") {
         checkbox = "<input type='checkbox' name='clue' checked>";
       } else {
         checkbox = "<input type='checkbox' name='clue'>";
       }
-      //scene_output_area.innerHTML = scene_output_area.innerHTML + "<p>" + checkbox + clue_number + ") " + clue_name.replace(/^["'](.+(?=["']$))["']$/, '$1') + "</p>";
-      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + checkbox + currentSceneClues[i] + "</p>";
-    }
-  }
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + checkbox + clue + "</p>";
 }
+
 
 // When you click the checkbox for a clue, have this update the result in the database
 $(document).on("click", "input[name='clue']", function () {
@@ -159,25 +179,6 @@ $(document).on("click", "input[name='clue']", function () {
   session.answer(binding);
 });
 
-/*
- ********************************
- * Handles clicking link in the nav bar
- * 
- ******************************** 
- */
-
-// handles clicking link to show all clues
-var el = document.getElementById('clues_link');
-el.onclick = loadClues;
-
-var el2 = document.getElementById('scenes_link');
-el2.onclick = loadAll;
-
-var el3 = document.getElementById('player_link');
-el3.onclick = loadPlayerSheet;
-
-var el4 = document.getElementById('edges_link');
-el3.onclick = loadEdges;
 
 function loadClues() {
   allClues = [];
@@ -317,7 +318,7 @@ function loadPlayerGeneralAbilities() {
           sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + result_name + "</p>";
         }
     }
-    //bindings = []; 
+    bindings = []; 
     loadPlayerPushes();
   }
   
@@ -332,4 +333,58 @@ function loadPlayerPushes() {
   
   session.query("player_pushes(Value).");
   session.answer(binding);
+}
+
+function loadEdges() {
+  clear_output_area();
+  sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>All Edges</h2>"; 
+  var get_all_bindings = function(answers) {
+    for (var i = 0; i < answers.length; i++) {
+        var answer = answers[i];
+        var result_name = answer.lookup("Name");
+        var result_description = answer.lookup("Description");
+        if (result_name !== null){
+          sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>" + result_name + "</strong> -- " + result_description + "</p>";
+        }
+    }
+    bindings = [];
+  }
+  session.query("edge_name(Edge, Name), edge_description(Edge, Description).");
+  session.answers(get_callback(get_all_bindings));
+}
+
+function loadProblems() {
+  clear_output_area();
+  sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>All Problems</h2>"; 
+  var get_all_bindings = function(answers) {
+    for (var i = 0; i < answers.length; i++) {
+        var answer = answers[i];
+        var result_name = answer.lookup("Name");
+        var result_description = answer.lookup("Description");
+        if (result_name !== null){
+          sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>" + result_name + "</strong> -- " + result_description + "</p>";
+        }
+    }
+    bindings = [];
+  }
+  session.query("problem_name(Problem, Name), problem_description(Problem, Description).");
+  session.answers(get_callback(get_all_bindings));
+}
+
+function loadCharacters() {
+  clear_output_area();
+  sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>Characters</h2>"; 
+  var get_all_bindings = function(answers) {
+    for (var i = 0; i < answers.length; i++) {
+        var answer = answers[i];
+        var result_name = answer.lookup("Name");
+        //var result_description = answer.lookup("Description");
+        if (result_name !== null){
+          sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>" + result_name + "</strong></p>";
+        }
+    }
+    bindings = [];
+  }
+  session.query("character_name(Character, Name).");
+  session.answers(get_callback(get_all_bindings));
 }
