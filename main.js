@@ -597,16 +597,30 @@ $(document).on("click", "input[name='edge']", function () {
   var binding = function(answer) {
   }
 
-  console.log(checked);
-  console.log(edgeName);
-
   var statement = "edge_name(Edge, " + edgeName + "), "
   if (checked == true) {
     statement = statement + "asserta(player_edge(Edge))."
   } else {
     statement = statement + "retract(player_edge(Edge))."
   }
-  console.log(statement);
+  session.query(statement);
+  session.answer(binding);
+});
+
+// When you click the checkbox for a problem, have this update the result in the database
+$(document).on("click", "input[name='problem']", function () {
+  var checked = $(this).prop('checked');
+  var problemName = this.nextSibling.textContent;
+  
+  var binding = function(answer) {
+  }
+
+  var statement = "problem_name(Problem, " + problemName + "), "
+  if (checked == true) {
+    statement = statement + "asserta(player_problem(Problem))."
+  } else {
+    statement = statement + "retract(player_problem(Problem))."
+  }
   session.query(statement);
   session.answer(binding);
 });
