@@ -15,12 +15,12 @@ html * {
   
 }
 
-h1, h2 {
+h1, h2, h3 {
   font-family: 'Alata', sans-serif;
   text-transform: uppercase;
 }
 
-p {
+p, a {
   font-family: 'Bitter', serif;
 }
 
@@ -37,6 +37,7 @@ li {
   color: white !important;
   font-family: 'Alata', sans-serif;
   /*text-transform: uppercase;*/
+  margin:  10px;
 }
 
 .column {

@@ -23,9 +23,9 @@ var bindings = [];
  * Returns a callback function to pass to session.answers(). 
  * The parameter is the function for the callback to call (with the bindings as parameter)
  * when prolog has found all the answers. 
-*/
-function get_callback(funcWhenDone) 
-{
+ */
+ function get_callback(funcWhenDone) 
+ {
   var callbackFunc = function(answer) 
   {
     if (answer == false) 
@@ -49,16 +49,17 @@ function get_callback(funcWhenDone)
  * 
  ******************************** 
  */
-document.getElementById('clues_link').onclick = loadClues;
-document.getElementById('scenes_link').onclick = loadAll;
-document.getElementById('player_link').onclick = loadPlayerSheet;
-document.getElementById('edges_link').onclick = loadEdges;
-document.getElementById('problems_link').onclick = loadProblems;
-document.getElementById('characters_link').onclick = loadCharacters;
+ document.getElementById('clues_link').onclick = loadClues;
+ document.getElementById('scenes_link').onclick = loadAll;
+ document.getElementById('player_link').onclick = loadPlayerSheet;
+ document.getElementById('edges_link').onclick = loadEdges;
+ document.getElementById('problems_link').onclick = loadProblems;
+ document.getElementById('characters_link').onclick = loadCharacters;
+ document.getElementById('suggestions_link').onclick = loadSuggestions;
 
-loadAll()
+ loadAll()
 
-function loadAll() {
+ function loadAll() {
   currentSceneText = []; 
   currentSceneClues = [];
   currentSceneCluesKnown = [];
@@ -70,7 +71,8 @@ function loadAll() {
 function loadScene() {
   loadSceneName();
   loadSceneType();
-  loadSceneText();
+  loadSceneLeadIns();
+  //loadSceneText();
 }
 
 function clear_output_area() {
@@ -81,52 +83,96 @@ function clear_output_area() {
 // Displays the name of the current scene
 function loadSceneName() {
   var binding = function(answer) {
-      sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>" + answer.lookup("Name");  + "</h2>";
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>" + answer.lookup("Name");  + "</h2>";
   }
   
   session.query("scene_name(" + currentScene + ", Name).");
   session.answer(binding);
 }
 
-
 // Displays the name of the current scene
 function loadSceneType() {
   var binding = function(answer) {
-      sceneInfo.innerHTML = sceneInfo.innerHTML + "<em>" + answer.lookup("Type");  + "</em><br>";
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<em>" + answer.lookup("Type");  + "</em><br>";
   }
   
   session.query("scene_type(" + currentScene + ", Type).");
   session.answer(binding);
 }
 
+function loadSceneLeadIns() {
+  var get_all_bindings = function(answers) {
+    if (answers.length > 0) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Lead-Ins</h3>";
+    }
+    
+    for (var i = 0; i < answers.length; i++) {
+      var answer = answers[i];
+      var result_name = answer.lookup("Name");
+      var result_tag = answer.lookup("OtherScene");
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<a onclick='setScene(" + result_tag + ")'; href='#'>" + result_name + "</a><br>";
+    }
+    bindings = [];
+    loadSceneLeadOuts();
+  }
+
+  session.query("scene_lead_outs( OtherScene, " + currentScene + "), scene_name(OtherScene, Name).");
+  session.answers(get_callback(get_all_bindings));
+}
+
+function loadSceneLeadOuts() {
+  var get_all_bindings = function(answers) {
+    if (answers.length > 0) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Lead-Outs</h3>";
+    }
+    
+    for (var i = 0; i < answers.length; i++) {
+      var answer = answers[i];
+      var result_name = answer.lookup("Name");
+      var result_tag = answer.lookup("OtherScene");
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<a onclick='setScene(" + result_tag + ")'; href='#'>" + result_name + "</a><br>";
+    }
+    bindings = [];
+    loadSceneText();
+  }
+
+  session.query("scene_lead_ins( OtherScene, " + currentScene + "), scene_name(OtherScene, Name).");
+  session.answers(get_callback(get_all_bindings));
+}
+
+function setScene(tag) {
+  currentScene = tag.id; 
+  loadAll();
+}
+
 // Displays a list of all of the clues in the current scene 
 function loadSceneText() {
   var get_all_bindings = function(answers) {
     for (var i = 0; i < answers.length; i++) {
-        var answer = answers[i];
-        var result_name = answer.lookup("Text");
-        currentSceneText.push(result_name);
+      var answer = answers[i];
+      var result_name = answer.lookup("Text");
+      currentSceneText.push(result_name);
         //sceneInfo.innerHTML = sceneInfo.innerHTML + result_name + "<br>";
+      }
+      loadSceneClues();
     }
-    loadSceneClues();
+
+    session.query("scene_text(" + currentScene + ", Text).");
+    session.answers(get_callback(get_all_bindings));
   }
-  
-  session.query("scene_text(" + currentScene + ", Text).");
-  session.answers(get_callback(get_all_bindings));
-}
 
 
 // Displays a list of all of the clues in the current scene 
 function loadSceneClues() {
   var get_all_bindings = function(answers) {
     for (var i = 0; i < answers.length; i++) {
-        var answer = answers[i];
-        var result_name = answer.lookup("Description");
-        var clue_known = answer.lookup("Known");
-        if (result_name !== null){
-          currentSceneClues.push(result_name);
-          currentSceneCluesKnown.push(clue_known)
-        }
+      var answer = answers[i];
+      var result_name = answer.lookup("Description");
+      var clue_known = answer.lookup("Known");
+      if (result_name !== null){
+        currentSceneClues.push(result_name);
+        currentSceneCluesKnown.push(clue_known)
+      }
     }
     renderScene();
   }
@@ -164,12 +210,12 @@ function renderScene() {
 
 function renderClue(clue, known) {
   var checkbox;
-      if (known == "true") {
-        checkbox = "<input type='checkbox' name='clue' checked>";
-      } else {
-        checkbox = "<input type='checkbox' name='clue'>";
-      }
-      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + checkbox + clue + "</p>";
+  if (known == "true") {
+    checkbox = "<input type='checkbox' name='clue' checked>";
+  } else {
+    checkbox = "<input type='checkbox' name='clue'>";
+  }
+  sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + checkbox + clue + "</p>";
 }
 
 
@@ -194,13 +240,13 @@ function loadClues() {
   var get_all_bindings = function(answers) {
     sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>All Clues</h2>";
     for (var i = 0; i < answers.length; i++) {
-        var answer = answers[i];
-        var result_name = answer.lookup("Description");
-        var clue_known = answer.lookup("Known");
-        if (result_name !== null){
-          allClues.push(result_name);
-          allCluesKnown.push(clue_known)
-        }
+      var answer = answers[i];
+      var result_name = answer.lookup("Description");
+      var clue_known = answer.lookup("Known");
+      if (result_name !== null){
+        allClues.push(result_name);
+        allCluesKnown.push(clue_known)
+      }
     }
     renderClues();
   }
@@ -212,12 +258,12 @@ function loadClues() {
 function renderClues() {
   for (var i = 0; i < allClues.length; i++) {
     var checkbox;
-      var clue_known = allCluesKnown[i];
-      if (clue_known == "true") {
-        checkbox = "<input type='checkbox' name='clue' checked>";
-      } else {
-        checkbox = "<input type='checkbox' name='clue'>";
-      }
+    var clue_known = allCluesKnown[i];
+    if (clue_known == "true") {
+      checkbox = "<input type='checkbox' name='clue' checked>";
+    } else {
+      checkbox = "<input type='checkbox' name='clue'>";
+    }
     sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + checkbox + allClues[i] + "</p>";
   } 
 }
@@ -239,8 +285,7 @@ function parseGraph(graphDefinition) {
 
 // When you click the node, load the appropriate page
 $(document).on("click", "g[class='nodes'] g[class='node']", function () {
-  currentScene = $(this).attr('id');
-  var text = $(this).find('foreignObject div').html();
+  currentScene = $(this).attr('id'); 
   loadAll(); 
 });
 
@@ -248,27 +293,25 @@ $(document).on("click", "g[class='nodes'] g[class='node']", function () {
 // When you click the node, load the appropriate page
 $(document).on("click", "g[class='nodes'] g[class='node completed']", function () {
   currentScene = $(this).attr('id');
-  console.log("Current scene is " + currentScene);
-  var text = $(this).find('foreignObject div').html();
   loadAll(); 
 });
 
 function loadPlayerSheet() {
   clear_output_area();
-  sceneInfo.innerHTML = sceneInfo.innerHTML + "<h1>Player Sheet</h1>";
+  sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>Player Sheet</h2>";
   loadPlayerEdges(); 
 }
 
 function loadPlayerEdges() {
-  sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>Edges</h2>"; 
+  sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Edges</h3>"; 
   var get_all_bindings = function(answers) {
     for (var i = 0; i < answers.length; i++) {
-        var answer = answers[i];
-        var result_name = answer.lookup("Name");
-        var result_description = answer.lookup("Description");
-        if (result_name !== null){
-          sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>" + result_name + "</strong> -- " + result_description + "</p>";
-        }
+      var answer = answers[i];
+      var result_name = answer.lookup("Name");
+      var result_description = answer.lookup("Description");
+      if (result_name !== null){
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>" + result_name + "</strong> -- " + result_description + "</p>";
+      }
     }
     bindings = [];
     loadPlayerProblems();
@@ -279,15 +322,15 @@ function loadPlayerEdges() {
 }
 
 function loadPlayerProblems() {
-  sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>Problems</h2>"; 
+  sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Problems</h3>"; 
   var get_all_bindings = function(answers) {
     for (var i = 0; i < answers.length; i++) {
-        var answer = answers[i];
-        var result_name = answer.lookup("Name");
-        var result_description = answer.lookup("Description");
-        if (result_name !== null){
-          sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>" + result_name + "</strong> -- " + result_description + "</p>";
-        }
+      var answer = answers[i];
+      var result_name = answer.lookup("Name");
+      var result_description = answer.lookup("Description");
+      if (result_name !== null){
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>" + result_name + "</strong> -- " + result_description + "</p>";
+      }
     }
     bindings = [];
     loadPlayerInvestigativeAbilities();
@@ -298,14 +341,14 @@ function loadPlayerProblems() {
 }
 
 function loadPlayerInvestigativeAbilities() {
-  sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>Investigative Abilities</h2>";
+  sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Investigative Abilities</h3>";
   var get_all_bindings = function(answers) {
     for (var i = 0; i < answers.length; i++) {
-        var answer = answers[i];
-        var result_name = answer.lookup("Name");
-        if (result_name !== null){
-          sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + result_name + "</p>";
-        }
+      var answer = answers[i];
+      var result_name = answer.lookup("Name");
+      if (result_name !== null){
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + result_name + "</p>";
+      }
     }
     bindings = []; 
     loadPlayerGeneralAbilities();
@@ -317,13 +360,13 @@ function loadPlayerInvestigativeAbilities() {
 
 function loadPlayerGeneralAbilities() {
   var get_all_bindings = function(answers) {
-    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>General Abilities</h2>";
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>General Abilities</h3>";
     for (var i = 0; i < answers.length; i++) {
-        var answer = answers[i];
-        var result_name = answer.lookup("Name");
-        if (result_name !== null){
-          sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + result_name + "</p>";
-        }
+      var answer = answers[i];
+      var result_name = answer.lookup("Name");
+      if (result_name !== null){
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + result_name + "</p>";
+      }
     }
     bindings = []; 
     loadPlayerPushes();
@@ -335,7 +378,7 @@ function loadPlayerGeneralAbilities() {
 
 function loadPlayerPushes() {
   var binding = function(answer) {
-    sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>Player Pushes: </strong>" + answer.lookup("Value"); + "</p>";
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><h3>Player Pushes: " + answer.lookup("Value"); + "</h3>";
   }
   
   session.query("player_pushes(Value).");
@@ -347,12 +390,23 @@ function loadEdges() {
   sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>All Edges</h2>"; 
   var get_all_bindings = function(answers) {
     for (var i = 0; i < answers.length; i++) {
-        var answer = answers[i];
-        var result_name = answer.lookup("Name");
-        var result_description = answer.lookup("Description");
-        if (result_name !== null){
-          sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>" + result_name + "</strong> -- " + result_description + "</p>";
+      var answer = answers[i];
+      var result_tag = answer.lookup("Edge");
+      var result_name = answer.lookup("Name");
+      var result_description = answer.lookup("Description");
+      if (result_name !== null){
+        console.log(result_tag.id);
+        var hasEdge = checkIfPlayerHasEdge(result_tag.id);
+        console.log("Value of hasEdge is " + hasEdge);
+        var checkbox;
+        if (hasEdge) {
+          checkbox = "<input type='checkbox' name='edge' checked>";
+        } else {
+          checkbox = "<input type='checkbox' name='edge'>";
         }
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + checkbox + "<strong>" + result_name + "</strong> -- " + result_description + "</p>";
+  
+      }
     }
     bindings = [];
   }
@@ -360,17 +414,32 @@ function loadEdges() {
   session.answers(get_callback(get_all_bindings));
 }
 
+function checkIfPlayerHasEdge(result_tag) {
+  var result; 
+  var binding = function(answer) {
+    if (answer != false) {
+      result = true;
+    } else {
+      result = false;
+    }
+  }
+    
+  session.query("player_edge(" + result_tag + ").");
+  session.answer(binding);
+  return result;
+}
+
 function loadProblems() {
   clear_output_area();
   sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>All Problems</h2>"; 
   var get_all_bindings = function(answers) {
     for (var i = 0; i < answers.length; i++) {
-        var answer = answers[i];
-        var result_name = answer.lookup("Name");
-        var result_description = answer.lookup("Description");
-        if (result_name !== null){
-          sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>" + result_name + "</strong> -- " + result_description + "</p>";
-        }
+      var answer = answers[i];
+      var result_name = answer.lookup("Name");
+      var result_description = answer.lookup("Description");
+      if (result_name !== null){
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>" + result_name + "</strong> -- " + result_description + "</p>";
+      }
     }
     bindings = [];
   }
@@ -383,15 +452,114 @@ function loadCharacters() {
   sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>Characters</h2>"; 
   var get_all_bindings = function(answers) {
     for (var i = 0; i < answers.length; i++) {
-        var answer = answers[i];
-        var result_name = answer.lookup("Name");
+      var answer = answers[i];
+      var result_name = answer.lookup("Name");
         //var result_description = answer.lookup("Description");
         if (result_name !== null){
           sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>" + result_name + "</strong></p>";
         }
+      }
+      bindings = [];
     }
+    session.query("character_name(Character, Name).");
+    session.answers(get_callback(get_all_bindings));
+  }
+
+  function loadSuggestions() {
+    clear_output_area(); 
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>GM Suggestions</h2>"; 
+    sceneInfo.innerHTML = sceneInfo.innerHTML + '<a href="#" onclick="char_knows_clue()">Character knows clue</a>    |    <a href="#" onclick="overhear_conversation()">Overhear conversation</a>    |    <a href="#" onclick="find_new_lead()">Find new lead</a>    |    <a href="#" onclick="find_hostage_options()">Find hostage options</a>    |    <a href="#" onclick="find_physical_injury()">Find physical injury</a><div id="output_area"></div>'
+  }
+
+  function clear_suggestion_area() {
+    output_area.innerHTML = "";
     bindings = [];
   }
-  session.query("character_name(Character, Name).");
+
+/***********************************
+* Prolog suggestion functions
+* 
+************************************/
+
+function print(answers) {
+  for (var i = 0; i < answers.length; i++) {
+    var answer = answers[i];
+    output_area.innerHTML = output_area.innerHTML + answer + "\n";
+  }
+}
+
+function char_knows_clue() {
+  clear_suggestion_area();
+  output_area.innerHTML = "";
+  var get_all_bindings = function(answers) {
+    console.log(answers);
+    for (var i = 0; i < answers.length; i++) {
+      var answer = answers[i];
+      var result_name = answer.lookup("CharName");
+      var result_clue = answer.lookup("ClueDesc");
+      output_area.innerHTML = output_area.innerHTML + "<p>" + result_name + " knows the clue: " + result_clue + "</p>";
+    } 
+  }
+
+  session.query("char_knows_clue(CharTag, CharName, ClueTag, ClueDesc, Scene).");
+  session.answers(get_callback(get_all_bindings));
+}
+
+function overhear_conversation() {
+  clear_suggestion_area();
+  output_area.innerHTML = "";
+  var get_all_bindings = function(answers) {
+    for (var i = 0; i < answers.length; i++) {
+      var answer = answers[i];
+      var result_name = answer.lookup("Char1Name");
+      var result_name2 = answer.lookup("Char2Name");
+      var result_clue = answer.lookup("ClueDesc");
+      output_area.innerHTML = output_area.innerHTML + "<p>" + result_name + " tells secret to " + result_name2 + ": " + result_clue + "</p>";
+    } 
+  }
+
+  session.query("overhear_conversation(Char1, Char1Name, Char2, Char2Name, Clue, ClueDesc).");
+  session.answers(get_callback(get_all_bindings));
+}
+
+function find_new_lead() {
+  clear_suggestion_area();
+  var get_all_bindings = function(answers) {
+    for (var i = 0; i < answers.length; i++) {
+      var answer = answers[i];
+      var result_name = answer.lookup("ClueDesc");
+      output_area.innerHTML = output_area.innerHTML + "<p>" + result_name + "</p>";
+    } 
+  }
+
+  session.query("find_new_lead(Clue, ClueDesc, Scene, SceneName).");
+  session.answers(get_callback(get_all_bindings));
+}
+
+function find_hostage_options() {
+  clear_suggestion_area();
+  var get_all_bindings = function(answers) {
+    for (var i = 0; i < answers.length; i++) {
+      var answer = answers[i];
+      var result_name = answer.lookup("Char");
+      output_area.innerHTML = output_area.innerHTML + "<p>" + result_name + "</p>";
+    } 
+  }
+
+  session.query("find_hostage_options(Char).");
+  session.answers(get_callback(get_all_bindings));
+}
+
+function find_physical_injury() {
+  clear_suggestion_area();
+  var get_all_bindings = function(answers) {
+    for (var i = 0; i < answers.length; i++) {
+      var answer = answers[i];
+      var result_name = answer.lookup("ExtraProblem");
+      output_area.innerHTML = output_area.innerHTML + "<p>" + result_name + "</p>";
+    } 
+  }
+
+  session.query("find_physical_injury(Challenge, ExtraProblem).");
   session.answers(get_callback(get_all_bindings));
 }

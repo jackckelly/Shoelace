@@ -729,10 +729,12 @@ item_type(letter_from_george_preston, letter).
 :- dynamic(edge_description/2).
 
 edge(ice_queen).
+edge(sure_footed).
 edge_number(ice_queen, 1).
 edge_name(ice_queen, "Ice Queen").
 edge_description(ice_queen, "You're getting better at prioritizing things that matter. Spend to get an extra die on Cool or Stability or a +2 on a General/Mental test, then discard").
-
+edge_name(sure_footed, "Sure-Footed").
+edge_description(sure_footed, "You know exactly where to put your feet, even if that's in someone else's path. Spend for an extra die in an Athletics test.").
 
 :- dynamic(challenge/1).
 :- dynamic(challenge_name/2).
