@@ -395,9 +395,7 @@ function loadEdges() {
       var result_name = answer.lookup("Name");
       var result_description = answer.lookup("Description");
       if (result_name !== null){
-        console.log(result_tag.id);
         var hasEdge = checkIfPlayerHasEdge(result_tag.id);
-        console.log("Value of hasEdge is " + hasEdge);
         var checkbox;
         if (hasEdge) {
           checkbox = "<input type='checkbox' name='edge' checked>";
@@ -405,7 +403,6 @@ function loadEdges() {
           checkbox = "<input type='checkbox' name='edge'>";
         }
         sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + checkbox + "<strong>" + result_name + "</strong> -- " + result_description + "</p>";
-  
       }
     }
     bindings = [];
@@ -492,7 +489,6 @@ function char_knows_clue() {
   clear_suggestion_area();
   output_area.innerHTML = "";
   var get_all_bindings = function(answers) {
-    console.log(answers);
     for (var i = 0; i < answers.length; i++) {
       var answer = answers[i];
       var result_name = answer.lookup("CharName");
