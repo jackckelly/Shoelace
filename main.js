@@ -432,16 +432,38 @@ function loadProblems() {
   var get_all_bindings = function(answers) {
     for (var i = 0; i < answers.length; i++) {
       var answer = answers[i];
+      var result_tag = answer.lookup("Problem");
       var result_name = answer.lookup("Name");
       var result_description = answer.lookup("Description");
       if (result_name !== null){
-        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>" + result_name + "</strong> -- " + result_description + "</p>";
+        var hasProblem = checkIfPlayerHasProblem(result_tag.id);
+        var checkbox;
+        if (hasProblem) {
+          checkbox = "<input type='checkbox' name='edge' checked>";
+        } else {
+          checkbox = "<input type='checkbox' name='edge'>";
+        }
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + checkbox + "<strong>" + result_name + "</strong> -- " + result_description + "</p>";
       }
     }
-    bindings = [];
   }
   session.query("problem_name(Problem, Name), problem_description(Problem, Description).");
   session.answers(get_callback(get_all_bindings));
+}
+
+function checkIfPlayerHasProblem(result_tag) {
+  var result; 
+  var binding = function(answer) {
+    if (answer != false) {
+      result = true;
+    } else {
+      result = false;
+    }
+  }
+    
+  session.query("player_problem(" + result_tag + ").");
+  session.answer(binding);
+  return result;
 }
 
 function loadCharacters() {
