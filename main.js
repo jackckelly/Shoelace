@@ -219,20 +219,6 @@ function renderClue(clue, known) {
 }
 
 
-// When you click the checkbox for a clue, have this update the result in the database
-$(document).on("click", "input[name='clue']", function () {
-  var checked = $(this).prop('checked');
-  var clueText = this.nextSibling.data;
-  var binding = function(answer) {
-    var tag = answer.lookup("Clue");
-  }
-
-  var statement = "clue_known(Clue, PrevKnown),clue_description(Clue, " + clueText + "), retract( clue_known(Clue, PrevKnown) ), asserta( clue_known(Clue, " + checked + ")).";
-  session.query(statement);
-  session.answer(binding);
-});
-
-
 function loadClues() {
   allClues = [];
   allCluesKnown = [];
@@ -439,9 +425,9 @@ function loadProblems() {
         var hasProblem = checkIfPlayerHasProblem(result_tag.id);
         var checkbox;
         if (hasProblem) {
-          checkbox = "<input type='checkbox' name='edge' checked>";
+          checkbox = "<input type='checkbox' name='problem' checked>";
         } else {
-          checkbox = "<input type='checkbox' name='edge'>";
+          checkbox = "<input type='checkbox' name='problem'>";
         }
         sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + checkbox + "<strong>" + result_name + "</strong> -- " + result_description + "</p>";
       }
@@ -581,3 +567,46 @@ function find_physical_injury() {
   session.query("find_physical_injury(Challenge, ExtraProblem).");
   session.answers(get_callback(get_all_bindings));
 }
+
+
+/****************************************
+* Handling click events 
+*
+****************************************/
+
+// When you click the checkbox for a clue, have this update the result in the database
+$(document).on("click", "input[name='clue']", function () {
+  var checked = $(this).prop('checked');
+  var clueText = this.nextSibling.data;
+  var binding = function(answer) {
+    var tag = answer.lookup("Clue");
+  }
+  console.log(clueText);
+
+  var statement = "clue_known(Clue, PrevKnown),clue_description(Clue, " + clueText + "), retract( clue_known(Clue, PrevKnown) ), asserta( clue_known(Clue, " + checked + ")).";
+  session.query(statement);
+  session.answer(binding);
+});
+
+
+// When you click the checkbox for an edge, have this update the result in the database
+$(document).on("click", "input[name='edge']", function () {
+  var checked = $(this).prop('checked');
+  var edgeName = this.nextSibling.textContent;
+  
+  var binding = function(answer) {
+  }
+
+  console.log(checked);
+  console.log(edgeName);
+
+  var statement = "edge_name(Edge, " + edgeName + "), "
+  if (checked == true) {
+    statement = statement + "asserta(player_edge(Edge))."
+  } else {
+    statement = statement + "retract(player_edge(Edge))."
+  }
+  console.log(statement);
+  session.query(statement);
+  session.answer(binding);
+});
