@@ -198,13 +198,24 @@ function renderScene() {
     for (var i = 6; i < currentSceneText.length; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
-  } else if (currentScene="fullers_electrical_repair") {
+  } else if (currentScene == "fullers_electrical_repair") {
     for (var i = 0; i < currentSceneText.length; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < currentSceneClues.length; i++) {
       renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
     }
+  } else if (currentScene == "fuller_himself") {
+    for (var i = 0; i < 4; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    for (var i = 0; i < currentSceneClues.length; i++) {
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+    }
+    for (var i = 4; i < currentSceneText.length; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    renderChallenge("other_peoples_mail"); 
   }
 }
 
@@ -215,9 +226,8 @@ function renderClue(clue, known) {
   } else {
     checkbox = "<input type='checkbox' name='clue'>";
   }
-  sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + checkbox + clue + "</p>";
+  sceneInfo.innerHTML = sceneInfo.innerHTML + "<p class='hangingindent'>" + checkbox + clue + "</p>";
 }
-
 
 function loadClues() {
   allClues = [];
@@ -241,6 +251,27 @@ function loadClues() {
   session.answers(get_callback(get_all_bindings));
 }
 
+function renderChallenge(tag) {
+  var binding = function(answer) {
+    var challengeResult; 
+    challengeResult = "<div class='challenge'>"; 
+    challengeResult = challengeResult + "<h3>" + answer.lookup("Name") + "</h3>"; 
+    challengeResult = challengeResult + "<p><em>" + answer.lookup("Type") + "</em></p>";
+    challengeResult = challengeResult + "<p><strong>Advance " + answer.lookup("AdvanceValue") + "+:</strong> " + answer.lookup("AdvanceDescription") + "</p>";
+    var value = parseInt(answer.lookup("HoldHighValue").id) - 1;
+    console.log(value);
+    challengeResult = challengeResult + "<p><strong>Hold " + answer.lookup("HoldHighValue") + "-" + answer.lookup("HoldLowValue") + ":</strong>" + answer.lookup("HoldDescription") + "</p>";
+    challengeResult = challengeResult + "<p><strong>Setback " + value + " or less: </strong>" + answer.lookup("SetbackDescription") + "</p>"; 
+    challengeResult = challengeResult + "<p><strong>Extra Problem: " + answer.lookup("ProblemName") + "</p>"; 
+    sceneInfo.innerHTML = sceneInfo.innerHTML + challengeResult;
+  }
+  
+  session.query("challenge_name(" + tag + ", Name), challenge_type(" + tag + ", Type), challenge_advance(" + tag + ", AdvanceValue, AdvanceDescription), challenge_hold(" + tag + ", HoldHighValue, HoldLowValue, HoldDescription), challenge_setback(" + tag + ", SetbackDescription), challenge_extra_problem(" + tag + ", ExtraProblem), problem_name(ExtraProblem, ProblemName).");
+  session.answer(binding);
+}
+
+
+// Prints out the page for All Clues
 function renderClues() {
   for (var i = 0; i < allClues.length; i++) {
     var checkbox;
@@ -250,7 +281,7 @@ function renderClues() {
     } else {
       checkbox = "<input type='checkbox' name='clue'>";
     }
-    sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + checkbox + allClues[i] + "</p>";
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<p class='hangingindent'>" + checkbox + allClues[i] + "</p>";
   } 
 }
 
@@ -296,7 +327,7 @@ function loadPlayerEdges() {
       var result_name = answer.lookup("Name");
       var result_description = answer.lookup("Description");
       if (result_name !== null){
-        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>" + result_name + "</strong> -- " + result_description + "</p>";
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><input type='checkbox' name='edge' checked><strong>" + result_name + "</strong> -- " + result_description + "</p>";
       }
     }
     bindings = [];
@@ -315,7 +346,7 @@ function loadPlayerProblems() {
       var result_name = answer.lookup("Name");
       var result_description = answer.lookup("Description");
       if (result_name !== null){
-        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>" + result_name + "</strong> -- " + result_description + "</p>";
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><input type='checkbox' name='problem' checked><strong>" + result_name + "</strong> -- " + result_description + "</p>";
       }
     }
     bindings = [];
@@ -350,8 +381,14 @@ function loadPlayerGeneralAbilities() {
     for (var i = 0; i < answers.length; i++) {
       var answer = answers[i];
       var result_name = answer.lookup("Name");
+      var value = answer.lookup("Value");
       if (result_name !== null){
-        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + result_name + "</p>";
+        if (value > 1) {
+          sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + result_name + " 🎲 🎲 </p>";
+        } else {
+          sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + result_name + " 🎲 </p>";
+        }
+        
       }
     }
     bindings = []; 

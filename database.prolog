@@ -688,7 +688,6 @@ source_investigative_abilities(louisa_reynolds, psychology).
 :- dynamic(problem_name/2).
 :- dynamic(problem_type/2).
 :- dynamic(problem_description/2).
-:- dynamic(problem_effect/2).
 
 problem(sucker_for_a_pretty_face).
 problem_name(sucker_for_a_pretty_face, "Sucker for a Pretty Face").
@@ -696,17 +695,23 @@ problem_number(sucker_for_a_pretty_face, 1).
 problem_type(sucker_for_a_pretty_face, continuity).
 problem_description(sucker_for_a_pretty_face, "You change lovers as frequently as clothes.").
 problem(soft_spot).
+problem_name(soft_spot, "Soft Spot").
 problem_number(soft_spot, 6).
 problem_type(soft_spot, continuity).
 problem_description(soft_spot, "Whatever you're feeling for Charlie, it's not entirely professional.").
 problem(big_talker).
+problem_name(big_talker, "Big Talker").
 problem_number(big_talker, 7).
 problem_type(big_talker, continuity).
 problem_description(big_talker, "You protested a little too strongly that you just want information about George, and got a bigger response than you bargained on. The GM brings foward men with random and conflicting theories until you either make a Stealth Quick Test to leave them arguing with each other or lose an hour or two listening to them all.").
 problem(wrenched_ankle).
+problem_name(wrenched_ankle, "Wrenched Ankle").
 problem_number(wrenched_ankle, 8).
 problem_description(wrenched_ankle, "You pulled something in your foot. -2 on your next Athletics, Fighting, or other General/Physical test or Take Time and then discard this Problem").
-
+problem(fuller_becomes_suspicious).
+problem_name(fuller_becomes_suspicious, "Fuller Becomes Suspicious").
+problem_number(fuller_becomes_suspicious, 5).
+problem_description(fuller_becomes_suspicious, "Once Fuller notices the missing envelope, he puts two and two together (or, if he saw you take it, he starts to have second thoughts). He suspects you plan to target him in your next exposé. He requires Pushes when questioning him further.").
 
 :- dynamic(item/1).
 :- dynamic(item_name/2).
@@ -874,7 +879,7 @@ investigative_ability(accounting, "Accounting", "You understand bookkeeping and 
 :- dynamic(general_ability/4).
 
 general_ability(athletics, "Athletics", "Athletics allows you to perform general acts of physical derring-do, from running to jumping to throwing bundles of dynamite to dodging oncoming objects.", physical).
-
+general_ability(fighting, "Fighting", "Whether duking it out with fists and the occasional kick, defending against an incoming shovel with an opportunistically grabbed two-by-four, or trading pistol shots with hot-tempered gangsters, your Fighting ability dictates the result of the scrap. When facing impossible odds, an Advance or Hold might allow you to engage your enemies favorably enough to launch a successful escape. This covers all forms of combat, from scuffling to shooting to hand-to-hand weapons. (Multiplayer GUMSHOE treats these as three separate abilities. A solo game eliminates the need to give various player characters differently flavored ways to harm opponents, so One-2-One collapses them into a single ability)", physical).
 
 :- dynamic(player_edge/1).
 :- dynamic(player_problem/1).
@@ -888,6 +893,7 @@ player_problem(sucker_for_a_pretty_face).
 player_investigative_ability(accounting).
 player_investigative_ability(assess_honesty).
 player_general_ability(athletics, 1).
+player_general_ability(fighting, 2).
 player_pushes(4).
 
 
