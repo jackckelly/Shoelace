@@ -11,6 +11,8 @@ var currentSceneClues = [];
 var currentSceneCluesKnown = [];
 var allClues = [];
 var allCluesKnown = [];
+var challengeResult;
+var challengeTag;
 
 // Create the prolog sesssion and load mini_prom_week_example.prolog.
 session = pl.create();
@@ -216,6 +218,256 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     renderChallenge("other_peoples_mail"); 
+  } else if (currentScene == "charming_charlie") {
+    renderChallenge("focus_on_the_story_not_the_smile"); 
+    for (var i = 0; i < 2; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    for (var i = 0; i < 4; i++) {
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+    }
+    for (var i = 2; i < 3; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    for (var i = 4; i < 8; i++) {
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+    }
+    for (var i = 3; i < 4; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+  } else if (currentScene == "what_the_cops_know") {
+    for (var i = 0; i < 2; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    for (var i = 0; i < 3; i++) {
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+    }
+    for (var i = 2; i < 3; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    for (var i = 3; i < 6; i++) {
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+    }
+  } else if (currentScene == "the_peculiar_death_of_myron_fink") {
+    for (var i = 0; i < 4; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Fink's Apartment</h3>"; 
+    for (var i = 4; i < 6; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    for (var i = 0; i < 4; i++) {
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+    }
+    for (var i = 6; i < 7; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    for (var i = 4; i < 7; i++) {
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+    }
+    for (var i = 7; i < 8; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+  } else if (currentScene == "interviewing_the_neighbors") {
+    for (var i = 0; i < 1; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    for (var i = 0; i < 4; i++) {
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+    }
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Minnie Boyer</h3>";
+    for (var i = 1; i < 2; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    for (var i = 4; i < 8; i++) {
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+    }
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>August Williams</h3>";
+    for (var i = 2; i < 3; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    for (var i = 8; i < 12; i++) {
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+    }
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Violet Blake</h3>";
+    for (var i = 3; i < 4; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    for (var i = 12; i < 15; i++) {
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+    }
+  } else if (currentScene == "georges_apartment") {
+    for (var i = 0; i < 4; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    renderChallenge("catching_the_would_be_intruder"); 
+    renderChallenge("hang_onto_the_clue"); 
+  } else if (currentScene == "questioning_pearl") {
+    for (var i = 0; i < 2; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    for (var i = 0; i < 4; i++) {
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+    }
+    for (var i = 2; i < 3; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+  } else if (currentScene == "the_psychical_investigator") {
+    for (var i = 0; i < 1; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>The Letter</h3>";
+    for (var i = 1; i < 3; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Hereward Carrington</h3>";
+    for (var i = 3; i < 4; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    for (var i = 0; i < 5; i++) {
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+    }
+    for (var i = 4; i < 7; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    for (var i = 5; i < 8; i++) {
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+    }
+  } else if (currentScene == "temple_of_nephthys") {
+    for (var i = 0; i < 5; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Madame Isis Neferi</h3>";
+    for (var i = 5; i < 7; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    for (var i = 0; i < 7; i++) {
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+    }
+    for (var i = 7; i < 8; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Communion with the Dead</h3>";
+    for (var i = 8; i < 11; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>The Girl from the Apartment</h3>";
+    for (var i = 11; i < 13; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+  } else if (currentScene == "the_thing_in_the_morgue") {
+    for (var i = 0; i < 2; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    renderChallenge("getting_into_the_morgue");
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Viewing the Body</h3>";
+    for (var i = 2; i < 6; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    renderChallenge("seeing_finks_remains");
+    for (var i = 6; i < 8; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Chewed Out</h3>";
+    for (var i = 8; i < 9; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    for (var i = 0; i < 4; i++) {
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+    }
+    for (var i = 9; i < 10; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+  } else if (currentScene == "miracle_machine") {
+    for (var i = 0; i < 2; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    for (var i = 0; i < 3; i++) {
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+    }
+    for (var i = 2; i < 3; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Catching Fuller's Eye</h3>";
+    for (var i = 3; i < 4; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    renderChallenge("cash_in_hand");
+  } else if (currentScene == "the_leg_breaker") {
+    for (var i = 0; i < 2; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    renderChallenge("spotting_marty_the_mouth");
+    renderChallenge("pinning_marty");
+    renderChallenge("jumped_by_marty");
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Marty Runs His Mouth</h3>";
+    for (var i = 2; i < 3; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    for (var i = 0; i < 9; i++) {
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+    }
+    for (var i = 3; i < 7; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+  } else if (currentScene == "going_on_the_grid") {
+    for (var i = 0; i < 5; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    for (var i = 0; i < 5; i++) {
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+    }
+  } else if (currentScene == "men_gone_missing") {
+    for (var i = 0; i < 2; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    for (var i = 0; i < 5; i++) {
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+    }
+    for (var i = 2; i < 4; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    for (var i = 5; i < 8; i++) {
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+    }
+  } else if (currentScene == "charlie_comes_clean") {
+    for (var i = 0; i < 6; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+  } else if (currentScene == "breaking_into_fullers") {
+    for (var i = 0; i < 1; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    renderChallenge("getting_past_the_guards");
+    for (var i = 1; i < 5; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    renderChallenge("watching_the_devourer");
+    for (var i = 5; i < 6; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    renderChallenge("body_in_the_chair");
+    for (var i = 6; i < 7; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    renderChallenge("dodge_the_chloroform");
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Fuller Fesses Up</h3>";
+    for (var i = 7; i < 12; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Tied to the Chair</h3>";
+    for (var i = 12; i < 14; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    renderChallenge("they_came_from_beyond");
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Confronting the 'Pet'</h3>";
+    for (var i = 14; i < 16; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+  } else if (currentScene == "sadie_and_the_scoop") {
+    for (var i = 0; i < 5; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
   }
 }
 
@@ -253,21 +505,79 @@ function loadClues() {
 
 function renderChallenge(tag) {
   var binding = function(answer) {
-    var challengeResult; 
     challengeResult = "<div class='challenge'>"; 
     challengeResult = challengeResult + "<h3>" + answer.lookup("Name") + "</h3>"; 
     challengeResult = challengeResult + "<p><em>" + answer.lookup("Type") + "</em></p>";
-    challengeResult = challengeResult + "<p><strong>Advance " + answer.lookup("AdvanceValue") + "+:</strong> " + answer.lookup("AdvanceDescription") + "</p>";
-    var value = parseInt(answer.lookup("HoldHighValue").id) - 1;
-    console.log(value);
-    challengeResult = challengeResult + "<p><strong>Hold " + answer.lookup("HoldHighValue") + "-" + answer.lookup("HoldLowValue") + ":</strong>" + answer.lookup("HoldDescription") + "</p>";
-    challengeResult = challengeResult + "<p><strong>Setback " + value + " or less: </strong>" + answer.lookup("SetbackDescription") + "</p>"; 
-    challengeResult = challengeResult + "<p><strong>Extra Problem: " + answer.lookup("ProblemName") + "</p>"; 
-    sceneInfo.innerHTML = sceneInfo.innerHTML + challengeResult;
+    printChallengeExtraDescription(); 
   }
-  
-  session.query("challenge_name(" + tag + ", Name), challenge_type(" + tag + ", Type), challenge_advance(" + tag + ", AdvanceValue, AdvanceDescription), challenge_hold(" + tag + ", HoldHighValue, HoldLowValue, HoldDescription), challenge_setback(" + tag + ", SetbackDescription), challenge_extra_problem(" + tag + ", ExtraProblem), problem_name(ExtraProblem, ProblemName).");
+  challengeTag = tag;
+  session.query("challenge_name(" + challengeTag + ", Name), challenge_type(" + challengeTag + ", Type).");
   session.answer(binding);
+}
+
+function printChallengeExtraDescription() {
+  var binding = function(answer) {
+    if (answer !== false) {
+      challengeResult = challengeResult + "<p>" + answer.lookup("Description") + "</p>";
+    }
+    printChallengeAdvantage();
+  }
+
+  session.query("challenge_extra_description(" + challengeTag + ", Description).");
+  session.answer(binding);
+}
+
+function printChallengeAdvantage() {
+  var binding = function(answer) {
+    if (answer !== false) {
+
+      challengeResult = challengeResult + "<p><strong>Advance " + answer.lookup("AdvanceValue") + "+:</strong> " + answer.lookup("AdvanceDescription") + "</p>";
+    }
+    printChallengeHold();
+  }
+
+  session.query("challenge_advance(" + challengeTag + ", AdvanceValue, AdvanceDescription).");
+  session.answer(binding);
+}
+
+function printChallengeHold() {
+  var binding = function(answer) {
+    if (answer !== false) {
+      challengeResult = challengeResult + "<p><strong>Hold " + answer.lookup("HoldHighValue") + "-" + answer.lookup("HoldLowValue") + ":</strong>" + answer.lookup("HoldDescription") + "</p>";
+    }
+    printChallengeSetback();
+  }
+
+  session.query("challenge_hold(" + challengeTag + ", HoldHighValue, HoldLowValue, HoldDescription).");
+  session.answer(binding);
+}
+
+function printChallengeSetback() {
+  var binding = function(answer) {
+    if (answer !== false) {
+      challengeResult = challengeResult + "<p><strong>Setback: </strong>" + answer.lookup("SetbackDescription") + "</p>"; 
+    }
+    printChallengeExtraProblem();
+  }
+
+  session.query("challenge_setback(" + challengeTag + ", SetbackDescription).");
+  session.answer(binding);
+}
+
+function printChallengeExtraProblem() {
+  var binding = function(answer) {
+    if (answer !== false) {
+      challengeResult = challengeResult + "<p><strong>Extra Problem: </strong>" + answer.lookup("Name") + "</p>"; 
+    }
+    renderChallengeText();
+  }
+
+  session.query("challenge_extra_problem(" + challengeTag + ", ExtraProblem), problem_name(ExtraProblem, Name).");
+  session.answer(binding);
+}
+
+function renderChallengeText() {
+  sceneInfo.innerHTML = sceneInfo.innerHTML + challengeResult;
 }
 
 
@@ -286,7 +596,7 @@ function renderClues() {
 }
 
 function loadGraph() {
-  var graphDefinition = "graph TD\nsadies_sob_story[<font color='white' class='node'>Sadie's Sob Story</font>]\nfullers_electrical_repair[Fuller's Electrical Repair]\ncharming_charlie[Charming Charlie]\nthe_psychical_investigator[The Psychical Investigator]\nthe_peculiar_death_of_myron_fink[The Peculiar Death of Myron Fink]\nfuller_himself[Fuller Himself]\ntemple_of_nepthys[Temple of Nepthys]\nthe_leg_breaker[The Leg Breaker]\ncharlie_comes_clean[Charlie Comes Clean]\nwhat_the_cops_know[What the Cops Know]\ninterviewing_the_neighbors[Interviewing the Neighbors]\ngeorges_apartment[George's Apartment]\naddie_needs_answers[Addie Needs Answers]\nmen_gone_missing[Men Gone Missing]\nbreaking_into_fullers[Breaking Into Fuller's]\nthe_thing_in_the_morgue[The Thing in the Morgue]\nquestioning_pearl[Questioning Pearl]\nmiracle_machine[Miracle Machine]\ngoing_on_the_grid[Going on the Grid]\nsadie_and_the_scoop[Sadie and the Scoop]\nsadies_sob_story --> fullers_electrical_repair\nsadies_sob_story --> the_peculiar_death_of_myron_fink\nsadies_sob_story --> what_the_cops_know\nfullers_electrical_repair --> fuller_himself\nfullers_electrical_repair --> charming_charlie\ncharming_charlie --> the_peculiar_death_of_myron_fink\ncharming_charlie --> fuller_himself\ncharming_charlie --> the_leg_breaker\ncharming_charlie --> temple_of_nepthys\nthe_psychical_investigator --> temple_of_nepthys\nthe_peculiar_death_of_myron_fink --> what_the_cops_know\nthe_peculiar_death_of_myron_fink --> interviewing_the_neighbors\nfuller_himself --> charming_charlie\nfuller_himself --> the_psychical_investigator\nfuller_himself --> temple_of_nepthys\nfuller_himself --> what_the_cops_know\nfuller_himself --> georges_apartment\ntemple_of_nepthys --> the_leg_breaker\ntemple_of_nepthys --> miracle_machine\ntemple_of_nepthys --> addie_needs_answers\nthe_leg_breaker --> charlie_comes_clean\nthe_leg_breaker --> breaking_into_fullers\ncharlie_comes_clean --> breaking_into_fullers\nwhat_the_cops_know --> the_peculiar_death_of_myron_fink\nwhat_the_cops_know --> the_thing_in_the_morgue\ninterviewing_the_neighbors --> georges_apartment\ngeorges_apartment --> questioning_pearl\ngeorges_apartment --> the_psychical_investigator\naddie_needs_answers --> men_gone_missing\nmen_gone_missing --> breaking_into_fullers\nbreaking_into_fullers --> sadie_and_the_scoop\nquestioning_pearl --> miracle_machine\nmiracle_machine --> going_on_the_grid\ngoing_on_the_grid --> breaking_into_fullers\n\nclassDef default fill:#333,stroke:#fff,color:white,stroke-width:4px;classDef completed fill:#f9f,stroke:#333,stroke-width:4px;";
+  var graphDefinition = "graph TD\nsadies_sob_story[<font color='white' class='node'>Sadie's Sob Story</font>]\nfullers_electrical_repair[Fuller's Electrical Repair]\ncharming_charlie[Charming Charlie]\nthe_psychical_investigator[The Psychical Investigator]\nthe_peculiar_death_of_myron_fink[The Peculiar Death of Myron Fink]\nfuller_himself[Fuller Himself]\ntemple_of_nephthys[Temple of Nephthys]\nthe_leg_breaker[The Leg Breaker]\ncharlie_comes_clean[Charlie Comes Clean]\nwhat_the_cops_know[What the Cops Know]\ninterviewing_the_neighbors[Interviewing the Neighbors]\ngeorges_apartment[George's Apartment]\naddie_needs_answers[Addie Needs Answers]\nmen_gone_missing[Men Gone Missing]\nbreaking_into_fullers[Breaking Into Fuller's]\nthe_thing_in_the_morgue[The Thing in the Morgue]\nquestioning_pearl[Questioning Pearl]\nmiracle_machine[Miracle Machine]\ngoing_on_the_grid[Going on the Grid]\nsadie_and_the_scoop[Sadie and the Scoop]\nsadies_sob_story --> fullers_electrical_repair\nsadies_sob_story --> the_peculiar_death_of_myron_fink\nsadies_sob_story --> what_the_cops_know\nfullers_electrical_repair --> fuller_himself\nfullers_electrical_repair --> charming_charlie\ncharming_charlie --> the_peculiar_death_of_myron_fink\ncharming_charlie --> fuller_himself\ncharming_charlie --> the_leg_breaker\ncharming_charlie --> temple_of_nephthys\nthe_psychical_investigator --> temple_of_nephthys\nthe_peculiar_death_of_myron_fink --> what_the_cops_know\nthe_peculiar_death_of_myron_fink --> interviewing_the_neighbors\nfuller_himself --> charming_charlie\nfuller_himself --> the_psychical_investigator\nfuller_himself --> temple_of_nephthys\nfuller_himself --> what_the_cops_know\nfuller_himself --> georges_apartment\ntemple_of_nephthys --> the_leg_breaker\ntemple_of_nephthys --> miracle_machine\ntemple_of_nephthys --> addie_needs_answers\nthe_leg_breaker --> charlie_comes_clean\nthe_leg_breaker --> breaking_into_fullers\ncharlie_comes_clean --> breaking_into_fullers\nwhat_the_cops_know --> the_peculiar_death_of_myron_fink\nwhat_the_cops_know --> the_thing_in_the_morgue\ninterviewing_the_neighbors --> georges_apartment\ngeorges_apartment --> questioning_pearl\ngeorges_apartment --> the_psychical_investigator\naddie_needs_answers --> men_gone_missing\nmen_gone_missing --> breaking_into_fullers\nbreaking_into_fullers --> sadie_and_the_scoop\nquestioning_pearl --> miracle_machine\nmiracle_machine --> going_on_the_grid\ngoing_on_the_grid --> breaking_into_fullers\n\nclassDef default fill:#333,stroke:#fff,color:white,stroke-width:4px;classDef completed fill:#f9f,stroke:#333,stroke-width:4px;";
   parseGraph(graphDefinition);
 }
 
@@ -443,7 +753,7 @@ function checkIfPlayerHasEdge(result_tag) {
       result = false;
     }
   }
-    
+
   session.query("player_edge(" + result_tag + ").");
   session.answer(binding);
   return result;
@@ -483,7 +793,7 @@ function checkIfPlayerHasProblem(result_tag) {
       result = false;
     }
   }
-    
+
   session.query("player_problem(" + result_tag + ").");
   session.answer(binding);
   return result;
@@ -618,7 +928,6 @@ $(document).on("click", "input[name='clue']", function () {
   var binding = function(answer) {
     var tag = answer.lookup("Clue");
   }
-  console.log(clueText);
 
   var statement = "clue_known(Clue, PrevKnown),clue_description(Clue, " + clueText + "), retract( clue_known(Clue, PrevKnown) ), asserta( clue_known(Clue, " + checked + ")).";
   session.query(statement);
