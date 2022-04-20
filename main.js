@@ -73,8 +73,8 @@ var bindings = [];
 function loadScene() {
   loadSceneName();
   loadSceneType();
+  loadSceneCompleted(); 
   loadSceneLeadIns();
-  //loadSceneText();
 }
 
 function clear_output_area() {
@@ -92,7 +92,21 @@ function loadSceneName() {
   session.answer(binding);
 }
 
-// Displays the name of the current scene
+function loadSceneCompleted() {
+  var binding = function(answer) {
+    var visited = answer.lookup("Visited");
+    if (visited == "true") {
+      checkbox = "<input type='checkbox' name='scene' checked>";
+    } else {
+      checkbox = "<input type='checkbox' name='scene'>";
+    }
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + checkbox  + " Visited</p>";
+  }
+  
+  session.query("scene_visited(" + currentScene + ", Visited).");
+  session.answer(binding);
+}
+
 function loadSceneType() {
   var binding = function(answer) {
     sceneInfo.innerHTML = sceneInfo.innerHTML + "<em>" + answer.lookup("Type");  + "</em><br>";
@@ -926,10 +940,9 @@ $(document).on("click", "input[name='clue']", function () {
   var checked = $(this).prop('checked');
   var clueText = this.nextSibling.data;
   var binding = function(answer) {
-    var tag = answer.lookup("Clue");
   }
 
-  var statement = "clue_known(Clue, PrevKnown),clue_description(Clue, " + clueText + "), retract( clue_known(Clue, PrevKnown) ), asserta( clue_known(Clue, " + checked + ")).";
+  var statement = "clue_known(Clue, PrevKnown), clue_description(Clue, " + clueText + "), retract( clue_known(Clue, PrevKnown) ), asserta( clue_known(Clue, " + checked + ")).";
   session.query(statement);
   session.answer(binding);
 });
@@ -967,6 +980,18 @@ $(document).on("click", "input[name='problem']", function () {
   } else {
     statement = statement + "retract(player_problem(Problem))."
   }
+  session.query(statement);
+  session.answer(binding);
+});
+
+// When you click the checkbox for scene visited, have this update the result in the database
+$(document).on("click", "input[name='scene']", function () {
+  var checked = $(this).prop('checked');
+
+  var binding = function(answer) {
+  }
+
+  var statement = "scene(" + currentScene + "), scene_visited(" + currentScene + ", PrevVisited), retract(scene_visited(" + currentScene + ", PrevVisited)), asserta(scene_visited(" + currentScene + ", " + checked + "))."
   session.query(statement);
   session.answer(binding);
 });
