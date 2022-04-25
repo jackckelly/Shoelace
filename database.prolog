@@ -178,6 +178,7 @@ scene_characters(interviewing_the_neighbors, minnie_boyer).
 scene_characters(interviewing_the_neighbors, august_williams).
 scene_characters(interviewing_the_neighbors, violet_blake).
 scene(georges_apartment).
+scene_visited(georges_apartment, false).
 scene_name(georges_apartment, "George's Apartment").
 scene_type(georges_apartment, core).
 scene_lead_ins(georges_apartment, the_peculiar_death_of_myron_fink).
@@ -194,6 +195,7 @@ scene_text(georges_apartment, "As Viv leaves the apartment, she (and possibly Si
 scene_characters(georges_apartment, george_simpson).
 scene_characters(georges_apartment, pearl_leblanc).
 scene(questioning_pearl).
+scene_visited(questioning_pearl, false).
 scene_name(questioning_pearl, "Questioning Pearl").
 scene_type(questioning_pearl, alternate).
 scene_lead_ins(questioning_pearl, georges_apartment).
@@ -209,6 +211,7 @@ scene_clues(questioning_pearl, as_far_as_pearl).
 scene_clues(questioning_pearl, she_insists_that).
 scene_characters(questioning_pearl, pearl_leblanc).
 scene(the_psychical_investigator).
+scene_visited(the_psychical_investigator, false).
 scene_name(the_psychical_investigator, "The Psychical Investigator").
 scene_type(the_psychical_investigator, alternate).
 scene_lead_ins(the_psychical_investigator, fuller_himself).
@@ -231,6 +234,7 @@ scene_clues(the_psychical_investigator, as_george_said).
 scene_clues(the_psychical_investigator, if_viv_has).
 scene_characters(the_psychical_investigator, hereward_carrington).
 scene(temple_of_nephthys).
+scene_visited(temple_of_nephthys, false).
 scene_name(temple_of_nephthys, "Temple of Nephthys").
 scene_type(temple_of_nephthys, core).
 scene_lead_ins(temple_of_nephthys, fuller_himself).
@@ -263,6 +267,7 @@ scene_clues(temple_of_nephthys, if_asked_about).
 scene_characters(temple_of_nephthys, madame_isis).
 scene_characters(temple_of_nephthys, pearl_leblanc).
 scene(addie_needs_answers).
+scene_visited(addie_needs_answers, false).
 scene_name(addie_needs_answers, "Addie Needs Answers").
 scene_type(addie_needs_answers, alternate).
 scene_lead_ins(addie_needs_answers, temple_of_nephthys).
@@ -279,6 +284,7 @@ scene_clues(addie_needs_answers, yes_shes_visited).
 scene_clues(addie_needs_answers, no_addie_hasnt).
 scene_characters(addie_needs_answers, addie_sims).
 scene(the_thing_in_the_morgue).
+scene_visited(the_thing_in_the_morgue, false).
 scene_name(the_thing_in_the_morgue, "The Thing in the Morgue").
 scene_type(the_thing_in_the_morgue, pipe).
 scene_lead_ins(the_thing_in_the_morgue, what_the_cops_know).
@@ -301,6 +307,7 @@ scene_clues(the_thing_in_the_morgue, yes_he_knows).
 scene_characters(the_thing_in_the_morgue, joseph_oconnor).
 scene_characters(the_thing_in_the_morgue, myron_fink).
 scene(miracle_machine).
+scene_visited(miracle_machine, false).
 scene_name(miracle_machine, "Miracle Machine").
 scene_type(miracle_machine, core).
 scene_lead_ins(miracle_machine, georges_apartment).
@@ -318,6 +325,7 @@ scene_characters(miracle_machine, nettie_rice).
 scene_characters(miracle_machine, charlie_fitzpatrick).
 scene_characters(miracle_machine, howard_fuller).
 scene(the_leg_breaker).
+scene_visited(the_leg_breaker, false).
 scene_name(the_leg_breaker, "The Leg-Breaker").
 scene_type(the_leg_breaker, alternate).
 scene_lead_ins(the_leg_breaker, temple_of_nephthys).
@@ -342,6 +350,7 @@ scene_clues(the_leg_breaker, the_night_preston).
 scene_clues(the_leg_breaker, he_only_saw).
 scene_characters(the_leg_breaker, marty_the_mouth).
 scene(going_on_the_grid).
+scene_visited(going_on_the_grid, false).
 scene_name(going_on_the_grid, "Going on the Grid").
 scene_type(going_on_the_grid, core).
 scene_lead_ins(going_on_the_grid, miracle_machine).
@@ -359,6 +368,7 @@ scene_clues(going_on_the_grid, the_calls_north).
 scene_clues(going_on_the_grid, at_the_center).
 scene_characters(going_on_the_grid, marie_lewis).
 scene(men_gone_missing).
+scene_visited(men_gone_missing, false).
 scene_name(men_gone_missing, "Men Gone Missing").
 scene_type(men_gone_missing, alternate).
 scene_lead_ins(men_gone_missing, addie_needs_answers).
@@ -366,7 +376,7 @@ scene_lead_outs(men_gone_missing, the_leg_breaker).
 scene_lead_outs(men_gone_missing, breaking_into_fullers).
 scene_text(men_gone_missing, "The crowd outside Fuller's has thinned since Viv first visited the shop. Perhaps with George's disappearance now a thing of the past, fewer men think they have a chance at his job. Perhaps the odd goings-on with the other men Fuller's brought in have made them change their minds. She still encounters five or six men having a smoke and shooting the breeze.").
 scene_text(men_gone_missing, "It takes a while to get the men to warm up to her. A judicious use of Bargain might offer them some of her cigarettes or to buy anyone who'll talk to her a cup of coffee. Viv may even want to pull out Inspiration: two good (well, close enough) men have disappeared in a single week: wouldn't they want their families to have answers if it was them? One of the men, Herbert Roach, appears willing to talk, but he'd rather do it somewhere other than here. Viv can get answers out of him at a nearby diner or in an alley out of sight of the main door. Once sufficiently warmed by coffee, a cigarette, or the fire of Inspiration, Roach nervously reveals the following:").
-scene_text(men_gone_missing, "If Viv visits Fuller, he gives her the same brush- off he would in 'Fuller Himself' (p. 183), that the men's work didn't pass muster. Pressing the issue of the men, or otherwise going inside on this er- rand, means Viv faces the Challenge 'Getting Past the Guards' in 'Breaking Into Fuller's.'").
+scene_text(men_gone_missing, "If Viv visits Fuller, he gives her the same brush-off he would in 'Fuller Himself', that the men's work didn't pass muster. Pressing the issue of the men, or otherwise going inside on this er- rand, means Viv faces the Challenge 'Getting Past the Guards' in 'Breaking Into Fuller's.'").
 scene_text(men_gone_missing, "Viv may decide to make especially sure about the missing men, in which case Roach gives her names and buildings of three he can think of, and she gets the attached responses from wives:").
 scene_clues(men_gone_missing, hes_only_here).
 scene_clues(men_gone_missing, far_as_he).
@@ -378,6 +388,7 @@ scene_clues(men_gone_missing, no_his_wife).
 scene_clues(men_gone_missing, no_wife_if).
 scene_characters(men_gone_missing, herbert_roach).
 scene(charlie_comes_clean).
+scene_visited(charlie_comes_clean, false).
 scene_name(charlie_comes_clean, "Charlie Comes Clean").
 scene_type(charlie_comes_clean, alternate).
 scene_lead_ins(charlie_comes_clean, the_leg_breaker).
@@ -390,6 +401,7 @@ scene_text(charlie_comes_clean, "If Viv makes the request while Pushing with Ins
 scene_text(charlie_comes_clean, "As in 'Men Gone Missing,' if she bursts into Fuller's to question Charlie the second time, Viv faces the Challenge 'Getting Past the Guards' in 'Breaking into Fuller's.'").
 scene_characters(charlie_comes_clean, charlie_fitzpatrick).
 scene(breaking_into_fullers).
+scene_visited(breaking_into_fullers, false).
 scene_name(breaking_into_fullers, "Breaking Into Fuller's").
 scene_type(breaking_into_fullers, conclusion).
 scene_lead_ins(breaking_into_fullers, going_on_the_grid).
@@ -415,6 +427,7 @@ scene_text(breaking_into_fullers, "How Viv resolves the situation if she escapes
 scene_characters(breaking_into_fullers, howard_fuller).
 scene_characters(breaking_into_fullers, charlie_fitzpatrick).
 scene(sadie_and_the_scoop).
+scene_visited(sadie_and_the_scoop, false).
 scene_name(sadie_and_the_scoop, "Sadie and the Scoop").
 scene_type(sadie_and_the_scoop, denouement).
 scene_lead_ins(sadie_and_the_scoop, breaking_into_fullers).
@@ -795,9 +808,9 @@ clue_known(the_calls_north, false).
 clue(at_the_center).
 clue_description(at_the_center,"(Core, 'Breaking Into Fuller's') Evidence Collection: At the center of those disturbances? Fuller's Electrical Repair.").
 clue_known(at_the_center, false).
-clue(hes_only_there).
-clue_description(hes_only_there,"He's only here because his missus will get right sore if she doesn't think he's pounding the pavement every day. He has no desire to work for Fuller, 'anyways, not anymore.'").
-clue_known(hes_only_there, false).
+clue(hes_only_here).
+clue_description(hes_only_here,"He's only here because his missus will get right sore if she doesn't think he's pounding the pavement every day. He has no desire to work for Fuller, 'anyways, not anymore.'").
+clue_known(hes_only_here, false).
 clue(far_as_he).
 clue_description(far_as_he,"(Alternate, 'The Leg-Breaker') Far as he knows, George was an OK guy, but he was making bad decisions. Like borrowing money from a guy everyone knows works for, well, all he can say is... people. And you don't want to be in debt to people. If he could guess, that'd be what happened to George... except for the strange matter of his replacements.").
 clue_known(far_as_he, false).
@@ -812,15 +825,15 @@ clue(the_really_strange).
 clue_description(the_really_strange,"(Alternate lead-in, 'Breaking into Fuller's') The really strange thing is those fellows Fuller hired never came out at the end of the day. Neither did Fuller. He asked about it yesterday because Jim O'Hara is a buddy of his. One of the guys said the boss promised Jim more if he stayed late to work on a 'special project.' With five little ones, Jim can't exactly say no, can he?").
 clue_known(the_really_strange, false).
 clue_leads_to(the_really_strange, breaking_into_fullers).
-clue(jim_ohara_wife).
-clue_description(jim_ohara_wife,"Jim O'Hara: wife Rose hasn't seen him since yesterday, assumes he's hiding at his brother's after drinking his earnings.").
-clue_known(jim_ohara_wife, false).
-clue(mike_deaton_no).
-clue_description(mike_deaton_no,"Mike Deaton: no, his wife Ida doesn't know where he's gone. She's almost frantic enough to telephone the police, but 'they never help people like us.' Viv knows through her source Lt. O'Connor that the Missing Persons department rarely follows up on men who leave their families.").
-clue_known(mike_deaton_no, false).
-clue(danny_mallory_no).
-clue_description(danny_mallory_no,"Danny Mallory: no wife. If Viv checks with his landlord, she'll find he hasn't seen Danny in several days. Possible he got a job that took him out of town; that happens sometimes.").
-clue_known(danny_mallory_no, false).
+clue(wife_rose_hasnt).
+clue_description(wife_rose_hasnt,"Jim O'Hara: wife Rose hasn't seen him since yesterday, assumes he's hiding at his brother's after drinking his earnings.").
+clue_known(wife_rose_hasnt, false).
+clue(no_his_wife).
+clue_description(no_his_wife,"Mike Deaton: no, his wife Ida doesn't know where he's gone. She's almost frantic enough to telephone the police, but 'they never help people like us.' Viv knows through her source Lt. O'Connor that the Missing Persons department rarely follows up on men who leave their families.").
+clue_known(no_his_wife, false).
+clue(no_wife_if).
+clue_description(no_wife_if,"Danny Mallory: no wife. If Viv checks with his landlord, she'll find he hasn't seen Danny in several days. Possible he got a job that took him out of town; that happens sometimes.").
+clue_known(no_wife_if, false).
 
 
 :- dynamic(source/1).
