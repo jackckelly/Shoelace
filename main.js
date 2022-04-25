@@ -14,6 +14,12 @@ var allCluesKnown = [];
 var allScenes = [];
 var challengeResult;
 var challengeTag;
+var antagonistTags = [];
+var antagonistTriggers = []; 
+var antagonistReactions = [];
+var antagonistChallenges = [];
+
+//initializing the scene graph
 var graphDefinition = "graph TD\nsadies_sob_story[<font color='white' class='node'>Sadie's Sob Story</font>]\nfullers_electrical_repair[Fuller's Electrical Repair]\ncharming_charlie[Charming Charlie]\nthe_psychical_investigator[The Psychical Investigator]\nthe_peculiar_death_of_myron_fink[The Peculiar Death of Myron Fink]\nfuller_himself[Fuller Himself]\ntemple_of_nephthys[Temple of Nephthys]\nthe_leg_breaker[The Leg Breaker]\ncharlie_comes_clean[Charlie Comes Clean]\nwhat_the_cops_know[What the Cops Know]\ninterviewing_the_neighbors[Interviewing the Neighbors]\ngeorges_apartment[George's Apartment]\naddie_needs_answers[Addie Needs Answers]\nmen_gone_missing[Men Gone Missing]\nbreaking_into_fullers[Breaking Into Fuller's]\nthe_thing_in_the_morgue[The Thing in the Morgue]\nquestioning_pearl[Questioning Pearl]\nmiracle_machine[Miracle Machine]\ngoing_on_the_grid[Going on the Grid]\nsadie_and_the_scoop[Sadie and the Scoop]\nsadies_sob_story --> fullers_electrical_repair\nsadies_sob_story --> the_peculiar_death_of_myron_fink\nsadies_sob_story --> what_the_cops_know\nfullers_electrical_repair --> fuller_himself\nfullers_electrical_repair --> charming_charlie\ncharming_charlie --> the_peculiar_death_of_myron_fink\ncharming_charlie --> fuller_himself\ncharming_charlie --> the_leg_breaker\ncharming_charlie --> temple_of_nephthys\nthe_psychical_investigator --> temple_of_nephthys\nthe_peculiar_death_of_myron_fink --> what_the_cops_know\nthe_peculiar_death_of_myron_fink --> interviewing_the_neighbors\nfuller_himself --> charming_charlie\nfuller_himself --> the_psychical_investigator\nfuller_himself --> temple_of_nephthys\nfuller_himself --> what_the_cops_know\nfuller_himself --> georges_apartment\ntemple_of_nephthys --> the_leg_breaker\ntemple_of_nephthys --> miracle_machine\ntemple_of_nephthys --> addie_needs_answers\nthe_leg_breaker --> charlie_comes_clean\nthe_leg_breaker --> breaking_into_fullers\ncharlie_comes_clean --> breaking_into_fullers\nwhat_the_cops_know --> the_peculiar_death_of_myron_fink\nwhat_the_cops_know --> the_thing_in_the_morgue\ninterviewing_the_neighbors --> georges_apartment\ngeorges_apartment --> questioning_pearl\ngeorges_apartment --> the_psychical_investigator\naddie_needs_answers --> men_gone_missing\nmen_gone_missing --> breaking_into_fullers\nbreaking_into_fullers --> sadie_and_the_scoop\nquestioning_pearl --> miracle_machine\nmiracle_machine --> going_on_the_grid\ngoing_on_the_grid --> breaking_into_fullers\n\nclassDef default fill:#333,stroke:#fff,color:white,stroke-width:4px;classDef completed fill:#777,stroke:#333,stroke-width:4px;";
 
 // Create the prolog sesssion and load mini_prom_week_example.prolog.
@@ -60,6 +66,10 @@ var bindings = [];
  document.getElementById('problems_link').onclick = loadProblems;
  document.getElementById('characters_link').onclick = loadCharacters;
  document.getElementById('suggestions_link').onclick = loadSuggestions;
+ document.getElementById('sources_link').onclick = loadSources;
+ document.getElementById('investigative_abilities_link').onclick = loadInvestigativeAbilities; 
+ document.getElementById('general_abilities_link').onclick = loadGeneralAbilities;
+ document.getElementById('antagonist_reactions_link').onclick = loadAntagonistReactions;
  loadAll()
 
  function loadAll() {
@@ -521,6 +531,7 @@ function loadClues() {
 }
 
 function renderChallenge(tag) {
+  challengeResult = "";
   var binding = function(answer) {
     if (answer !== false) {
       challengeResult = "<div class='challenge'>"; 
@@ -830,27 +841,125 @@ function loadCharacters() {
     for (var i = 0; i < answers.length; i++) {
       var answer = answers[i];
       var result_name = answer.lookup("Name");
-        //var result_description = answer.lookup("Description");
-        if (result_name !== null){
-          sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>" + result_name + "</strong></p>";
-        }
+      if (result_name !== null){
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>" + result_name + "</strong></p>";
       }
-      bindings = [];
     }
-    session.query("character_name(Character, Name).");
-    session.answers(get_callback(get_all_bindings));
-  }
-
-  function loadSuggestions() {
-    clear_output_area(); 
-    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>GM Suggestions</h2>"; 
-    sceneInfo.innerHTML = sceneInfo.innerHTML + '<a href="#" onclick="char_knows_clue()">Character knows clue</a>    |    <a href="#" onclick="overhear_conversation()">Overhear conversation</a>    |    <a href="#" onclick="find_new_lead()">Find new lead</a>    |    <a href="#" onclick="find_hostage_options()">Find hostage options</a>    |    <a href="#" onclick="find_physical_injury()">Find physical injury</a><div id="output_area"></div>'
-  }
-
-  function clear_suggestion_area() {
-    output_area.innerHTML = "";
     bindings = [];
   }
+  session.query("character_name(Character, Name).");
+  session.answers(get_callback(get_all_bindings));
+}
+
+function loadSuggestions() {
+  clear_output_area(); 
+  sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>GM Suggestions</h2>"; 
+  sceneInfo.innerHTML = sceneInfo.innerHTML + '<a href="#" onclick="char_knows_clue()">Character knows clue</a>    |    <a href="#" onclick="overhear_conversation()">Overhear conversation</a>    |    <a href="#" onclick="find_new_lead()">Find new lead</a>    |    <a href="#" onclick="find_hostage_options()">Find hostage options</a>    |    <a href="#" onclick="find_physical_injury()">Find physical injury</a><div id="output_area"></div>'
+}
+
+function clear_suggestion_area() {
+  output_area.innerHTML = "";
+  bindings = [];
+}
+
+
+function loadSources() {
+  clear_output_area();
+  sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>Sources</h2>";
+  var get_all_bindings = function(answers) {
+    var currentName = "annette_rice";
+    for (var i = 0; i < answers.length; i++) {
+      var answer = answers[i];
+      var result_tag = answer.lookup("Source");
+      var result_name = answer.lookup("Name");
+      var result_profession = answer.lookup("Profession");
+      var result_description = answer.lookup("Description");
+      var result_ability = answer.lookup("AbilityName");
+      if (result_name !== null && currentName !== result_tag){
+        currentName = result_tag;
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3><strong>" + result_name + "</strong> (" + result_profession + ")</h3><p>" + result_description + "</p><p><strong>Investigative Abilities</strong></p>";
+      }
+      if (result_name !== null) {
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + result_ability + "</p>";
+      }
+    }
+    bindings = [];
+  }
+  session.query("source(Source), source_name(Source, Name), source_description(Source, Description), source_profession(Source, Profession), source_investigative_abilities(Source, Ability), investigative_ability(Ability, AbilityName, AbilityDescription, AbilityType).");
+  session.answers(get_callback(get_all_bindings));
+}
+
+function loadInvestigativeAbilities() {
+  clear_output_area();
+  sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>Investigative Abilities</h2>";
+  var get_all_bindings = function(answers) {
+  for (var i = 0; i < answers.length; i++) {
+    var answer = answers[i];
+    var result_name = answer.lookup("Name");
+    var result_type = answer.lookup("Type");
+    var result_description = answer.lookup("Description");
+    if (result_name !== null){
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>" + result_name + " (" + result_type + ")</h3><p>" + result_description + "</p>";
+    }
+  }
+  bindings = [];
+}
+session.query("investigative_ability(Ability, Name, Description, Type).");
+session.answers(get_callback(get_all_bindings));
+}
+
+
+function loadGeneralAbilities() {
+  clear_output_area();
+  sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>General Abilities</h2>";
+  var get_all_bindings = function(answers) {
+    for (var i = 0; i < answers.length; i++) {
+      var answer = answers[i];
+    var result_name = answer.lookup("Name");
+    var result_type = answer.lookup("Type");
+    var result_description = answer.lookup("Description");
+    if (result_name !== null){
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>" + result_name + " (" + result_type + ")</h3><p>" + result_description + "</p>";
+    }
+  }
+  bindings = [];
+}
+session.query("general_ability(Ability, Name, Description, Type).");
+session.answers(get_callback(get_all_bindings));
+}
+
+function loadAntagonistReactions() {
+  renderChallenge("antagonist_reaction_1_challenge");
+  renderChallenge("antagonist_reaction_2_challenge");
+  clear_output_area();
+  sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>Antagonist Reactions</h2>";
+  var get_all_bindings = function(answers) {
+  for (var i = 0; i < answers.length; i++) {
+    var answer = answers[i];
+    antagonistTags[i] =  answer.lookup("Tag");
+    antagonistTriggers[i] =  answer.lookup("Trigger");
+    antagonistReactions[i] = answer.lookup("Reaction");
+    antagonistChallenges[i] = answer.lookup("ReactionChallenge");
+  }
+  bindings = [];
+  renderAntagonistReactions();
+  }
+
+session.query("antagonist_reaction(Tag, Trigger, Reaction, ReactionChallenge).");
+session.answers(get_callback(get_all_bindings));
+}
+
+function renderAntagonistReactions() {
+  for (var i = 0; i < antagonistTags.length; i++) {
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>Trigger: </strong>" + antagonistTriggers[i] + "</p>";
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>Reaction: </strong>" + antagonistReactions[i] + "</p>";
+    if (antagonistChallenges[i] !== "none") {
+      renderChallenge(antagonistChallenges[i]);
+    }
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<hr>";
+  }
+}
+
 
 /***********************************
 * Prolog suggestion functions
@@ -1012,6 +1121,6 @@ $(document).on("click", "input[name='scene']", function () {
     var removedString = "class " + currentScene + " completed;";
     graphDefinition = graphDefinition.replace(removedString, "");
   }
-   
+
   loadGraph();
 });
