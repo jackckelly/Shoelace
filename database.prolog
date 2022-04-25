@@ -1162,8 +1162,6 @@ general_ability(fighting, "Fighting", "Whether duking it out with fists and the 
 :- dynamic(player_pushes/1).
 :- dynamic(player_item/1).
 
-player_edge(ice_queen).
-player_problem(sucker_for_a_pretty_face).
 player_investigative_ability(accounting).
 player_investigative_ability(assess_honesty).
 player_general_ability(athletics, 1).
