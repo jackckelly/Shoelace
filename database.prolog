@@ -1063,6 +1063,43 @@ challenge_advance(antagonist_reaction_1_challenge, "6", "Gain Edge 11, 'Good Cit
 challenge_hold(antagonist_reaction_1_challenge, "2", "5", "They accept her argument, but give her the cold shoulder for a few days").
 challenge_setback(antagonist_reaction_1_challenge, "Gain Problem 23, 'Evicted'.").
 challenge_extra_problem(antagonist_reaction_1_challenge, no_good_deed).
+challenge(antagonist_reaction_2_challenge).
+challenge_type(antagonist_reaction_2_challenge, "cool").
+challenge_advance(antagonist_reaction_2_challenge, "10", "He gets away, but Viv did some damage. Edge 12, 'Still a Castle'").
+challenge_hold(antagonist_reaction_2_challenge, "5", "9", "He gets away without the schematics").
+challenge_setback(antagonist_reaction_2_challenge, "Viv loses the schematics").
+challenge_extra_problem(antagonist_reaction_2_challenge, wrenched_ankle).
+
+challenge(antagonist_reaction_4_challenge).
+challenge_type(antagonist_reaction_4_challenge, "cool").
+challenge_advance(antagonist_reaction_4_challenge, "6", "Edge 13, 'Hardship Pay'").
+challenge_hold(antagonist_reaction_4_challenge, "3", "5", "Viv wants a stiff drink after that conversation, but no harm done").
+challenge_setback(antagonist_reaction_4_challenge, "Problem 24, 'On Probation'").
+challenge_extra_problem(antagonist_reaction_4_challenge, cocky).
+
+challenge(antagonist_reaction_5_challenge).
+challenge_type(antagonist_reaction_5_challenge, "fighting").
+challenge_advance(antagonist_reaction_5_challenge, "7", "Viv keeps her purse and her pride").
+challenge_hold(antagonist_reaction_5_challenge, "3", "6", "Viv manages to hold onto her purse but still takes on Problem 8, 'Wrenched Ankle'").
+challenge_setback(antagonist_reaction_5_challenge, "Viv loses her purse and takes on Problem 8, 'Wrenched Ankle'").
+
+challenge(antagonist_reaction_6_challenge).
+challenge_type(antagonist_reaction_6_challenge, "cool").
+challenge_advance(antagonist_reaction_6_challenge, "6", "Viv suavely maneuvers the flame out the door").
+challenge_hold(antagonist_reaction_6_challenge, "3", "5", "Viv manages to extract herself, but it's not smooth or polite").
+challenge_setback(antagonist_reaction_6_challenge, "Viv yields to temptation, and it ends messily, as always. −2 on the next General/ Mental test").
+
+challenge(antagonist_reaction_7_challenge).
+challenge_type(antagonist_reaction_7_challenge, "stealth").
+challenge_advance(antagonist_reaction_7_challenge, "5", "He doesn't see Viv at all and appears unsure she even lives there").
+challenge_hold(antagonist_reaction_7_challenge, "2", "4", "Viv loses him in the alleys, but now knows he's located her address").
+challenge_setback(antagonist_reaction_7_challenge, "It takes Viv 30 minutes to convince him to go away. −2 on the next General/ Mental test").
+
+challenge(antagonist_reaction_8_challenge).
+challenge_type(antagonist_reaction_8_challenge, "cool").
+challenge_advance(antagonist_reaction_8_challenge, "9", " Viv bites back the urge to argue; +2 to the next Cool or Stability test").
+challenge_hold(antagonist_reaction_8_challenge, "3", "8", "The argument puts Viv's nerves on edge; −2 to the next Cool or Stability test").
+challenge_setback(antagonist_reaction_8_challenge, "Problem 24, 'On Probation'").
 
 
 :- dynamic(character/1).
@@ -1258,7 +1295,15 @@ player_pushes(4).
 :- dynamic(challenge_setback/2).
 :- dynamic(challenge_extra_problem/2).
 
-antagonist_reaction(antagonist_reaction_1).
+antagonist_reaction(antagonist_reaction_1, "Holds Problem 11, 'Easier in Than Out'", "MacAdams' cops toss Viv's place, causing conflict with her landlady and roommate.", antagonist_reaction_1_challenge).
+antagonist_reaction(antagonist_reaction_2, "Fuller tried and failed to buy the schematics from Viv", "A man (one of Fuller's out-of- work electricians) breaks into Viv's apartment to steal the schematics.", antagonist_reaction_2_challenge).
+antagonist_reaction(antagonist_reaction_3, "Viv got a Hold in her tussle with Marty the Mouth, leaving him feeling sore", "A couple men in suits and fedoras come by Viv's place to make vague threats about what happens to Nosey Nellies", none).
+antagonist_reaction(antagonist_reaction_4, "Lt. MacAdams escorted Viv home from the morgue building", "When Viv next shows up at work, her editor calls her in for a chat about the detective who just dropped by", antagonist_reaction_4_challenge).
+antagonist_reaction(antagonist_reaction_5, "Viv has Problem 'Hand- to-Mouth' or Problem 14, 'No Good Deed'", "A young man tries to snatch Viv's purse, which has everything she's got left for the month in it", antagonist_reaction_5_challenge).
+antagonist_reaction(antagonist_reaction_6,"Viv has Problem 'Sucker for a Pretty Face'","An old flame who's bad news drops by",antagonist_reaction_6_challenge).
+antagonist_reaction(antagonist_reaction_7,"Viv has Problem 'Anything for the Story'","Sees a business owner whose corrupt employment practices she exposed lurking outside her building.",antagonist_reaction_7_challenge).
+antagonist_reaction(antagonist_reaction_8,"Viv has problem 'Hot- Tempered'","Takes an offhand comment from a fellow journalist very personally.",antagonist_reaction_8_challenge).
+
 
 overhear_conversation(Char1, Char1Name, Char2, Char2Name, Clue, ClueDesc) :-
 	character_relationships(Char1, Char2, Relationship, positive),
