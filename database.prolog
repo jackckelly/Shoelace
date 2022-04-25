@@ -636,6 +636,191 @@ clue_known(violet_always_had, false).
 clue(growing_serious_violet).
 clue_description(growing_serious_violet, "Growing serious, Violet remarks that she's never seen anything like the expression on Fink's face. Like something scared him to death before... you know. She couldn't sleep all that night just thinking about it.").
 clue_known(growing_serious_violet, false).
+clue(george_had_called).
+clue_description(george_had_called, "George had called Madame Isis the afternoon of his disappearance and made an appointment through Pearl to see Madame that evening after work. He sounded very shaky. When he didn’t show, Pearl became concerned something had happened.").
+clue_known(george_had_called, false).
+clue(pearl_went_to).
+clue_description(pearl_went_to, "Pearl went to Fuller's on Saturday to find him, but the men there were very rude to her and wouldn’t tell her where he went.").
+clue_known(pearl_went_to, false).
+clue(as_far_as_pearl).
+clue_description(as_far_as_pearl, "(Alternate lead-in, 'Miracle Machine') As far as Pearl knows, George's machine will let ordinary people see spirits. Of course very sensitive people like Madame Isis can already see spirits just like she’s heard of people hearing radio music in their fillings. Spirits surround us, like radio waves, if we only had a machine that would let us see them.").
+clue_known(as_far_as_pearl, false).
+clue_leads_to(as_far_as_pearl, miracle_machine).
+clue(she_insists_that).
+clue_description(she_insists_that, "(Alternate lead-in, 'Temple of Nephthys') She insists that she came here on her own initia- tive, though Assess Honesty suspects she's covering for someone who at least suggested it, to find the machine or at least the plans. If they had this machine at the temple, imagine the people it would draw in! (Knowing Pearl's history with the temple, Viv suspects a very personal motive in the girl's pursuit of the machine.)").
+clue_known(she_insists_that, false).
+clue_leads_to(she_insists_that, temple_of_nephthys).
+clue(british_by_birth).
+clue_description(british_by_birth, "British by birth, Carrington immigrated to the United States at the turn of the century.").
+clue_known(british_by_birth, false).
+clue(carrington_has_carried).
+clue_description(carrington_has_carried, "Carrington has carried on psychical investigations since his late teens. Like many in the profession, he remains open to the idea of psychic phenomena existing. He divided his earliest book, The Physical Phenomena of Spiritualism, into two sections: 'The Fraudulent' and 'The Genuine' (much smaller)").
+clue_known(carrington_has_carried, false).
+clue(in_1924_he).
+clue_description(in_1924_he, "In 1924, he served along with Harry Houdini on a committee of experts from the Scientific American evaluating medium Mina 'Margery' Crandon. Carrington remained the lone holdout convinced of the possible veracity of her powers. As a young man, he represented a medium debunked by others but whose phenomena he could not entirely explain.").
+clue_known(in_1924_he, false).
+clue(he_founded_his).
+clue_description(he_founded_his, "He founded his own American Psychical Institute and Laboratory in the early '20s, but it closed after a few years. He recently restarted the institute.").
+clue_known(he_founded_his, false).
+clue(the_telephone_directory).
+clue_description(the_telephone_directory, "The telephone directory lists an address and phone number for the American Psychical Institute. (Viv may also obtain this from the letter, if she filched it.)").
+clue_known(the_telephone_directory, false).
+clue(most_so_called).
+clue_description(most_so_called, "Most so-called mediums are no more than charlatans. For such an interesting field, it is unfortunately rife with frauds and hucksters.").
+clue_known(most_so_called, false).
+clue(as_george_said).
+clue_description(as_george_said, "As George said, he remains convinced of the possibility of psychic phenomena: more than a possibility at this point, as some recent experiments with a subject, Eileen Garrett, have settled his doubts.").
+clue_known(as_george_said, false).
+clue(if_viv_has).
+clue_description(if_viv_has, "If Viv has spoken to George's neighbors and/or viewed the body, and asks about beings other than ghosts, Carrington looks shaken. He had considered the possibility, of course. His early theories about the existence of psychic phenomena derived from the belief that such widely recorded phenomena must have some basis in reality. Many scriptures speak of 'demons,' and he supposes they might exist as well.").
+clue_known(if_viv_has, false).
+clue(madame_isis_describes).
+clue_description(madame_isis_describes, "Madame Isis describes George Preston as a 'seeker after truth.' He had questions for her about the afterlife and about how her talent worked. George showed remarkable insight into the nature of gifted individuals such as herself: that it came as naturally as sight or taste. Using Assess Honesty, Viv gets the sense that Madame Isis has natural talent — at telling people exactly what they want to hear.").
+clue_known(madame_isis_describes, false).
+clue(in_her_assessment).
+clue_description(in_her_assessment, "(Alternate, 'The Leg-Breaker') In her assessment, 'and believe me, honey, I've met quite a few killers in my day,' George Preston wouldn't kill anyone. She only saw George raise his voice once — to a tough-looking man who stopped George outside the temple one night last week. While she didn't overhear the conversation, Madame Isis got a sense it had to do with money. She knows the type.").
+clue_known(in_her_assessment, false).
+clue(madame_isis_attributes).
+clue_leads_to(in_her_assessment, the_leg_breaker).
+clue_description(madame_isis_attributes, "Madame Isis attributes her ability to speak with the dead to a spiritual connection with the goddess Nephthys.").
+clue_known(madame_isis_attributes, false).
+clue(if_asked_why).
+clue_description(if_asked_why, "If asked why she calls herself 'Isis,' not 'Nephthys,' she sense's Viv's Streetwise and gives her an honest answer, 'Nobody remembers Nephthys, dear. Besides, it would look funny if I had a temple to myself, now wouldn't it?'").
+clue_known(if_asked_why, false).
+clue(now_that_she).
+clue_description(now_that_she,"(Alternate, 'Addie Needs Answers') Now that she thinks of it, there seems to have been a rash of disappearing electricians lately. Just last night, she had a woman in here — one of the type who doesn't know if the person's dead or alive — who said her husband hadn't come home in two days. Electrician too, if she remembers right. If Viv stays for a communion, the woman might come back.").
+clue_known(now_that_she, false).
+clue_leads_to(now_that_she, addie_needs_answers).
+clue(madame_isis_hopes).
+clue_description(madame_isis_hopes,"(Core, 'The Miracle Machine') Madame Isis hopes Viv can find George. His machine would change her line of work forever. She hasn't seen it in action, but George told her he will have it working this week. If it works, she might help him out with those money problems of his — as long as nobody else gets that machine for a few years. (Interactions with Pearl may change how this answer plays out, but the gist remains the same. She may call Pearl in at this point to return the schematics and offer to buy them from Viv if she can find the rest.)").
+clue_known(madame_isis_hopes, false).
+clue_leads_to(madame_isis_hopes, the_miracle_machine).
+clue(if_asked_about).
+clue_description(if_asked_about,"If asked about Carrington, Madame Isis sniffs derisively and makes remarks about people with nothing better to do with their time.").
+clue_known(if_asked_about, false).
+clue(max_her_husband).
+clue_description(max_her_husband,"Max, her husband, hasn't been home in two days now. Half the time, she thinks he got paid for a job and bought a ticket to run off, leaving her and the kids. The other half, she fears someone jumped him for the money.").
+clue_known(max_her_husband, false).
+clue(as_far_as_she).
+clue_description(as_far_as_she,"(Alternate, 'Men Going Missing') As far as she knows, Max tried for work at a lot of places. She remembers him saying Mr. Fuller had lost a man and he might get a permanent job, which would be a mercy. When she went down there the morning he didn't come home, the men told her Fuller had asked him to work on a per-day basis. Viv might ask them if they know more about it.").
+clue_known(as_far_as_she, false).
+clue_leads_to(as_far_as_she, men_gone_missing).
+clue(she_tried_asking).
+clue_description(she_tried_asking,"She tried asking Mr. Fuller, but he gave her the brush-off. 'Said my Max wasn't good enough but he hadn't stiffed him for the day, neither.'").
+clue_known(she_tried_asking, false).
+clue(addie_knows_about).
+clue_description(addie_knows_about,"Addie knows about the Temple of Nephthys because her pastor has preached against its wickedness. Even though talking to spirits is a sin, 'like that witch in the Bible,' she believes it could work. 'Saul talked to the prophet Samuel, didn't he?' She wants answers badly enough she's willing to live under a curse to do so.").
+clue_known(addie_knows_about, false).
+clue(its_not_like).
+clue_description(its_not_like,"It's not like Max not to come home. Some guys go on a bender when they get paid for a job, but not her Max. Addie squirms uncomfortably. Assess Honesty perceives she doesn't feel entirely convinced by her own words.").
+clue_known(its_not_like, false).
+clue(yes_shes_visited).
+clue_description(yes_shes_visited,"Yes, she's visited the city morgue every day. Gruesome. And she has to get a neighbor to watch the children. The neighbor thinks she's there now. But there's ways to make a body disappear. It could be in the river with 'those cement shoes.'").
+clue_known(yes_shes_visited, false).
+clue(no_addie_hasnt).
+clue_description(no_addie_hasnt,"No, Addie hasn't yet gotten a straight answer out of Madame Isis. She says Max's spirit will talk when he wants to. If he doesn't talk tonight (or didn't talk tonight), she thinks she won't come back. Streetwise: Just like she refuses to answer questions about George Preston, Madame has decided to play it safe in case Max comes home.").
+clue_known(no_addie_hasnt, false).
+clue(of_course_the).
+clue_description(of_course_the,"Of course the girl thinks her fiancé didn't do it, but plenty of vicious killers seem perfectly ordinary to their family and friends.").
+clue_known(of_course_the, false).
+clue(august_williams_clearly).
+clue_description(august_williams_clearly,"August Williams clearly hit the sauce that night before bed. He just saw something a little darker than pink elephants.").
+clue_known(august_williams_clearly, false).
+clue(murders_dont_always).
+clue_description(murders_dont_always,"Murders don't always have a motive like they do in the pictures. Maybe Preston snapped because he didn't like the way Fink looked at him. Maybe Fink played his radio too loud while Preston was trying to sleep.").
+clue_known(murders_dont_always, false).
+clue(yes_he_knows).
+clue_description(yes_he_knows,"Yes, he knows Lt. O'Connor, and he'll have a word with O'Connor's captain about the kind of company his man keeps (if Viv tries dropping O'Connor's name to get out of trouble.)").
+clue_known(yes_he_knows, false).
+clue(these_schematics_are).
+clue_description(these_schematics_are,"These schematics are missing several pages. One couldn't build a complete machine from them.").
+clue_known(these_schematics_are, false).
+clue(from_what_she).
+clue_description(from_what_she,"From what she can tell, this would be the center of the device. It resembles a radio receiver, receiving signals and passing them along to the missing part — logically an amplifier. But it doesn't look like any radio schematic she's seen. It's much more complex.").
+clue_known(from_what_she, false).
+clue(for_something_probably).
+clue_description(for_something_probably,"(Core, 'Going on the Grid') For something probably the size of a small suitcase, this device draws a disproportionate amount of power. It would probably cause outages on the city's pieced-together system. If Viv mentions the problems with electricity at the apartment building, the contact affirms the connection. The contact knows Marie Lewis, a dispatcher at Consolidated Gas: either as a former student at the college (Nettie) or as a [deliberate look] friend (Charlie). If someone's using the device, Marie might help her figure out where it is.").
+clue_known(for_something_probably, false).
+clue_leads_to(for_something_probably, going_on_the_grid).
+clue(marty_is_also).
+clue_description(marty_is_also,"Marty is also trying to hunt down George. If Viv got an Advance on 'Spotting Marty the Mouth,' he's not surprised she made him and references a previous scene (e.g., 'George's Apartment,' 'Temple of Nephthys,' 'The Thing in the Morgue') in which he just barely made it around a corner. Otherwise he's watched her for some time. Either way, he realized she's on the same errand as he is.").
+clue_known(marty_is_also, false).
+clue(preston_had_borrowed).
+clue_description(preston_had_borrowed,"Preston had borrowed money from a generous local businessman (Marty doesn't say a mob- backed loan shark, but Streetwise Viv reads into that). It came due last week, but that generous personality got squat. Now Marty needs to find him and explain the difference between a loan and fil-an-thro-pee, see?").
+clue_known(preston_had_borrowed, false).
+clue(yeah_he_waited).
+clue_description(yeah_he_waited,"Yeah, he waited outside that crackpot Egyptian place to talk to Preston. Sometimes puts a bit more pressure on a guy when you have a nice little talk in front of his friends, see?").
+clue_known(yeah_he_waited, false).
+clue(hes_heard_the).
+clue_description(hes_heard_the,"He's heard the kid's trying to dodge a murder rap. Didn't figure him for the type.").
+clue_known(hes_heard_the, false).
+clue(how_much_does).
+clue_description(how_much_does,"How much does he owe? About $200.").
+clue_known(how_much_does, false).
+clue(hed_hoped_to).
+clue_description(hed_hoped_to,"He'd hoped to compare notes, with a meaningful glance at her reporter's notebook (or flipping through it, if Viv holds Problem 17).").
+clue_known(hed_hoped_to, false).
+clue(marty_doesnt_know).
+clue_description(marty_doesnt_know,"Marty doesn't know how Preston managed to give him the slip. The guy didn't seem like a slick operator. But he vamoosed, and if Marty can't find hide or hair of the guy, it'll be his own hide, if she knows what he means.").
+clue_known(marty_doesnt_know, false).
+clue(the_night_preston).
+clue_description(the_night_preston,"(Alternate lead-in, 'Breaking into Fuller's') The night Preston disappeared, Marty was watching the door at Fuller's from 4 p.m. onward — planning to have 'a friendly chat, see?' — But Preston never came out. Marty figures he must've gotten a warning from one of the other fellows and scrammed out the back. There was a moment the streetlights went on the fritz, but he kept his eye on the door the whole time: thought it might be some kind of funny business.").
+clue_known(the_night_preston, false).
+clue_leads_to(the_night_preston, breaking_into_fullers).
+clue(he_only_saw).
+clue_description(he_only_saw,"(Alternate, 'Charlie Comes Clean') He only saw one person go in, a dame. That happened maybe ten minutes after the streetlights went on the fritz. Two people come out. The short, funny dame that works there (attempts to determine which dame lead him to provide clarifying descriptions of Charlie, not Petunia). And the Joe that owns the place. They came out together.").
+clue_known(he_only_saw, false).
+clue_leads_to(he_only_saw, charlie_comes_clean).
+clue(viv_trades_the).
+clue_description(viv_trades_the,"Bargain: Viv trades the notebook for some nonspecific favor in the future. Take on Problem 18 , 'I Owe You One.'").
+clue_known(viv_trades_the, false).
+clue(describe_how_viv).
+clue_description(describe_how_viv,"Describe how Viv uses a Push to convince Marty that he won't learn more from the notebook.").
+clue_known(describe_how_viv, false).
+clue(viv_promises_to).
+clue_description(viv_promises_to,"Reassurance: Viv promises to let Marty know when she finds George, or at least finds out what happened to him. Problem 19 , 'Two Masters.'").
+clue_known(viv_promises_to, false).
+clue(the_entry_for).
+clue_description(the_entry_for,"The entry for the disturbance on the night of Fink's death shows multiple complaints from neighboring apartment buildings and one drugstore in a two-block radius around his apartment building.").
+clue_known(the_entry_for, false).
+clue(by_the_time).
+clue_description(by_the_time,"By the time maintenance workers arrived, the power had returned to normal and they could find no problems in the system itself.").
+clue_known(by_the_time, false).
+clue(the_ledger_shows).
+clue_description(the_ledger_shows,"The Ledger shows several similar entries from the night shift for calls in a five-block region north of Fulton. Same ambiguous resolution.").
+clue_known(the_ledger_shows, false).
+clue(the_calls_north).
+clue_description(the_calls_north,"The calls north of Fulton have come in each night, starting on Thursday, May 2, around 10:30 p.m., with repair crews arriving as early as 11 p.m. to find no problems. If Viv visits at night, she may mention this to a night dispatcher who exasperatedly mutters 'we need to send out a pre-emptive team or just stop responding to those calls.'").
+clue_known(the_calls_north, false).
+clue(at_the_center).
+clue_description(at_the_center,"(Core, 'Breaking Into Fuller's') Evidence Collection: At the center of those disturbances? Fuller's Electrical Repair.").
+clue_known(at_the_center, false).
+clue(hes_only_there).
+clue_description(hes_only_there,"He's only here because his missus will get right sore if she doesn't think he's pounding the pavement every day. He has no desire to work for Fuller, 'anyways, not anymore.'").
+clue_known(hes_only_there, false).
+clue(far_as_he).
+clue_description(far_as_he,"(Alternate, 'The Leg-Breaker') Far as he knows, George was an OK guy, but he was making bad decisions. Like borrowing money from a guy everyone knows works for, well, all he can say is... people. And you don't want to be in debt to people. If he could guess, that'd be what happened to George... except for the strange matter of his replacements.").
+clue_known(far_as_he, false).
+clue_leads_to(far_as_he, the_leg_breaker).
+clue(why_doesnt_he).
+clue_description(why_doesnt_he,"Why doesn't he want to work for Fuller? The man's been hiring day-rate replacements and it strikes Herbert as funny that he never asks them to work a second day. Could be like he says every morning, he's looking for men who meets his standards. But after Addie Sims came 'round asking about her husband, he realized he hasn't heard from any of the other fellows Fuller hired.").
+clue_known(why_doesnt_he, false).
+clue(no_he_hasnt).
+clue_description(no_he_hasnt,"No, he hasn't looked them up. That's not really his business.").
+clue_known(no_he_hasnt, false).
+clue(the_really_strange).
+clue_description(the_really_strange,"(Alternate lead-in, 'Breaking into Fuller's') The really strange thing is those fellows Fuller hired never came out at the end of the day. Neither did Fuller. He asked about it yesterday because Jim O'Hara is a buddy of his. One of the guys said the boss promised Jim more if he stayed late to work on a 'special project.' With five little ones, Jim can't exactly say no, can he?").
+clue_known(the_really_strange, false).
+clue_leads_to(the_really_strange, breaking_into_fullers).
+clue(jim_ohara_wife).
+clue_description(jim_ohara_wife,"Jim O'Hara: wife Rose hasn't seen him since yesterday, assumes he's hiding at his brother's after drinking his earnings.").
+clue_known(jim_ohara_wife, false).
+clue(mike_deaton_no).
+clue_description(mike_deaton_no,"Mike Deaton: no, his wife Ida doesn't know where he's gone. She's almost frantic enough to telephone the police, but 'they never help people like us.' Viv knows through her source Lt. O'Connor that the Missing Persons department rarely follows up on men who leave their families.").
+clue_known(mike_deaton_no, false).
+clue(danny_mallory_no).
+clue_description(danny_mallory_no,"Danny Mallory: no wife. If Viv checks with his landlord, she'll find he hasn't seen Danny in several days. Possible he got a job that took him out of town; that happens sometimes.").
+clue_known(danny_mallory_no, false).
 
 
 :- dynamic(source/1).

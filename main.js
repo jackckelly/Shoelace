@@ -519,9 +519,11 @@ function loadClues() {
 
 function renderChallenge(tag) {
   var binding = function(answer) {
-    challengeResult = "<div class='challenge'>"; 
-    challengeResult = challengeResult + "<h3>" + answer.lookup("Name") + "</h3>"; 
-    challengeResult = challengeResult + "<p><em>" + answer.lookup("Type") + "</em></p>";
+    if (answer !== false) {
+      challengeResult = "<div class='challenge'>"; 
+      challengeResult = challengeResult + "<h3>" + answer.lookup("Name") + "</h3>"; 
+      challengeResult = challengeResult + "<p><em>" + answer.lookup("Type") + "</em></p>";
+    }
     printChallengeExtraDescription(); 
   }
   challengeTag = tag;
