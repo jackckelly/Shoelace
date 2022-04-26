@@ -22,6 +22,8 @@ var antagonistChallenges = [];
 //initializing the scene graph
 var graphDefinition = "graph TD\nsadies_sob_story[<font color='white' class='node'>Sadie's Sob Story</font>]\nfullers_electrical_repair[Fuller's Electrical Repair]\ncharming_charlie[Charming Charlie]\nthe_psychical_investigator[The Psychical Investigator]\nthe_peculiar_death_of_myron_fink[The Peculiar Death of Myron Fink]\nfuller_himself[Fuller Himself]\ntemple_of_nephthys[Temple of Nephthys]\nthe_leg_breaker[The Leg Breaker]\ncharlie_comes_clean[Charlie Comes Clean]\nwhat_the_cops_know[What the Cops Know]\ninterviewing_the_neighbors[Interviewing the Neighbors]\ngeorges_apartment[George's Apartment]\naddie_needs_answers[Addie Needs Answers]\nmen_gone_missing[Men Gone Missing]\nbreaking_into_fullers[Breaking Into Fuller's]\nthe_thing_in_the_morgue[The Thing in the Morgue]\nquestioning_pearl[Questioning Pearl]\nmiracle_machine[Miracle Machine]\ngoing_on_the_grid[Going on the Grid]\nsadie_and_the_scoop[Sadie and the Scoop]\nsadies_sob_story --> fullers_electrical_repair\nsadies_sob_story --> the_peculiar_death_of_myron_fink\nsadies_sob_story --> what_the_cops_know\nfullers_electrical_repair --> fuller_himself\nfullers_electrical_repair --> charming_charlie\ncharming_charlie --> the_peculiar_death_of_myron_fink\ncharming_charlie --> fuller_himself\ncharming_charlie --> the_leg_breaker\ncharming_charlie --> temple_of_nephthys\nthe_psychical_investigator --> temple_of_nephthys\nthe_peculiar_death_of_myron_fink --> what_the_cops_know\nthe_peculiar_death_of_myron_fink --> interviewing_the_neighbors\nfuller_himself --> charming_charlie\nfuller_himself --> the_psychical_investigator\nfuller_himself --> temple_of_nephthys\nfuller_himself --> what_the_cops_know\nfuller_himself --> georges_apartment\ntemple_of_nephthys --> the_leg_breaker\ntemple_of_nephthys --> miracle_machine\ntemple_of_nephthys --> addie_needs_answers\nthe_leg_breaker --> charlie_comes_clean\nthe_leg_breaker --> breaking_into_fullers\ncharlie_comes_clean --> breaking_into_fullers\nwhat_the_cops_know --> the_peculiar_death_of_myron_fink\nwhat_the_cops_know --> the_thing_in_the_morgue\ninterviewing_the_neighbors --> georges_apartment\ngeorges_apartment --> questioning_pearl\ngeorges_apartment --> the_psychical_investigator\naddie_needs_answers --> men_gone_missing\nmen_gone_missing --> breaking_into_fullers\nbreaking_into_fullers --> sadie_and_the_scoop\nquestioning_pearl --> miracle_machine\nmiracle_machine --> going_on_the_grid\ngoing_on_the_grid --> breaking_into_fullers\n\nclassDef default fill:#333,stroke:#fff,color:white,stroke-width:4px;classDef completed fill:#777,stroke:#333,stroke-width:4px;";
 
+var characterGraphDefinition = "graph TD\ngeorge_preston[<font color='white' class='node'>George Preston</font>]\nsadie_cain[Sadie Cain]\ncharlie_fitzpatrick[Charlie 'Charlene' Fitzpatrick]\nhoward_fuller[Howard Fuller]\nclarence_simpson[Clarence Simpson]\npearl_leblanc[Pearl LeBlanc]\nmadame_isis[Madame Isis Neferi]\nhereward_carrington[Hereward Carrington]\nmarty_the_mouth[Marty the Mouth]\naddie_sims[Addie Sims]\n\nsadie_cain-- engaged to -->george_preston\ngeorge_preston-- corresponds with -->hereward_carrington\ngeorge_preston-- rents from -->clarence_simpson\ngeorge_preston-- potential acolyte of -->madame_isis\ngeorge_preston-- owes money to -->marty_the_mouth\nmarty_the_mouth-- witnessed -->charlie_fitzpatrick\nhoward_fuller-- employs -->charlie_fitzpatrick\nhoward_fuller-- employs -->george_preston\npearl_leblanc-- devoted to -->madame_isis\naddie_sims-- seeking answers from -->madame_isis\nclassDef default fill:#333,stroke:#fff,color:white,stroke-width:4px;";
+
 // Create the prolog sesssion and load mini_prom_week_example.prolog.
 session = pl.create();
 session.consult("database.prolog");
@@ -836,18 +838,20 @@ function checkIfPlayerHasProblem(result_tag) {
 
 function loadCharacters() {
   clear_output_area();
+  parseGraph(characterGraphDefinition);
   sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>Characters</h2>"; 
   var get_all_bindings = function(answers) {
     for (var i = 0; i < answers.length; i++) {
       var answer = answers[i];
       var result_name = answer.lookup("Name");
+      var result_description = answer.lookup("Description");
       if (result_name !== null){
-        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>" + result_name + "</strong></p>";
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>" + result_name + "</strong> -- " + result_description + "</p>";
       }
     }
     bindings = [];
   }
-  session.query("character_name(Character, Name).");
+  session.query("character_name(Character, Name), character_description(Character, Description).");
   session.answers(get_callback(get_all_bindings));
 }
 
