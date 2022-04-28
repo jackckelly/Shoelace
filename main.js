@@ -680,7 +680,7 @@ function loadPlayerEdges() {
         continuity = " (Continuity) ";
       }
       if (result_name !== null){
-        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><input type='checkbox' name='edge' checked><strong>" + result_name + continuity + "</strong> -- " + result_description + "</p>";
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><input type='checkbox' name='edge' checked><strong>" + result_name + "</strong>" + continuity + " -- " + result_description + "</p>";
       }
     }
     bindings = [];
@@ -705,7 +705,7 @@ function loadPlayerProblems() {
         continuity = " (Continuity) ";
       }
       if (result_name !== null){
-        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><input type='checkbox' name='problem' checked><strong>" + result_name + continuity + "</strong> -- " + result_description + "</p>";
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><input type='checkbox' name='problem' checked><strong>" + result_name + "</strong> " + continuity + " -- " + result_description + "</p>";
       }
     }
     bindings = [];
@@ -790,7 +790,7 @@ function loadEdges() {
         } else {
           checkbox = "<input type='checkbox' name='edge'>";
         }
-        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + checkbox + "<strong>" + result_name + continuity + "</strong> -- " + result_description + "</p>";
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + checkbox + "<strong>" + result_name + "</strong> " + continuity + "-- " + result_description + "</p>";
       }
     }
     bindings = [];
@@ -837,7 +837,7 @@ function loadProblems() {
         } else {
           checkbox = "<input type='checkbox' name='problem'>";
         }
-        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + checkbox + "<strong>" + result_name + continuity + "</strong> -- " + result_description + "</p>";
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + checkbox + "<strong>" + result_name + "</strong>" + continuity + " -- " + result_description + "</p>";
       }
     }
   }
@@ -977,7 +977,14 @@ session.answers(get_callback(get_all_bindings));
 
 function renderAntagonistReactions() {
   for (var i = 0; i < antagonistTags.length; i++) {
-    sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>Trigger: </strong>" + antagonistTriggers[i] + "</p>";
+    //check if the antagonist reaction is satisfied, and if so, highlight the thing
+    var isSatisfied = checkAntagonistReaction(antagonistTags[i].id);
+    if (isSatisfied) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><mark><strong>Trigger: </strong>" + antagonistTriggers[i] + "</mark></p>";
+    } else {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>Trigger: </strong>" + antagonistTriggers[i] + "</p>";
+    }
+    
     sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>Reaction: </strong>" + antagonistReactions[i] + "</p>";
     if (antagonistChallenges[i] !== "none") {
       renderChallenge(antagonistChallenges[i]);
@@ -986,6 +993,30 @@ function renderAntagonistReactions() {
   }
 }
 
+function checkAntagonistReaction(tag) {
+  console.log("Checking antagonist reaction");
+  // check on a case by case basis if the condition is satisfied
+  // TODO: replace comments with some kind of checking
+  if (tag == "antagonist_reaction_1") {
+    return checkIfPlayerHasProblem("easier_in_than_out");
+  } else if (tag == "antagonist_reaction_2") {
+    // check if fuller tried to buy schematics from viv
+  } else if (tag == "antagonist_reaction_3") {
+    // viv got a hold in the challenge fighting marty the mouth
+  } else if (tag == "antagonist_reaction_4") {
+    // Lt Adams escorted Viv home from the morgue
+  } else if (tag == "antagonist_reaction_5") {
+    var result = ( checkIfPlayerHasProblem("hand_to_mouth")|| checkIfPlayerHasProblem("no_good_deed"));
+    return result;
+  } else if (tag == "antagonist_reaction_6") {
+    return checkIfPlayerHasProblem("sucker_for_a_pretty_face");
+  } else if (tag == "antagonist_reaction_7") {
+    return checkIfPlayerHasProblem("anything_for_the_story");
+  } else if (tag = "antagonist_reaction_8") {
+    return checkIfPlayerHasProblem("hot_tempered");
+  }
+  //return false;
+}
 
 /***********************************
 * Prolog suggestion functions
