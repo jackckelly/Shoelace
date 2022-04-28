@@ -887,35 +887,36 @@ source_investigative_abilities(louisa_reynolds, pharmacy).
 source_investigative_abilities(louisa_reynolds, psychology).
 
 
-:- dynamic(problem/1).
+:- dynamic(problem/5).
 :- dynamic(problem_number/2).
 :- dynamic(problem_name/2).
 :- dynamic(problem_type/2).
 :- dynamic(problem_description/2).
 
-problem(sucker_for_a_pretty_face).
-problem_name(sucker_for_a_pretty_face, "Sucker for a Pretty Face").
-problem_number(sucker_for_a_pretty_face, 1).
-problem_type(sucker_for_a_pretty_face, continuity).
-problem_description(sucker_for_a_pretty_face, "You change lovers as frequently as clothes.").
-problem(soft_spot).
-problem_name(soft_spot, "Soft Spot").
-problem_number(soft_spot, 6).
-problem_type(soft_spot, continuity).
-problem_description(soft_spot, "Whatever you're feeling for Charlie, it's not entirely professional.").
-problem(big_talker).
-problem_name(big_talker, "Big Talker").
-problem_number(big_talker, 7).
-problem_type(big_talker, continuity).
-problem_description(big_talker, "You protested a little too strongly that you just want information about George, and got a bigger response than you bargained on. The GM brings foward men with random and conflicting theories until you either make a Stealth Quick Test to leave them arguing with each other or lose an hour or two listening to them all.").
-problem(wrenched_ankle).
-problem_name(wrenched_ankle, "Wrenched Ankle").
-problem_number(wrenched_ankle, 8).
-problem_description(wrenched_ankle, "You pulled something in your foot. -2 on your next Athletics, Fighting, or other General/Physical test or Take Time and then discard this Problem").
-problem(fuller_becomes_suspicious).
-problem_name(fuller_becomes_suspicious, "Fuller Becomes Suspicious").
-problem_number(fuller_becomes_suspicious, 5).
-problem_description(fuller_becomes_suspicious, "Once Fuller notices the missing envelope, he puts two and two together (or, if he saw you take it, he starts to have second thoughts). He suspects you plan to target him in your next exposé. He requires Pushes when questioning him further.").
+problem(sucker_for_a_pretty_face, 1, "Sucker for a Pretty Face", "You change lovers as frequently as clothes. Of course you try not to sleep with your story's subjects, but sometimes it's the best way to get new information, right?", true).
+problem(hand_to_mouth, 2, "Hand-to-Mouth", "You got into this line of work to make a difference, not make dough. But even with the odd work you pick up around the office, you never know if you'll have next month's rent.", true).
+problem(anything_for_the_story, 3, "Anything for the Story", "Every good reporter remembers the time their nose for a story put them in danger. You, on the other hand? You remember the time or two it didn't.", true).
+problem(hot_tempered, 4, "Hot-Tempered", "You go from zero to boiling over in the blink of an eye. Whether it's for justice or personal dignity, it puts a strain on relationships and even employment.", true).
+problem(fuller_becomes_suspicious, 5, "Fuller Becomes Suspicious", "Once Fuller notices the missing envelope, he puts two and two together (or, if he saw you take it, he starts to have second thoughts). He suspects you plan to target him in your next exposé. He requires Pushes when questioning him further.", false).
+problem(soft_spot, 6, "Soft Spot", "Whatever you're feeling for Charlie, it's not entirely professional.", false).
+problem(big_talker, continuity, "Big Talker", "You protested a little too strongly that you just want information about George, and got a bigger response than you bargained on. The GM brings foward men with random and conflicting theories until you either make a Stealth Quick Test to leave them arguing with each other or lose an hour or two listening to them all.", false).
+problem(wrenched_ankle, 8, "Wrenched Ankle", "You pulled something in your foot. -2 on your next Athletics, Fighting, or other General/Physical test or Take Time and then discard this Problem", false).
+problem(torn_dress, 9, "Torn Dress", "Pearl fights dirty. During the scuffle, she pulled one arm half off your dress. Until you Take Time to regroup and change your outfit, lose the ability to make Pushes and take a −2 to Cool tests", false).
+problem(oconnor_isnt_happy, 10, "O'Connor Isn't Happy", "You've done it this time, Sinclair. O'Connor knows you don't always use the most orthodox means, but he's still angry you got caught. The strings he's had to pull for you...", true).
+problem(easier_in_than_out, 11, "Easier in than Out", "Getting in's the easy part. You make it home safely, but reports of a snappily dressed woman filter back to MacAdams, who may put two and two together.", false).
+problem(no_one_is_safe, 12, "No One Is Safe", "Mythos Shock: Nothing from this world could do that to a person. If this could happen in an ordinary apartment building, no one is safe.", false).
+problem(jaded, 13, "Jaded", "Only someone with ice in her veins could hold her cool like that. Your next Push for Reassurance or Inspiration costs double as the words taste like ash in your mouth. Then discard this card. If you don't have two Pushes, you can't Push.", true).
+problem(no_good_deed, 14, "No Good Deed", "Difficulties with money come to a head in Antagonist Reactions or the episode's coda. If you somehow manage to fail even with the extra die, a creditor immediately calls for the money Fuller paid you. You may Counter this card with Edge 7, 'Marty's Respect.'", false). 
+problem(jumpy, 15, "Jumpy", "How long did he follow you before you noticed? Was he the man you saw walking away last night? You can't help looking over your shoulder for more. −2 on your next Cool or Stability test, then discard this card.", false).
+problem(sprained_wrist, 16, "Sprained Wrist", "Trying to get free from Marty's hold really messed up your wrist. −2 on any Athletics test until you either Take Time to get it in a brace or wake up the next day.", false).
+problem(martys_got_your_notebook, 17, "Marty's Got Your Notebook", "If you thought Marty wanted you, you've got another think coming, sister. Marty wants to know what you know... and not just about this case. Marty might be willing to give it back for money or information.", false).
+problem(i_owe_you_one, 18, "I Owe You One", "Other reporters get in bed with the mob, but you always swore that'd never be you. You just hope when Marty calls in his favor he'll be gentleman enough to let up after that.", false).
+problem(two_masters, 19, "Two Masters", "Now you've got a bona fide mob enforcer waiting for your call. Better not forget to clue him in when all this is over.", false).
+problem(cocky, 20, "Cocky", "You feel really good about how well you did. Too good. Take a −2 to your next Sense Trouble test.", false).
+problem(all_shook_up, 21, "All Shook Up", "You are not coping well at all. Until you Take Time to counter this card, take a −2 to Cool and Stability tests.", false).
+problem(haunted, 22, "Haunted", "Mythos Shock: Neither alcohol nor drugs can erase the knowledge that such horrors exist or that their paths can cross ours.", false).
+problem(evicted, 23, "Evicted", "Viv's landlady gives her and her roommate until the end of the month to get out.", false).
+problem(on_probation, 24, "On Probation", "Your editor is keeping an extra close eye on your comings and goings. Better not put a foot out of line.", false).
 
 :- dynamic(item/1).
 :- dynamic(item_name/2).
@@ -932,18 +933,21 @@ item_description(letter_from_george_preston, "A letter that reads: Dear Sir: I w
 item_type(letter_from_george_preston, letter).
 
 
-:- dynamic(edge/1).
-:- dynamic(edge_number/2).
-:- dynamic(edge_name/2).
-:- dynamic(edge_description/2).
+:- dynamic(edge/5).
+edge(ice_queen, 1, "Ice Queen", "You're getting better at prioritizing things that matter. Spend to get an extra die on Cool or Stability or a +2 on a General/Mental test, then discard", false).
+edge(sure_footed, 2, "Sure-Footed", "You know exactly where to put your feet, even if that's in someone else's path. Spend for an extra die in an Athletics test.", false).
+edge(pulled_it_together, 3, "Pulled it Together", "It didn't start pretty, but you finished with a flair. Spend for +2 on any Athletics or Fighting test.", false).
+edge(cat_burglar, 4, "Cat Burglar", "It didn't start pretty, but you finished with a flair. Spend for +2 on any Athletics or Fighting test.", false).
+edge(the_world_must_know, 5, "The World Must Know", "You've stumbled into the middle of a massive cover-up. No ordinary man could have done this, and police must know it. You have a cause. Discard to gain a Push.", false).
+edge(professional_ethics, 6, "Professional Ethics", "You may end up sleeping on a friend's couch, but nobody can smear your sterling reputation. Spend for an extra die on Cool or Stability or a +2 on a General/ Mental test and discard.", false).
+edge(martys_respect, 7, "Marty's Respect", "You've proven yourself one tough broad. Spend this card to get a favor from Marty — just be sure it's the kind of favor you can live with.", true).
+edge(sharp_reflexes, 8, "Sharp Reflexes", "Spend for an extra die on any Athletics or Fighting test.", false).
+edge(on_edge, 9, "On Edge", "You've pulled together the focus and control under pressure that make you an excellent investigative reporter. Spend to gain an extra die to Mental tests.", false).
+edge(unflappable, 10, "Unflappable", "You've seen hell's gates open and still held it together. Spend to Counter a Mythos Shock Problem.", false).
+edge(good_citizen, 11, "Good Citizen", "Doing what you can to make this world a better place. Spend this card for a Push.", true).
+edge(still_a_castle, 12, "Still a Castle", "It may not be much, but it's yours and you can protect it. Spend for an extra die on any Athletics or Fighting test or a +2 on General/Physical tests.", false).
+edge(hardship_pay, 13, "Hardship Pay", "You convince your editor that the paper's lucky to have such a dedicated a reporter as you on its staff. You not only turn the situation around but manage to talk him into a raise. Counters Problem 2, 'Hand-to-Mouth,' if held.", false).
 
-edge(ice_queen).
-edge(sure_footed).
-edge_number(ice_queen, 1).
-edge_name(ice_queen, "Ice Queen").
-edge_description(ice_queen, "You're getting better at prioritizing things that matter. Spend to get an extra die on Cool or Stability or a +2 on a General/Mental test, then discard").
-edge_name(sure_footed, "Sure-Footed").
-edge_description(sure_footed, "You know exactly where to put your feet, even if that's in someone else's path. Spend for an extra die in an Athletics test.").
 
 :- dynamic(challenge/1).
 :- dynamic(challenge_name/2).

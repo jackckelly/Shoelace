@@ -673,15 +673,21 @@ function loadPlayerEdges() {
       var answer = answers[i];
       var result_name = answer.lookup("Name");
       var result_description = answer.lookup("Description");
+      var result_continuity = answer.lookup("Continuity");
+      var continuity = "";
+      if (result_continuity.id == "true") {
+        console.log("true");
+        continuity = " (Continuity) ";
+      }
       if (result_name !== null){
-        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><input type='checkbox' name='edge' checked><strong>" + result_name + "</strong> -- " + result_description + "</p>";
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><input type='checkbox' name='edge' checked><strong>" + result_name + continuity + "</strong> -- " + result_description + "</p>";
       }
     }
     bindings = [];
     loadPlayerProblems();
   }
 
-  session.query("player_edge(Edge), edge_name(Edge, Name), edge_description(Edge, Description).");
+  session.query("player_edge(Edge), edge(Edge, Number, Name, Description, Continuity).");
   session.answers(get_callback(get_all_bindings));
 }
 
@@ -692,15 +698,21 @@ function loadPlayerProblems() {
       var answer = answers[i];
       var result_name = answer.lookup("Name");
       var result_description = answer.lookup("Description");
+      var result_continuity = answer.lookup("Continuity");
+      var continuity = ""; 
+      if (result_continuity.id == "true") {
+        console.log("true");
+        continuity = " (Continuity) ";
+      }
       if (result_name !== null){
-        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><input type='checkbox' name='problem' checked><strong>" + result_name + "</strong> -- " + result_description + "</p>";
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><input type='checkbox' name='problem' checked><strong>" + result_name + continuity + "</strong> -- " + result_description + "</p>";
       }
     }
     bindings = [];
     loadPlayerInvestigativeAbilities();
   }
 
-  session.query("player_problem(Problem), problem_name(Problem, Name), problem_description(Problem, Description).");
+  session.query("player_problem(Problem), problem(Problem, Number, Name, Description, Continuity).");
   session.answers(get_callback(get_all_bindings));
 }
 
@@ -764,6 +776,12 @@ function loadEdges() {
       var result_tag = answer.lookup("Edge");
       var result_name = answer.lookup("Name");
       var result_description = answer.lookup("Description");
+      var result_continuity = answer.lookup("Continuity");
+      var continuity = "";
+      if (result_continuity.id == "true") {
+        console.log("true");
+        continuity = " (Continuity) ";
+      }
       if (result_name !== null){
         var hasEdge = checkIfPlayerHasEdge(result_tag.id);
         var checkbox;
@@ -772,12 +790,12 @@ function loadEdges() {
         } else {
           checkbox = "<input type='checkbox' name='edge'>";
         }
-        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + checkbox + "<strong>" + result_name + "</strong> -- " + result_description + "</p>";
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + checkbox + "<strong>" + result_name + continuity + "</strong> -- " + result_description + "</p>";
       }
     }
     bindings = [];
   }
-  session.query("edge_name(Edge, Name), edge_description(Edge, Description).");
+  session.query("edge(Edge, Number, Name, Description, Continuity).");
   session.answers(get_callback(get_all_bindings));
 }
 
@@ -805,6 +823,12 @@ function loadProblems() {
       var result_tag = answer.lookup("Problem");
       var result_name = answer.lookup("Name");
       var result_description = answer.lookup("Description");
+      var result_continuity = answer.lookup("Continuity");
+      var continuity = "";
+      if (result_continuity.id == "true") {
+        console.log("true");
+        continuity = " (Continuity) ";
+      }
       if (result_name !== null){
         var hasProblem = checkIfPlayerHasProblem(result_tag.id);
         var checkbox;
@@ -813,11 +837,11 @@ function loadProblems() {
         } else {
           checkbox = "<input type='checkbox' name='problem'>";
         }
-        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + checkbox + "<strong>" + result_name + "</strong> -- " + result_description + "</p>";
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + checkbox + "<strong>" + result_name + continuity + "</strong> -- " + result_description + "</p>";
       }
     }
   }
-  session.query("problem_name(Problem, Name), problem_description(Problem, Description).");
+  session.query("problem(Problem, Number, Name, Description, Continuity).");
   session.answers(get_callback(get_all_bindings));
 }
 
@@ -933,8 +957,6 @@ session.answers(get_callback(get_all_bindings));
 }
 
 function loadAntagonistReactions() {
-  renderChallenge("antagonist_reaction_1_challenge");
-  renderChallenge("antagonist_reaction_2_challenge");
   clear_output_area();
   sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>Antagonist Reactions</h2>";
   var get_all_bindings = function(answers) {
@@ -1079,7 +1101,7 @@ $(document).on("click", "input[name='edge']", function () {
   var binding = function(answer) {
   }
 
-  var statement = "edge_name(Edge, " + edgeName + "), "
+  var statement = "edge(Edge, Number, " + edgeName + ", Description, Continuty), "
   if (checked == true) {
     statement = statement + "asserta(player_edge(Edge))."
   } else {
@@ -1097,7 +1119,7 @@ $(document).on("click", "input[name='problem']", function () {
   var binding = function(answer) {
   }
 
-  var statement = "problem_name(Problem, " + problemName + "), "
+  var statement = "problem(Problem, Number, " + problemName + ", Description, Continuity), "
   if (checked == true) {
     statement = statement + "asserta(player_problem(Problem))."
   } else {
