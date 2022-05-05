@@ -867,13 +867,18 @@ function loadCharacters() {
       var answer = answers[i];
       var result_name = answer.lookup("Name");
       var result_description = answer.lookup("Description");
+      var character_met = answer.lookup("Met");
+      var met = ""; 
+      if (character_met.id == "true") {
+        met = " (Met) "
+      }
       if (result_name !== null){
-        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>" + result_name + "</strong> -- " + result_description + "</p>";
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>" + result_name + met +"</strong> -- " + result_description + "</p>";
       }
     }
     bindings = [];
   }
-  session.query("character_name(Character, Name), character_description(Character, Description).");
+  session.query("character_name(Character, Name), character_description(Character, Description), character_met(Character, Met).");
   session.answers(get_callback(get_all_bindings));
 }
 
