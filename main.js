@@ -708,7 +708,7 @@ function loadPlayerProblems() {
       }
     }
     bindings = [];
-    loadPlayerInvestigativeAbilities();
+    loadPlayerGeneralAbilities();
   }
 
   session.query("player_problem(Problem), problem(Problem, Number, Name, Description, Continuity).");
@@ -716,17 +716,22 @@ function loadPlayerProblems() {
 }
 
 function loadPlayerInvestigativeAbilities() {
-  sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Investigative Abilities</h3>";
+  var htmlOutput = "";
+  htmlOutput = htmlOutput + "<h3>Investigative Abilities</h3>";
+  htmlOutput = htmlOutput +  "<div class='column'>";
   var get_all_bindings = function(answers) {
     for (var i = 0; i < answers.length; i++) {
       var answer = answers[i];
       var result_name = answer.lookup("Name");
       if (result_name !== null){
-        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + result_name + "</p>";
+        htmlOutput = htmlOutput + "<p>" + result_name + "</p>";
       }
     }
+    htmlOutput = htmlOutput + "</div>";
+    sceneInfo.innerHTML = sceneInfo.innerHTML + htmlOutput;
+   
     bindings = []; 
-    loadPlayerGeneralAbilities();
+    loadPlayerPushes();
   }
   
   session.query("player_investigative_ability(Ability), investigative_ability(Ability, Name, Description, Type).");
@@ -735,22 +740,25 @@ function loadPlayerInvestigativeAbilities() {
 
 function loadPlayerGeneralAbilities() {
   var get_all_bindings = function(answers) {
-    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>General Abilities</h3>";
+    var htmlOutput = "";
+    htmlOutput = htmlOutput +  "<h3>General Abilities</h3>";
+    htmlOutput = htmlOutput + "<div class='column'>";
     for (var i = 0; i < answers.length; i++) {
       var answer = answers[i];
       var result_name = answer.lookup("Name");
       var value = answer.lookup("Value");
       if (result_name !== null){
         if (value > 1) {
-          sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + result_name + " 🎲 🎲 </p>";
+          htmlOutput = htmlOutput +  "<p>" + result_name + " 🎲 🎲 </p>";
         } else {
-          sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + result_name + " 🎲 </p>";
-        }
-        
+          htmlOutput = htmlOutput + "<p>" + result_name + " 🎲 </p>";
+        } 
       }
     }
+    htmlOutput = htmlOutput + "</div>";
+    sceneInfo.innerHTML = sceneInfo.innerHTML + htmlOutput;
     bindings = []; 
-    loadPlayerPushes();
+    loadPlayerInvestigativeAbilities();
   }
   
   session.query("player_general_ability(Ability, Value), general_ability(Ability, Name, Description, Type).");
@@ -760,7 +768,7 @@ function loadPlayerGeneralAbilities() {
 function loadPlayerPushes() {
   var binding = function(answer) {
     var result = answer.lookup("Value");
-    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Player Pushes: <button onclick='decrementPush(" + result + ")'><</button> " + result + " <button onclick='incrementPush(" + result + ")'>></button></h3>";
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<br><br><div class='row'><h3>Player Pushes: <button onclick='decrementPush(" + result + ")'><</button> " + result + " <button onclick='incrementPush(" + result + ")'>></button></h3></div>";
   }
   
   session.query("player_pushes(Value).");

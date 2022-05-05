@@ -3,6 +3,10 @@
     max-height: 100%;
 }*/
 
+.sceneInfo {
+  margin: 2em;
+}
+
 .resize {
     width: 300px;
     height: auto;
