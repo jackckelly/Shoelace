@@ -22,7 +22,7 @@ var antagonistChallenges = [];
 //initializing the scene graph
 var graphDefinition = "graph TD\nsadies_sob_story[<font color='white' class='node'>Sadie's Sob Story</font>]\nfullers_electrical_repair[Fuller's Electrical Repair]\ncharming_charlie[Charming Charlie]\nthe_psychical_investigator[The Psychical Investigator]\nthe_peculiar_death_of_myron_fink[The Peculiar Death of Myron Fink]\nfuller_himself[Fuller Himself]\ntemple_of_nephthys[Temple of Nephthys]\nthe_leg_breaker[The Leg Breaker]\ncharlie_comes_clean[Charlie Comes Clean]\nwhat_the_cops_know[What the Cops Know]\ninterviewing_the_neighbors[Interviewing the Neighbors]\ngeorges_apartment[George's Apartment]\naddie_needs_answers[Addie Needs Answers]\nmen_gone_missing[Men Gone Missing]\nbreaking_into_fullers[Breaking Into Fuller's]\nthe_thing_in_the_morgue[The Thing in the Morgue]\nquestioning_pearl[Questioning Pearl]\nmiracle_machine[Miracle Machine]\ngoing_on_the_grid[Going on the Grid]\nsadie_and_the_scoop[Sadie and the Scoop]\nsadies_sob_story --> fullers_electrical_repair\nsadies_sob_story --> the_peculiar_death_of_myron_fink\nsadies_sob_story --> what_the_cops_know\nfullers_electrical_repair --> fuller_himself\nfullers_electrical_repair --> charming_charlie\ncharming_charlie --> the_peculiar_death_of_myron_fink\ncharming_charlie --> fuller_himself\ncharming_charlie --> the_leg_breaker\ncharming_charlie --> temple_of_nephthys\nthe_psychical_investigator --> temple_of_nephthys\nthe_peculiar_death_of_myron_fink --> what_the_cops_know\nthe_peculiar_death_of_myron_fink --> interviewing_the_neighbors\nfuller_himself --> charming_charlie\nfuller_himself --> the_psychical_investigator\nfuller_himself --> temple_of_nephthys\nfuller_himself --> what_the_cops_know\nfuller_himself --> georges_apartment\ntemple_of_nephthys --> the_leg_breaker\ntemple_of_nephthys --> miracle_machine\ntemple_of_nephthys --> addie_needs_answers\nthe_leg_breaker --> charlie_comes_clean\nthe_leg_breaker --> breaking_into_fullers\ncharlie_comes_clean --> breaking_into_fullers\nwhat_the_cops_know --> the_peculiar_death_of_myron_fink\nwhat_the_cops_know --> the_thing_in_the_morgue\ninterviewing_the_neighbors --> georges_apartment\ngeorges_apartment --> questioning_pearl\ngeorges_apartment --> the_psychical_investigator\naddie_needs_answers --> men_gone_missing\nmen_gone_missing --> breaking_into_fullers\nbreaking_into_fullers --> sadie_and_the_scoop\nquestioning_pearl --> miracle_machine\nmiracle_machine --> going_on_the_grid\ngoing_on_the_grid --> breaking_into_fullers\n\nclassDef default fill:#333,stroke:#fff,color:white,stroke-width:4px;classDef completed fill:#777,stroke:#333,stroke-width:4px;";
 
-var characterGraphDefinition = "graph TD\ngeorge_preston[<font color='white' class='node'>George Preston</font>]\nsadie_cain[Sadie Cain]\ncharlie_fitzpatrick[Charlie 'Charlene' Fitzpatrick]\nhoward_fuller[Howard Fuller]\nclarence_simpson[Clarence Simpson]\npearl_leblanc[Pearl LeBlanc]\nmadame_isis[Madame Isis Neferi]\nhereward_carrington[Hereward Carrington]\nmarty_the_mouth[Marty the Mouth]\naddie_sims[Addie Sims]\n\nsadie_cain-- engaged to -->george_preston\ngeorge_preston-- corresponds with -->hereward_carrington\ngeorge_preston-- rents from -->clarence_simpson\ngeorge_preston-- potential acolyte of -->madame_isis\ngeorge_preston-- owes money to -->marty_the_mouth\nmarty_the_mouth-- witnessed -->charlie_fitzpatrick\nhoward_fuller-- employs -->charlie_fitzpatrick\nhoward_fuller-- employs -->george_preston\npearl_leblanc-- devoted to -->madame_isis\naddie_sims-- seeking answers from -->madame_isis\nclassDef default fill:#333,stroke:#fff,color:white,stroke-width:4px;";
+var characterGraphDefinition = "graph TD\ngeorge_preston[<font color='white' class='node'>George Preston</font>]\nsadie_cain[Sadie Cain]\ncharlie_fitzpatrick[Charlie 'Charlene' Fitzpatrick]\nhoward_fuller[Howard Fuller]\nclarence_simpson[Clarence Simpson]\npearl_leblanc[Pearl LeBlanc]\nmadame_isis[Madame Isis Neferi]\nhereward_carrington[Hereward Carrington]\nmarty_the_mouth[Marty the Mouth]\naddie_sims[Addie Sims]\n\nsadie_cain-- engaged to -->george_preston\ngeorge_preston-- corresponds with -->hereward_carrington\ngeorge_preston-- rents from -->clarence_simpson\ngeorge_preston-- potential acolyte of -->madame_isis\ngeorge_preston-- owes money to -->marty_the_mouth\nmarty_the_mouth-- witnessed -->charlie_fitzpatrick\nhoward_fuller-- employs -->charlie_fitzpatrick\nhoward_fuller-- employs -->george_preston\npearl_leblanc-- devoted to -->madame_isis\naddie_sims-- seeking answers from -->madame_isis\nclassDef default fill:#333,stroke:#fff,color:white,stroke-width:4px;classDef met fill:#777,stroke:#333,stroke-width:4px;";
 
 // Create the prolog sesssion and load mini_prom_week_example.prolog.
 session = pl.create();
@@ -60,21 +60,22 @@ var bindings = [];
  * Handles clicking link in the nav bar
  * 
  ******************************** 
- */
- document.getElementById('clues_link').onclick = loadClues;
- document.getElementById('scenes_link').onclick = loadAll;
- document.getElementById('player_link').onclick = loadPlayerSheet;
- document.getElementById('edges_link').onclick = loadEdges;
- document.getElementById('problems_link').onclick = loadProblems;
- document.getElementById('characters_link').onclick = loadCharacters;
- document.getElementById('suggestions_link').onclick = loadSuggestions;
- document.getElementById('sources_link').onclick = loadSources;
- document.getElementById('investigative_abilities_link').onclick = loadInvestigativeAbilities; 
- document.getElementById('general_abilities_link').onclick = loadGeneralAbilities;
- document.getElementById('antagonist_reactions_link').onclick = loadAntagonistReactions;
- loadAll()
+*/
+document.getElementById('clues_link').onclick = loadClues;
+document.getElementById('scenes_link').onclick = loadAll;
+document.getElementById('player_link').onclick = loadPlayerSheet;
+document.getElementById('edges_link').onclick = loadEdges;
+document.getElementById('problems_link').onclick = loadProblems;
+document.getElementById('characters_link').onclick = loadCharacters;
+document.getElementById('suggestions_link').onclick = loadSuggestions;
+document.getElementById('sources_link').onclick = loadSources;
+document.getElementById('investigative_abilities_link').onclick = loadInvestigativeAbilities; 
+document.getElementById('general_abilities_link').onclick = loadGeneralAbilities;
+document.getElementById('antagonist_reactions_link').onclick = loadAntagonistReactions;
+ 
+loadAll()
 
- function loadAll() {
+function loadAll() {
   currentSceneText = []; 
   currentSceneClues = [];
   currentSceneCluesKnown = [];
@@ -676,7 +677,6 @@ function loadPlayerEdges() {
       var result_continuity = answer.lookup("Continuity");
       var continuity = "";
       if (result_continuity.id == "true") {
-        console.log("true");
         continuity = " (Continuity) ";
       }
       if (result_name !== null){
@@ -701,7 +701,6 @@ function loadPlayerProblems() {
       var result_continuity = answer.lookup("Continuity");
       var continuity = ""; 
       if (result_continuity.id == "true") {
-        console.log("true");
         continuity = " (Continuity) ";
       }
       if (result_name !== null){
@@ -760,7 +759,8 @@ function loadPlayerGeneralAbilities() {
 
 function loadPlayerPushes() {
   var binding = function(answer) {
-    sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><h3>Player Pushes: " + answer.lookup("Value"); + "</h3>";
+    var result = answer.lookup("Value");
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Player Pushes: <button onclick='decrementPush(" + result + ")'><</button> " + result + " <button onclick='incrementPush(" + result + ")'>></button></h3>";
   }
   
   session.query("player_pushes(Value).");
@@ -779,7 +779,6 @@ function loadEdges() {
       var result_continuity = answer.lookup("Continuity");
       var continuity = "";
       if (result_continuity.id == "true") {
-        console.log("true");
         continuity = " (Continuity) ";
       }
       if (result_name !== null){
@@ -826,7 +825,6 @@ function loadProblems() {
       var result_continuity = answer.lookup("Continuity");
       var continuity = "";
       if (result_continuity.id == "true") {
-        console.log("true");
         continuity = " (Continuity) ";
       }
       if (result_name !== null){
@@ -994,7 +992,6 @@ function renderAntagonistReactions() {
 }
 
 function checkAntagonistReaction(tag) {
-  console.log("Checking antagonist reaction");
   // check on a case by case basis if the condition is satisfied
   // TODO: replace comments with some kind of checking
   if (tag == "antagonist_reaction_1") {
@@ -1015,7 +1012,30 @@ function checkAntagonistReaction(tag) {
   } else if (tag = "antagonist_reaction_8") {
     return checkIfPlayerHasProblem("hot_tempered");
   }
-  //return false;
+}
+
+function incrementPush(value) {
+  var newValue = value + 1;
+  var binding = function(answer) {
+    $('#sceneInfo').children().last().remove();
+    loadPlayerPushes();
+  }
+
+  var statement = "retract( player_pushes(Value) ), asserta( player_pushes(" + newValue + ")).";
+  session.query(statement);
+  session.answer(binding);
+}
+
+function decrementPush(value) {
+  var newValue = value - 1;
+  var binding = function(answer) {
+    $('#sceneInfo').children().last().remove();
+    loadPlayerPushes();
+  }
+
+  var statement = "retract( player_pushes(Value) ), asserta( player_pushes(" + newValue + ")).";
+  session.query(statement);
+  session.answer(binding);
 }
 
 /***********************************
@@ -1165,6 +1185,7 @@ $(document).on("click", "input[name='scene']", function () {
   var checked = $(this).prop('checked');
 
   var binding = function(answer) {
+    updateCharactersAsMet(checked); 
   }
 
   var statement = "scene(" + currentScene + "), scene_visited(" + currentScene + ", PrevVisited), retract(scene_visited(" + currentScene + ", PrevVisited)), asserta(scene_visited(" + currentScene + ", " + checked + "))."
@@ -1173,7 +1194,7 @@ $(document).on("click", "input[name='scene']", function () {
 
   //Update the graph to reflect that the scene is completed
   if (checked == true) {
-    graphDefinition = graphDefinition + "class " + currentScene + " completed;"; 
+    graphDefinition = graphDefinition + "class " + currentScene + " completed;";  
   } else {
     var removedString = "class " + currentScene + " completed;";
     graphDefinition = graphDefinition.replace(removedString, "");
@@ -1181,3 +1202,22 @@ $(document).on("click", "input[name='scene']", function () {
 
   loadGraph();
 });
+
+function updateCharactersAsMet(checked) {
+  var get_all_bindings = function(answers) {
+    for (var i = 0; i < answers.length; i++) {
+      var answer = answers[i];
+      var character = answer.lookup("Character");
+      if (checked == true) {
+        //update character graph to reflect you've met the character in the scene
+        characterGraphDefinition = characterGraphDefinition + "class " + character + " met;";
+      } else {
+        var removedString = "class " + character + " met;";
+        characterGraphDefinition = characterGraphDefinition.replace(removedString, "");
+      }
+    }
+
+  }
+  session.query("scene_characters(" + currentScene + ", Character), retract(character_met(Character, PrevMet)), asserta(character_met(Character, " + checked + ")).");
+  session.answers(get_callback(get_all_bindings));
+}

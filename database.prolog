@@ -60,6 +60,7 @@ scene_clues(fullers_electrical_repair, no_he_must).
 scene_characters(fullers_electrical_repair, petunia_adams).
 scene(fuller_himself).
 scene_name(fuller_himself, "Fuller Himself").
+scene_characters(fuller_himself, howard_fuller).
 scene_type(fuller_himself, core).
 scene_visited(fuller_himself, false).
 scene_lead_ins(fuller_himself, sadies_sob_story).
@@ -1118,8 +1119,10 @@ challenge_setback(antagonist_reaction_8_challenge, "Problem 24, 'On Probation'")
 :- dynamic(character_goal/2).
 :- dynamic(character_relation_valence/3).
 :- dynamic(character_relationship/3).
+:- dynamic(character_met/2).
 
 character(sadie_cain).
+character_met(sadie_cain, false).
 character_is_alive(sadie_cain, true).
 character_name(sadie_cain, "Sadie Cain").
 character_description(sadie_cain, "21, the client. A garment worker engaged to George Preston. She believes that while the course of true love may not always run smooth, love still prevails.").
@@ -1128,6 +1131,7 @@ character_relationship_valence(sadie_cain, george_preston, positive).
 character_relationship(sadie_cain, george_preston, "married").
 character_relationship_valence(sadie_cain, player, positive).
 character(george_preston).
+character_met(george_preston, false).
 character_is_alive(george_preston, false).
 character_name(george_preston, "George Preston").
 character_description(george_preston, "23 (deceased), the victim/fiancé. Always a tinkerer, he sought to unlock the secrets of the human brain. Unfortunately, his 'sympathetic resonator' proved fatal in a way he never anticipated.").
@@ -1139,6 +1143,7 @@ character_relationship_valence(george_preston, clarence_simpson, neutral).
 character_relationship(george_preston, howard_fuller, "works for").
 character_relationship(george_preston, charlie_fitzpatrick, "friends").
 character(charlie_fitzpatrick).
+character_met(charlie_fitzpatrick, false).
 character_is_alive(charlie_fitzpatrick, true).
 character_relationship_valence(charlie_fitzpatrick, player, positive).
 character_description(charlie_fitzpatrick, "23, the victim's best friend since childhood, a hard-eyed, talented woman working as an electrician alongside George. Charlie feels guilt and anxiety over having brushed off George the night he disappeared.").
@@ -1146,6 +1151,7 @@ character_name(charlie_fitzpatrick, "Charlie (Charlene) Fitzpatrick").
 character_relationship_valence(charlie_fitzpatrick, howard_fuller, neutral).
 character_relationship(charlie_fitzpatrick, howard_fuller, "works for").
 character(howard_fuller).
+character_met(howard_fuller, false).
 character_is_alive(howard_fuller, true).
 character_relationship_valence(howard_fuller, player, negative).
 character_name(howard_fuller, "Howard Fuller").
@@ -1154,11 +1160,13 @@ character_relationship_valence(howard_fuller, george_preston, negative).
 character_relationship_valence(howard_fuller, charlie_fitzpatrick, neutral).
 character_relationship_valence(howard_fuller, petunia_adams, positive).
 character(clarence_simpson).
+character_met(clarence_simpson, false).
 character_is_alive(clarence_simpson, true).
 character_name(clarence_simpson, "Clarence Simpson").
 character_relationship_valence(clarence_simpson, player, negative).
 character_description(clarence_simpson, "68, George Preston's thin, beak-nosed landlord. Generally lazy, and can go for months without needing to do any real business for the apartment-house other than collecting monthly rents. Extremely put out by the death and by having the police in his building.").
 character(pearl_leblanc).
+character_met(pearl_leblanc, false).
 character_is_alive(pearl_leblanc, true).
 character_relationship_valence(pearl_leblanc, player, neutral).
 character_description(pearl_leblanc, "18, a stenographer and devout acolyte of the Temple of Nephthys. Pearl would do anything for Madame Isis, who channels the ghost of her beloved elder sister Louisa any time Pearl's devotion seems to flag.").
@@ -1166,61 +1174,73 @@ character_name(pearl_leblanc, "Pearl LeBlanc").
 character_relationship_valence(pearl_leblanc, madame_isis, positive).
 character_relationship(pearl_leblanc, madame_isis, "works for").
 character(madame_isis).
+character_met(madame_isis, false).
 character_is_alive(madame_isis, true).
 character_relationship_valence(madame_isis, player, negative).
 character_description(madame_isis, "52, priestess of the Temple of Nephthys. A quick hand with a cold read, medium Bertha Cook formed her own church to add a veneer of respectability to her old sideshow act. Now, as Madame Isis Neferi, she holds public séances three nights a week and by private appointment along with a syncretic Sunday service combining pseudo-Egyptian mythology with American spiritualism").
 character_name(madame_isis, "Madame Isis Neferi").
 character_relationship_valence(madame_isis, addie_sims, positive).
 character(hereward_carrington).
+character_met(hereward_carrington, false).
 character_is_alive(hereward_carrington, true).
 character_relationship_valence(hereward_carrington, player, neutral).
 character_name(hereward_carrington, "Hereward Carrington").
 character_description(hereward_carrington, "55 (1880–1958), investigator of psychic phenomena and frequent de- bunker of fraudulent mediums. Like Houdini, Carrington's researches and publications suggest that he wants to believe in the possibility of psychic phenomena. Some contemporaries criticize him for occasional credulity despite his many debunkings.").
 character(marty_the_mouth).
+character_met(marty_the_mouth, false).
 character_is_alive(marty_the_mouth, true).
 character_relationship_valence(marty_the_mouth, player, negative).
 character_name(marty_the_mouth, "Marty the Mouth").
 character_description(marty_the_mouth, "43, low-level enforcer for the Luciano crime family. Affable enough in a tough-guy way, unless you cross his boss or start poking your nose somewhere it doesn't belong.").
 character(addie_sims).
+character_met(addie_sims, false).
 character_is_alive(addie_sims, true).
 character_relationship_valence(addie_sims, player, neutral).
 character_description(addie_sims, "36, anxious client of Madame Isis and wife of one of Fuller's victims.").
 character_name(addie_sims, "Addie Sims").
 character(petunia_adams).
+character_met(petunia_adams, false).
 character_is_alive(petunia_adams, true).
 character_relationship_valence(petunia_adams, player, neutral).
 character_name(petunia_adams, "Petunia Adams").
 character_description(petunia_adams, "Works as Fuller's secretary").
 character(minnie_boyer).
+character_met(minnie_boyer, false).
 character_is_alive(minnie_boyer, true).
 character_relationship_valence(minnie_boyer, player, neutral).
 character_description(minnie_boyer, "Lives in George's apartment building").
 character_name(minnie_boyer, "Minnie Boyer").
 character(august_williams).
+character_met(august_williams, false).
 character_is_alive(august_williams, true).
 character_relationship_valence(august_williams, player, neutral).
 character_description(august_williams, "Lives in George's apartment building").
 character_name(august_williams, "August Williams").
 character(violet_blake).
+character_met(violet_blake, false).
 character_is_alive(violet_blake, true).
 character_relationship_valence(violet_blake, player, neutral).
 character_description(violet_blake, "Lives in George's apartment building").
 character_name(violet_blake, "Violet Blake").
 character(marie_lewis).
+character_met(marie_lewis, false).
 character_is_alive(marie_lewis, true).
 character_name(marie_lewis, "Marie Lewis").
 character_relationship_valence(marie_lewis, player, neutral).
 character_description(marie_lewis, "Works at Consolidated Gas, and knows source Nettie or Charlie.").
 character(herbert_roach).
+character_met(herbert_roach, false).
 character_is_alive(herbert_roach, true).
 character_relationship_valence(herbert_roach, player, neutral).
 character_name(herbert_roach, "Herbert Roach").
 character_description(herbert_roach, "Looking for work from Fuller").
 character(myron_fink).
+character_met(myron_fink, false).
 character_is_alive(myron_fink, false).
 character_name(myron_fink, "Myron Fink").
 character_description(myron_fink, "The deceased. Lived in George's apartment building.").
 character(james_macadams).
+character_met(james_macadams, false).
 character_is_alive(james_macadams, true).
 character_name(james_macadams, "James MacAdams").
 character_description(james_macadams, "The cop in charge of the case").
