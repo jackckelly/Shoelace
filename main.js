@@ -1221,6 +1221,11 @@ $(document).on("click", "input[name='problem']", function () {
   var problemName = this.nextSibling.textContent;
   
   var binding = function(answer) {
+    // check if the problem number matches one for antagonist reactions
+    var number = answer.lookup("Number"); 
+    if (number.value == 11 || number.value == 2 || number.value == 14 || number.value == 1 | number.value == 3 || number.value == 4) {
+      updateAntagonistReaction(number.value, checked);
+    }
   }
 
   var statement = "problem(Problem, Number, " + problemName + ", Description, Continuity), "
@@ -1302,3 +1307,38 @@ $(document).on("click", "input[name='reaction']", function () {
 
   loadGraph();
 });
+
+function updateAntagonistReaction(problemNumber, checked) {
+  var tag = "";
+  if (problemNumber == 1) {
+    tag = "antagonist_reaction_6"
+  } else if (problemNumber == 2 || problemNumber == 14) {
+    tag = "antagonist_reaction_5"
+  } else if (problemNumber == 3) {
+    tag = "antagonist_reaction_7"
+  } else if (problemNumber == 4) {
+    tag = "antagonist_reaction_8"
+  } else if (problemNumber == 11) {
+    tag = "antagonist_reaction_1";
+  }
+
+  var binding = function(answer) {
+    // Update the scene graph to reflect new antagonist reaction available
+    if (checked == true) {
+      var number = tag.slice(-1);
+      var description = "\n" + tag + "[Antagonist Reaction " + number + " Available]";
+      var result = [graphDefinition.slice(0, 890), description, graphDefinition.slice(890)].join('');
+      graphDefinition = result;
+    } else {
+      var removedString = tag + "[ " + description + "]";
+      graphDefinition = graphDefinition.replace(removedString, "");
+    }
+  }
+
+  var statement = "retract(antagonist_reaction_triggered(" + tag + ", PrevTriggered)), asserta(antagonist_reaction_triggered(" + tag +", " + checked + "))."
+  session.query(statement);
+  session.answer(binding);
+
+  loadGraph();
+
+}
