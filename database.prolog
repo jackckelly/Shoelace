@@ -1351,7 +1351,8 @@ player_general_ability(stealth, 1).
 player_pushes(4).
 
 
-:- dynamic(antagonist_reaction/1).
+:- dynamic(antagonist_reaction/4).
+:- dynamic(antagonist_reaction_triggered/2).
 :- dynamic(challenge_name/2).
 :- dynamic(challenge_type/2).
 :- dynamic(challenge_advance/3).
@@ -1360,14 +1361,22 @@ player_pushes(4).
 :- dynamic(challenge_extra_problem/2).
 
 antagonist_reaction(antagonist_reaction_1, "Holds Problem 11, 'Easier in Than Out'", "MacAdams' cops toss Viv's place, causing conflict with her landlady and roommate.", antagonist_reaction_1_challenge).
-antagonist_reaction(antagonist_reaction_2, "Fuller tried and failed to buy the schematics from Viv", "A man (one of Fuller's out-of- work electricians) breaks into Viv's apartment to steal the schematics.", antagonist_reaction_2_challenge).
+antagonist_reaction(antagonist_reaction_2, "Fuller tried and failed to buy the schematics from Viv", "A man (one of Fuller's out-of-work electricians) breaks into Viv's apartment to steal the schematics.", antagonist_reaction_2_challenge).
 antagonist_reaction(antagonist_reaction_3, "Viv got a Hold in her tussle with Marty the Mouth, leaving him feeling sore", "A couple men in suits and fedoras come by Viv's place to make vague threats about what happens to Nosey Nellies", none).
 antagonist_reaction(antagonist_reaction_4, "Lt. MacAdams escorted Viv home from the morgue building", "When Viv next shows up at work, her editor calls her in for a chat about the detective who just dropped by", antagonist_reaction_4_challenge).
 antagonist_reaction(antagonist_reaction_5, "Viv has Problem 'Hand- to-Mouth' or Problem 14, 'No Good Deed'", "A young man tries to snatch Viv's purse, which has everything she's got left for the month in it", antagonist_reaction_5_challenge).
 antagonist_reaction(antagonist_reaction_6,"Viv has Problem 'Sucker for a Pretty Face'","An old flame who's bad news drops by",antagonist_reaction_6_challenge).
 antagonist_reaction(antagonist_reaction_7,"Viv has Problem 'Anything for the Story'","Sees a business owner whose corrupt employment practices she exposed lurking outside her building.",antagonist_reaction_7_challenge).
-antagonist_reaction(antagonist_reaction_8,"Viv has problem 'Hot- Tempered'","Takes an offhand comment from a fellow journalist very personally.",antagonist_reaction_8_challenge).
+antagonist_reaction(antagonist_reaction_8,"Viv has problem 'Hot-Tempered'","Takes an offhand comment from a fellow journalist very personally.",antagonist_reaction_8_challenge).
 
+antagonist_reaction_triggered(antagonist_reaction_1, false).
+antagonist_reaction_triggered(antagonist_reaction_2, false).
+antagonist_reaction_triggered(antagonist_reaction_3, false).
+antagonist_reaction_triggered(antagonist_reaction_4, false).
+antagonist_reaction_triggered(antagonist_reaction_5, false).
+antagonist_reaction_triggered(antagonist_reaction_6, false).
+antagonist_reaction_triggered(antagonist_reaction_7, false).
+antagonist_reaction_triggered(antagonist_reaction_8, false).
 
 overhear_conversation(Char1, Char1Name, Char2, Char2Name, Clue, ClueDesc) :-
 	character_relationships(Char1, Char2, Relationship, positive),

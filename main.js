@@ -182,7 +182,6 @@ function loadSceneText() {
       var answer = answers[i];
       var result_name = answer.lookup("Text");
       currentSceneText.push(result_name);
-        //sceneInfo.innerHTML = sceneInfo.innerHTML + result_name + "<br>";
       }
       loadSceneClues();
     }
@@ -406,6 +405,7 @@ function renderScene() {
     for (var i = 9; i < 10; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
+    renderAntagonistReactionTrigger("antagonist_reaction_4");
   } else if (currentScene == "miracle_machine") {
     for (var i = 0; i < 2; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
@@ -417,10 +417,12 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Catching Fuller's Eye</h3>";
+    renderAntagonistReactionTrigger("antagonist_reaction_2");
     for (var i = 3; i < 4; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     renderChallenge("cash_in_hand");
+
   } else if (currentScene == "the_leg_breaker") {
     for (var i = 0; i < 2; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
@@ -429,6 +431,7 @@ function renderScene() {
     renderChallenge("pinning_marty");
     renderChallenge("jumped_by_marty");
     sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Marty Runs His Mouth</h3>";
+    renderAntagonistReactionTrigger("antagonist_reaction_3");
     for (var i = 2; i < 3; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
@@ -497,6 +500,23 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
   }
+}
+
+function renderAntagonistReactionTrigger(antagonistReaction) {
+  var binding = function(answer) {
+    var triggered = answer.lookup("Triggered");
+    var description = answer.lookup("Trigger");
+    if (triggered == "true") {
+      checkbox = "<input type='checkbox' name='reaction' checked>";
+    } else {
+      checkbox = "<input type='checkbox' name='reaction'>";
+    }
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<div class='challenge'><p><strong>Antagonist Reaction Trigger</strong></p><p>" + checkbox + description + "</p></div>";
+  }
+
+  // look up if the antagonist reaction is triggered or not
+  session.query("antagonist_reaction(" + antagonistReaction + ", Trigger, Description, Challenge), antagonist_reaction_triggered(" + antagonistReaction + ", Triggered).");
+  session.answer(binding);
 }
 
 function renderClue(clue, known) {
@@ -990,7 +1010,7 @@ function renderAntagonistReactions() {
   for (var i = 0; i < antagonistTags.length; i++) {
     //check if the antagonist reaction is satisfied, and if so, highlight the thing
     var isSatisfied = checkAntagonistReaction(antagonistTags[i].id);
-    if (isSatisfied) {
+    if (isSatisfied == "true") {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><mark><strong>Trigger: </strong>" + antagonistTriggers[i] + "</mark></p>";
     } else {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><strong>Trigger: </strong>" + antagonistTriggers[i] + "</p>";
@@ -1005,6 +1025,18 @@ function renderAntagonistReactions() {
 }
 
 function checkAntagonistReaction(tag) {
+  var result = false;
+  var binding = function(answer) {
+    var triggered = answer.lookup("Triggered");
+    result = triggered.id;
+  }
+
+  var statement = "antagonist_reaction_triggered(" + tag + ", Triggered).";
+  session.query(statement);
+  session.answer(binding);
+  return result;
+
+/*
   // check on a case by case basis if the condition is satisfied
   // TODO: replace comments with some kind of checking
   if (tag == "antagonist_reaction_1") {
@@ -1024,7 +1056,7 @@ function checkAntagonistReaction(tag) {
     return checkIfPlayerHasProblem("anything_for_the_story");
   } else if (tag = "antagonist_reaction_8") {
     return checkIfPlayerHasProblem("hot_tempered");
-  }
+  }*/
 }
 
 function incrementPush(value) {
@@ -1234,3 +1266,31 @@ function updateCharactersAsMet(checked) {
   session.query("scene_characters(" + currentScene + ", Character), retract(character_met(Character, PrevMet)), asserta(character_met(Character, " + checked + ")).");
   session.answers(get_callback(get_all_bindings));
 }
+
+// When you click the checkbox for antagonist reaction trigger, have this update the result in the database
+$(document).on("click", "input[name='reaction']", function () {
+ 
+  var checked = $(this).prop('checked');
+  var triggerText = this.nextSibling.data;
+
+  var binding = function(answer) {
+    var reaction = answer.lookup("Reaction");
+
+    // Update the scene graph to reflect new antagonist reaction available 
+    /*if (checked == true) {
+      graphDefinition = graphDefinition + "class " + currentScene + " completed;";
+    } else {
+      var removedString = "class " + currentScene + " completed;";
+      graphDefinition = graphDefinition.replace(removedString, "");
+    }*/
+  }
+
+  var statement = "antagonist_reaction(Reaction, " + triggerText + ", Description, Challenge), retract(antagonist_reaction_triggered(Reaction, PrevTriggered)), asserta(antagonist_reaction_triggered(Reaction, " + checked + "))."
+  console.log(statement);
+  session.query(statement);
+  session.answer(binding);
+
+  
+
+  loadGraph();
+});

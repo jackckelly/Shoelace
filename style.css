@@ -94,3 +94,11 @@ svg {
   margin-left: 20px;
   padding: 10px;
 }
+
+.antagonist-reaction {
+  width: 500px;
+  background-color: #2c2c34;
+  color: white;
+  margin-left: 20px;
+  padding: 10px;
+}
