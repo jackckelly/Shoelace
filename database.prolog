@@ -1361,7 +1361,7 @@ player_pushes(4).
 :- dynamic(challenge_extra_problem/2).
 
 antagonist_reaction(antagonist_reaction_1, "Holds Problem 11, 'Easier in Than Out'", "MacAdams' cops toss Viv's place, causing conflict with her landlady and roommate.", antagonist_reaction_1_challenge).
-antagonist_reaction(antagonist_reaction_2, "Fuller tried and failed to buy the schematics from Viv", "A man (one of Fuller's out-of-work electricians) breaks into Viv's apartment to steal the schematics.", antagonist_reaction_2_challenge).
+antagonist_reaction(antagonist_reaction_2, "Fuller tried and failed to buy the schematics from Viv", "A man--one of Fuller's out-of-work electricians--breaks into Viv's apartment to steal the schematics.", antagonist_reaction_2_challenge).
 antagonist_reaction(antagonist_reaction_3, "Viv got a Hold in her tussle with Marty the Mouth, leaving him feeling sore", "A couple men in suits and fedoras come by Viv's place to make vague threats about what happens to Nosey Nellies", none).
 antagonist_reaction(antagonist_reaction_4, "Lt. MacAdams escorted Viv home from the morgue building", "When Viv next shows up at work, her editor calls her in for a chat about the detective who just dropped by", antagonist_reaction_4_challenge).
 antagonist_reaction(antagonist_reaction_5, "Viv has Problem 'Hand- to-Mouth' or Problem 14, 'No Good Deed'", "A young man tries to snatch Viv's purse, which has everything she's got left for the month in it", antagonist_reaction_5_challenge).

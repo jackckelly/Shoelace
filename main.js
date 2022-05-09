@@ -670,8 +670,14 @@ function parseGraph(graphDefinition) {
 
 // When you click the node, load the appropriate page
 $(document).on("click", "g[class='nodes'] g[class='node']", function () {
-  currentScene = $(this).attr('id'); 
-  loadAll(); 
+  var id = $(this).attr('id'); 
+  if (id.substring(0, 4) == "anta") {
+    //load antagonist reaction page
+    loadAntagonistReactions();
+  } else {
+    currentScene = $(this).attr('id');
+    loadAll(); 
+  }
 });
 
 
@@ -1008,6 +1014,8 @@ session.answers(get_callback(get_all_bindings));
 
 function renderAntagonistReactions() {
   for (var i = 0; i < antagonistTags.length; i++) {
+    var count = i + 1;
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Antagonist Reaction " + count + "</h3>";
     //check if the antagonist reaction is satisfied, and if so, highlight the thing
     var isSatisfied = checkAntagonistReaction(antagonistTags[i].id);
     if (isSatisfied == "true") {
@@ -1269,28 +1277,28 @@ function updateCharactersAsMet(checked) {
 
 // When you click the checkbox for antagonist reaction trigger, have this update the result in the database
 $(document).on("click", "input[name='reaction']", function () {
- 
   var checked = $(this).prop('checked');
   var triggerText = this.nextSibling.data;
 
   var binding = function(answer) {
     var reaction = answer.lookup("Reaction");
+    var description = answer.lookup("Description");
 
     // Update the scene graph to reflect new antagonist reaction available 
-    /*if (checked == true) {
-      graphDefinition = graphDefinition + "class " + currentScene + " completed;";
+    if (checked == true) {
+      var number = reaction.id.slice(-1);
+      description = "\n" + reaction + "[Antagonist Reaction " + number + " Available]";
+      var result = [graphDefinition.slice(0, 890), description, graphDefinition.slice(890)].join('');
+      graphDefinition = result;
     } else {
-      var removedString = "class " + currentScene + " completed;";
+      var removedString = reaction + "[ " + description + "]";
       graphDefinition = graphDefinition.replace(removedString, "");
-    }*/
+    }
   }
 
   var statement = "antagonist_reaction(Reaction, " + triggerText + ", Description, Challenge), retract(antagonist_reaction_triggered(Reaction, PrevTriggered)), asserta(antagonist_reaction_triggered(Reaction, " + checked + "))."
-  console.log(statement);
   session.query(statement);
   session.answer(binding);
-
-  
 
   loadGraph();
 });
