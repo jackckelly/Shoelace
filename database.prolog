@@ -480,7 +480,7 @@ clue_description(george_didnt_have, "(Core, 'Charming Charlie') George didn't ha
 clue_known(george_didnt_have, false).
 clue_leads_to(george_didnt_have, charming_charlie).
 clue(george_rents_a).
-clue_description(george_rents_a, "Core, 'The Peculiar Death of Myron Fink') George rents a one-room apartment in one of the decrepit older buildings up by the Navy Yard. 'Just until we have enough money for one of the nicer new apartments.' The landlord, Mr. Simpson, won't let her into his room.").
+clue_description(george_rents_a, "(Core, 'The Peculiar Death of Myron Fink') George rents a one-room apartment in one of the decrepit older buildings up by the Navy Yard. 'Just until we have enough money for one of the nicer new apartments.' The landlord, Mr. Simpson, won't let her into his room.").
 clue_known(george_rents_a, false).
 clue_leads_to(george_rents_a, the_peculiar_death_of_myron_fink).
 clue(everyone_persecuted_george).

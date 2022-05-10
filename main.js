@@ -1189,12 +1189,44 @@ $(document).on("click", "input[name='clue']", function () {
   var checked = $(this).prop('checked');
   var clueText = this.nextSibling.data;
   var binding = function(answer) {
+    // check if clue goes somewhere
+    var clue = answer.lookup("Clue");
+    checkIfClueLeadsToScene(clue, checked);
   }
 
   var statement = "clue_known(Clue, PrevKnown), clue_description(Clue, " + clueText + "), retract( clue_known(Clue, PrevKnown) ), asserta( clue_known(Clue, " + checked + ")).";
   session.query(statement);
   session.answer(binding);
 });
+
+function checkIfClueLeadsToScene(clue, checked) {
+  var binding = function(answer) {
+    // check if clue goes somewhere
+    var clue = answer.lookup("Clue");
+    var newScene = answer.lookup("NewScene");
+    var oldScene = answer.lookup("OldScene");
+    var removedString;
+
+    if (checked == true) {
+      removedString = oldScene + " --> " + newScene;
+      graphDefinition = graphDefinition.replace(removedString, "");
+      var description = "\n" + oldScene + " ==> " + newScene;
+      var result = [graphDefinition.slice(0, 890), description, graphDefinition.slice(890)].join('');
+      graphDefinition = result;
+    } else {
+      removedString = oldScene + " ==> " + newScene;
+      graphDefinition = graphDefinition.replace(removedString, "");
+      var description = "\n" + oldScene + " --> " + newScene;
+      var result = [graphDefinition.slice(0, 890), description, graphDefinition.slice(890)].join('');
+      graphDefinition = result;
+    }
+    console.log(graphDefinition);
+    loadGraph();
+  }
+  var statement = "clue_leads_to(" + clue + ", NewScene), scene_clues(OldScene, " + clue + ")."
+  session.query(statement);
+  session.answer(binding);
+}
 
 
 // When you click the checkbox for an edge, have this update the result in the database
