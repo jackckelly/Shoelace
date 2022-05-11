@@ -1390,11 +1390,13 @@ char_knows_clue(CharTag, CharName, ClueTag, ClueDesc, Scene) :-
     scene_clues(Scene, ClueTag),
     scene_characters(Scene, CharTag).
 
-find_new_lead(Clue, ClueDesc, Scene, SceneName) :- 
+find_new_lead(Clue, ClueDesc, Scene, SceneName, PrevScene, PrevSceneName) :- 
     clue_known(Clue, false),
     clue_description(Clue, ClueDesc),
     clue_leads_to(Clue, Scene),
     scene_name(Scene, SceneName),
+    scene_clues(PrevScene, Clue), 
+    scene_name(PrevScene, PrevSceneName),
     scene_visited(Scene, false).
 
 find_hostage_options(Char) :- 

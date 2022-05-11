@@ -75,7 +75,7 @@ document.getElementById('sources_link').onclick = loadSources;
 document.getElementById('investigative_abilities_link').onclick = loadInvestigativeAbilities; 
 document.getElementById('general_abilities_link').onclick = loadGeneralAbilities;
 document.getElementById('antagonist_reactions_link').onclick = loadAntagonistReactions;
- 
+
 
 // The starting function to load in the starting scene
 loadAll();
@@ -992,12 +992,17 @@ function loadCharacters() {
 function loadSuggestions() {
   clear_output_area(); 
   sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>GM Suggestions</h2>"; 
-  sceneInfo.innerHTML = sceneInfo.innerHTML + '<a href="#" onclick="char_knows_clue()">Character knows clue</a>    |    <a href="#" onclick="overhear_conversation()">Overhear conversation</a>    |    <a href="#" onclick="find_new_lead()">Find new lead</a>    |    <a href="#" onclick="find_hostage_options()">Find hostage options</a>    |    <a href="#" onclick="find_physical_injury()">Find physical injury</a><div id="output_area"></div>'
+  sceneInfo.innerHTML = sceneInfo.innerHTML + '<a href="#" onclick="char_knows_clue()">Character knows clue</a>    |    <a href="#" onclick="overhear_conversation()">Overhear conversation</a>    |    <a href="#" onclick="find_new_lead()">Find new lead</a>    |    <a href="#" onclick="find_hostage_options()">Find hostage options</a>    |    <a href="#" onclick="find_physical_injury()">Find physical injury</a><div id="dropdown_area"></div><div id="output_area"></div>'
 }
 
 // Clears the current selection of suggestions
 function clear_suggestion_area() {
   output_area.innerHTML = "";
+  bindings = [];
+}
+
+function clear_dropdown_area() {
+  dropdown_area.innerHTML = "";
   bindings = [];
 }
 
@@ -1168,6 +1173,7 @@ function decrementPush(value) {
  **********************/
 // Handles list of characters who know clues
 function char_knows_clue() {
+  clear_dropdown_area();
   clear_suggestion_area();
   output_area.innerHTML = "";
   var get_all_bindings = function(answers) {
@@ -1175,7 +1181,7 @@ function char_knows_clue() {
       var answer = answers[i];
       var result_name = answer.lookup("CharName");
       var result_clue = answer.lookup("ClueDesc");
-      output_area.innerHTML = output_area.innerHTML + "<p>" + result_name + " knows the clue: " + result_clue + "</p>";
+      dropdown_area.innerHTML = dropdown_area.innerHTML + "<p>" + result_name + " knows the clue: " + result_clue + "</p>";
     } 
   }
 
@@ -1204,15 +1210,36 @@ function overhear_conversation() {
 // A clue that goes to a place the player hasn't already visited 
 function find_new_lead() {
   clear_suggestion_area();
-  var get_all_bindings = function(answers) {
-    for (var i = 0; i < answers.length; i++) {
-      var answer = answers[i];
-      var result_name = answer.lookup("ClueDesc");
-      output_area.innerHTML = output_area.innerHTML + "<p>" + result_name + "</p>";
-    } 
+  clear_dropdown_area();
+  var dropdown = "<form><select name='menu' id='menu'><option value='any'>---Any scene---</option><option value='sadies_sob_story'>Sadie's Sob Story</option><option value='fuller_himself'>Fuller Himself</option></select><input type='button' id='btn' value='Submit' onClick='render_find_new_lead();'/></form>";
+  dropdown_area.innerHTML = dropdown_area.innerHTML + dropdown;
+}
+
+// Output based on the user's selection 
+function render_find_new_lead() {
+  clear_suggestion_area();
+  var urlmenu = document.getElementById( 'menu' );
+  var input = urlmenu.value; 
+  var query;
+  if (input == "any") {
+    query = "find_new_lead(Clue, ClueDesc, Scene, SceneName, PrevScene, PrevSceneName)."
+  } else {
+    query = "find_new_lead(Clue, ClueDesc, " + input + ", SceneName, PrevScene, PrevSceneName)."
   }
 
-  session.query("find_new_lead(Clue, ClueDesc, Scene, SceneName).");
+  var get_all_bindings = function(answers) {
+    if (answers.length > 0) {
+      for (var i = 0; i < answers.length; i++) {
+        var answer = answers[i];
+        var result_name = answer.lookup("ClueDesc");
+        var result_prev_name = answer.lookup("PrevSceneName")
+        output_area.innerHTML = output_area.innerHTML + "<p><strong>[From scene " + result_prev_name + "]</strong> " + result_name + "</p>";
+      } 
+    } else {
+      output_area.innerHTML = output_area.innerHTML + "<p><strong>No results found</strong></p>";
+    }
+  }
+  session.query(query);
   session.answers(get_callback(get_all_bindings));
 }
 
@@ -1287,7 +1314,6 @@ function checkIfClueLeadsToScene(clue, checked) {
       var result = [graphDefinition.slice(0, 890), description, graphDefinition.slice(890)].join('');
       graphDefinition = result;
     }
-    console.log(graphDefinition);
     loadGraph();
   }
   var statement = "clue_leads_to(" + clue + ", NewScene), scene_clues(OldScene, " + clue + ")."
