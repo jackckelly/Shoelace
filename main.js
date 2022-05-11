@@ -3,9 +3,11 @@ mermaid.initialize({
   securityLevel: 'loose',
 });
 
+// The starting scene for the module 
 var currentScene = "sadies_sob_story";
 var binding = "";
 
+// Some arrays that store information fetched from Prolog 
 var currentSceneText = []; 
 var currentSceneClues = [];
 var currentSceneCluesKnown = [];
@@ -19,16 +21,17 @@ var antagonistTriggers = [];
 var antagonistReactions = [];
 var antagonistChallenges = [];
 
-//initializing the scene graph
+//initializing the graphs for scene and characters 
 var graphDefinition = "graph TD\nsadies_sob_story[<font color='white' class='node'>Sadie's Sob Story</font>]\nfullers_electrical_repair[Fuller's Electrical Repair]\ncharming_charlie[Charming Charlie]\nthe_psychical_investigator[The Psychical Investigator]\nthe_peculiar_death_of_myron_fink[The Peculiar Death of Myron Fink]\nfuller_himself[Fuller Himself]\ntemple_of_nephthys[Temple of Nephthys]\nthe_leg_breaker[The Leg Breaker]\ncharlie_comes_clean[Charlie Comes Clean]\nwhat_the_cops_know[What the Cops Know]\ninterviewing_the_neighbors[Interviewing the Neighbors]\ngeorges_apartment[George's Apartment]\naddie_needs_answers[Addie Needs Answers]\nmen_gone_missing[Men Gone Missing]\nbreaking_into_fullers[Breaking Into Fuller's]\nthe_thing_in_the_morgue[The Thing in the Morgue]\nquestioning_pearl[Questioning Pearl]\nmiracle_machine[Miracle Machine]\ngoing_on_the_grid[Going on the Grid]\nsadie_and_the_scoop[Sadie and the Scoop]\nsadies_sob_story --> fullers_electrical_repair\nsadies_sob_story --> the_peculiar_death_of_myron_fink\nsadies_sob_story --> what_the_cops_know\nfullers_electrical_repair --> fuller_himself\nfullers_electrical_repair --> charming_charlie\ncharming_charlie --> the_peculiar_death_of_myron_fink\ncharming_charlie --> fuller_himself\ncharming_charlie --> the_leg_breaker\ncharming_charlie --> temple_of_nephthys\nthe_psychical_investigator --> temple_of_nephthys\nthe_peculiar_death_of_myron_fink --> what_the_cops_know\nthe_peculiar_death_of_myron_fink --> interviewing_the_neighbors\nfuller_himself --> charming_charlie\nfuller_himself --> the_psychical_investigator\nfuller_himself --> temple_of_nephthys\nfuller_himself --> what_the_cops_know\nfuller_himself --> georges_apartment\ntemple_of_nephthys --> the_leg_breaker\ntemple_of_nephthys --> miracle_machine\ntemple_of_nephthys --> addie_needs_answers\nthe_leg_breaker --> charlie_comes_clean\nthe_leg_breaker --> breaking_into_fullers\ncharlie_comes_clean --> breaking_into_fullers\nwhat_the_cops_know --> the_peculiar_death_of_myron_fink\nwhat_the_cops_know --> the_thing_in_the_morgue\ninterviewing_the_neighbors --> georges_apartment\ngeorges_apartment --> questioning_pearl\ngeorges_apartment --> the_psychical_investigator\naddie_needs_answers --> men_gone_missing\nmen_gone_missing --> breaking_into_fullers\nbreaking_into_fullers --> sadie_and_the_scoop\nquestioning_pearl --> miracle_machine\nmiracle_machine --> going_on_the_grid\ngoing_on_the_grid --> breaking_into_fullers\n\nclassDef default fill:#333,stroke:#fff,color:white,stroke-width:4px;classDef completed fill:#777,stroke:#333,stroke-width:4px;";
 
 var characterGraphDefinition = "graph TD\ngeorge_preston[<font color='white' class='node'>George Preston</font>]\nsadie_cain[Sadie Cain]\ncharlie_fitzpatrick[Charlie 'Charlene' Fitzpatrick]\nhoward_fuller[Howard Fuller]\nclarence_simpson[Clarence Simpson]\npearl_leblanc[Pearl LeBlanc]\nmadame_isis[Madame Isis Neferi]\nhereward_carrington[Hereward Carrington]\nmarty_the_mouth[Marty the Mouth]\naddie_sims[Addie Sims]\n\nsadie_cain-- engaged to -->george_preston\ngeorge_preston-- corresponds with -->hereward_carrington\ngeorge_preston-- rents from -->clarence_simpson\ngeorge_preston-- potential acolyte of -->madame_isis\ngeorge_preston-- owes money to -->marty_the_mouth\nmarty_the_mouth-- witnessed -->charlie_fitzpatrick\nhoward_fuller-- employs -->charlie_fitzpatrick\nhoward_fuller-- employs -->george_preston\npearl_leblanc-- devoted to -->madame_isis\naddie_sims-- seeking answers from -->madame_isis\nclassDef default fill:#333,stroke:#fff,color:white,stroke-width:4px;classDef met fill:#777,stroke:#333,stroke-width:4px;";
 
-// Create the prolog sesssion and load mini_prom_week_example.prolog.
+// Create the prolog sesssion and load database prolog.
 session = pl.create();
 session.consult("database.prolog");
 
 // Array of variable bindings, one per answer, returned by prolog query
+// You'll need to keep this in here to get the Prolog queries/bindings working
 var bindings = [];
 
 /*
@@ -73,7 +76,9 @@ document.getElementById('investigative_abilities_link').onclick = loadInvestigat
 document.getElementById('general_abilities_link').onclick = loadGeneralAbilities;
 document.getElementById('antagonist_reactions_link').onclick = loadAntagonistReactions;
  
-loadAll()
+
+// The starting function to load in the starting scene
+loadAll();
 
 function loadAll() {
   currentSceneText = []; 
@@ -84,6 +89,11 @@ function loadAll() {
   loadGraph();
 }
 
+/***********************
+ *       SCENES
+ **********************/
+
+// Handles loading in the components of a scene based on current_scene
 function loadScene() {
   loadSceneName();
   loadSceneType();
@@ -91,6 +101,7 @@ function loadScene() {
   loadSceneLeadIns();
 }
 
+// Clears the output area so that it can be populated with a new page 
 function clear_output_area() {
   sceneInfo.innerHTML = "";
   bindings = [];
@@ -106,6 +117,7 @@ function loadSceneName() {
   session.answer(binding);
 }
 
+// Displays the checkbox for if a scene has been completed / visited or not
 function loadSceneCompleted() {
   var binding = function(answer) {
     var visited = answer.lookup("Visited");
@@ -121,6 +133,7 @@ function loadSceneCompleted() {
   session.answer(binding);
 }
 
+// Loads the "type" of a scene
 function loadSceneType() {
   var binding = function(answer) {
     sceneInfo.innerHTML = sceneInfo.innerHTML + "<em>" + answer.lookup("Type");  + "</em><br>";
@@ -130,6 +143,7 @@ function loadSceneType() {
   session.answer(binding);
 }
 
+// Loads the lead ins for a scene and lists them
 function loadSceneLeadIns() {
   var get_all_bindings = function(answers) {
     if (answers.length > 0) {
@@ -150,6 +164,7 @@ function loadSceneLeadIns() {
   session.answers(get_callback(get_all_bindings));
 }
 
+// Loads the lead outs for a scene and lists them 
 function loadSceneLeadOuts() {
   var get_all_bindings = function(answers) {
     if (answers.length > 0) {
@@ -170,12 +185,13 @@ function loadSceneLeadOuts() {
   session.answers(get_callback(get_all_bindings));
 }
 
+// Used to indicate that a given scene is now the current scene
 function setScene(tag) {
   currentScene = tag.id; 
   loadAll();
 }
 
-// Displays a list of all of the clues in the current scene 
+// Displays a list of all of the text in the current scene 
 function loadSceneText() {
   var get_all_bindings = function(answers) {
     for (var i = 0; i < answers.length; i++) {
@@ -189,7 +205,6 @@ function loadSceneText() {
     session.query("scene_text(" + currentScene + ", Text).");
     session.answers(get_callback(get_all_bindings));
   }
-
 
 // Displays a list of all of the clues in the current scene 
 function loadSceneClues() {
@@ -210,6 +225,7 @@ function loadSceneClues() {
   session.answers(get_callback(get_all_bindings));
 }
 
+// Renders the scene, with the appropriate placement of text, clues, challenges, etc.
 function renderScene() {
   if (currentScene=="sadies_sob_story"){
     for (var i = 0; i < 5; i++) {
@@ -502,6 +518,7 @@ function renderScene() {
   }
 }
 
+// Renders whether there is a trigger for antagonist reactions checkbox
 function renderAntagonistReactionTrigger(antagonistReaction) {
   var binding = function(answer) {
     var triggered = answer.lookup("Triggered");
@@ -519,6 +536,7 @@ function renderAntagonistReactionTrigger(antagonistReaction) {
   session.answer(binding);
 }
 
+// Renders a clue as checked or unchecked if it is known or not
 function renderClue(clue, known) {
   var checkbox;
   if (known == "true") {
@@ -529,30 +547,11 @@ function renderClue(clue, known) {
   sceneInfo.innerHTML = sceneInfo.innerHTML + "<p class='hangingindent'>" + checkbox + clue + "</p>";
 }
 
-function loadClues() {
-  allClues = [];
-  allCluesKnown = [];
-  clear_output_area();
-  var get_all_bindings = function(answers) {
-    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>All Clues</h2>";
-    for (var i = 0; i < answers.length; i++) {
-      var answer = answers[i];
-      var result_name = answer.lookup("Description");
-      var clue_known = answer.lookup("Known");
-      var scene = answer.lookup("Name");
-      if (result_name !== null){
-        allClues.push(result_name);
-        allCluesKnown.push(clue_known);
-        allScenes.push(scene);
-      }
-    }
-    renderClues();
-  }
-  
-  session.query("clue_description(Clue, Description), clue_known(Clue, Known), scene_clues(Scene, Clue), scene_name(Scene, Name).");
-  session.answers(get_callback(get_all_bindings));
-}
+/***********************
+ *     CHALLENGES
+ **********************/
 
+// Renders the challenge based on challenge tag 
 function renderChallenge(tag) {
   challengeResult = "";
   var binding = function(answer) {
@@ -568,6 +567,7 @@ function renderChallenge(tag) {
   session.answer(binding);
 }
 
+// Renders extra description for challenge if there is one
 function printChallengeExtraDescription() {
   var binding = function(answer) {
     if (answer !== false) {
@@ -580,6 +580,7 @@ function printChallengeExtraDescription() {
   session.answer(binding);
 }
 
+// Renders challenge advantage
 function printChallengeAdvantage() {
   var binding = function(answer) {
     if (answer !== false) {
@@ -593,6 +594,7 @@ function printChallengeAdvantage() {
   session.answer(binding);
 }
 
+// Renders challenge hold 
 function printChallengeHold() {
   var binding = function(answer) {
     if (answer !== false) {
@@ -605,6 +607,7 @@ function printChallengeHold() {
   session.answer(binding);
 }
 
+// Renders challenge setback
 function printChallengeSetback() {
   var binding = function(answer) {
     if (answer !== false) {
@@ -617,6 +620,7 @@ function printChallengeSetback() {
   session.answer(binding);
 }
 
+// Renders challenge extra problem
 function printChallengeExtraProblem() {
   var binding = function(answer) {
     if (answer !== false) {
@@ -629,10 +633,42 @@ function printChallengeExtraProblem() {
   session.answer(binding);
 }
 
+// Takes all the text from the challenge and outputs it to HTML
 function renderChallengeText() {
   sceneInfo.innerHTML = sceneInfo.innerHTML + challengeResult;
 }
 
+
+/***********************
+ *       CLUES
+ **********************/
+
+// Gets list of all clues
+function loadClues() {
+  allClues = [];
+  allCluesKnown = [];
+  clear_output_area();
+  var get_all_bindings = function(answers) {
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>All Clues</h2>";
+    for (var i = 0;
+      i < answers.length;
+      i++) {
+      var answer = answers[i];
+    var result_name = answer.lookup("Description");
+    var clue_known = answer.lookup("Known");
+    var scene = answer.lookup("Name");
+    if (result_name !== null){
+      allClues.push(result_name);
+      allCluesKnown.push(clue_known);
+      allScenes.push(scene);
+    }
+  }
+  renderClues();
+}
+
+session.query("clue_description(Clue, Description), clue_known(Clue, Known), scene_clues(Scene, Clue), scene_name(Scene, Name).");
+session.answers(get_callback(get_all_bindings));
+}
 
 // Prints out the page for All Clues
 function renderClues() {
@@ -654,10 +690,16 @@ function renderClues() {
   } 
 }
 
+/***********************
+ *       GRAPHS
+ **********************/
+
+// Reloads the graph with new graph definition information
 function loadGraph() {
   parseGraph(graphDefinition);
 }
 
+// Uses Mermaid API to actually render graph
 function parseGraph(graphDefinition) {
   $('#graphInfo').empty();
   var element = document.querySelector("#graphInfo");
@@ -668,7 +710,7 @@ function parseGraph(graphDefinition) {
   mermaid.mermaidAPI.render('graphInfo', graphDefinition, insertSvg);
 }
 
-// When you click the node, load the appropriate page
+// When you click a scene node, load the appropriate page
 $(document).on("click", "g[class='nodes'] g[class='node']", function () {
   var id = $(this).attr('id'); 
   if (id.substring(0, 4) == "anta") {
@@ -681,18 +723,24 @@ $(document).on("click", "g[class='nodes'] g[class='node']", function () {
 });
 
 
-// When you click the node, load the appropriate page
+// When you click a scene node, load the appropriate page (works on completed nodes too)
 $(document).on("click", "g[class='nodes'] g[class='node completed']", function () {
   currentScene = $(this).attr('id');
   loadAll(); 
 });
 
+/***********************
+ *    PLAYER SHEET
+ **********************/
+
+// Loads the page for the player info
 function loadPlayerSheet() {
   clear_output_area();
   sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>Player Sheet</h2>";
   loadPlayerEdges(); 
 }
 
+// Loads a list of player's edges
 function loadPlayerEdges() {
   sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Edges</h3>"; 
   var get_all_bindings = function(answers) {
@@ -717,6 +765,7 @@ function loadPlayerEdges() {
   session.answers(get_callback(get_all_bindings));
 }
 
+// Loads a list of player's problems
 function loadPlayerProblems() {
   sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Problems</h3>"; 
   var get_all_bindings = function(answers) {
@@ -741,6 +790,7 @@ function loadPlayerProblems() {
   session.answers(get_callback(get_all_bindings));
 }
 
+// Loads a list of player's investigative abilities
 function loadPlayerInvestigativeAbilities() {
   var htmlOutput = "";
   htmlOutput = htmlOutput + "<h3>Investigative Abilities</h3>";
@@ -764,6 +814,7 @@ function loadPlayerInvestigativeAbilities() {
   session.answers(get_callback(get_all_bindings));
 }
 
+// Loads a list of player's general abilities 
 function loadPlayerGeneralAbilities() {
   var get_all_bindings = function(answers) {
     var htmlOutput = "";
@@ -791,6 +842,7 @@ function loadPlayerGeneralAbilities() {
   session.answers(get_callback(get_all_bindings));
 }
 
+// Loads a list of player's pushes (with buttons for increment / decrement)
 function loadPlayerPushes() {
   var binding = function(answer) {
     var result = answer.lookup("Value");
@@ -801,6 +853,11 @@ function loadPlayerPushes() {
   session.answer(binding);
 }
 
+/***********************
+ *       EDGES
+ **********************/
+
+// Loads a list of all player edges
 function loadEdges() {
   clear_output_area();
   sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>All Edges</h2>"; 
@@ -832,6 +889,7 @@ function loadEdges() {
   session.answers(get_callback(get_all_bindings));
 }
 
+// Checks if a player has a particular edge (by tag)
 function checkIfPlayerHasEdge(result_tag) {
   var result; 
   var binding = function(answer) {
@@ -847,6 +905,11 @@ function checkIfPlayerHasEdge(result_tag) {
   return result;
 }
 
+/***********************
+ *       PROBLEMS
+ **********************/
+
+// Renders all problems page
 function loadProblems() {
   clear_output_area();
   sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>All Problems</h2>"; 
@@ -877,6 +940,7 @@ function loadProblems() {
   session.answers(get_callback(get_all_bindings));
 }
 
+// Checks if player has a particular problem (by tag)
 function checkIfPlayerHasProblem(result_tag) {
   var result; 
   var binding = function(answer) {
@@ -892,6 +956,11 @@ function checkIfPlayerHasProblem(result_tag) {
   return result;
 }
 
+/***********************
+ *      CHARACTERS
+ **********************/
+
+// Renders the characters page
 function loadCharacters() {
   clear_output_area();
   parseGraph(characterGraphDefinition);
@@ -916,18 +985,26 @@ function loadCharacters() {
   session.answers(get_callback(get_all_bindings));
 }
 
+/***********************
+ *     SUGGESTIONS
+ **********************/
+ // Loads the bar for clickable suggestions
 function loadSuggestions() {
   clear_output_area(); 
   sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>GM Suggestions</h2>"; 
   sceneInfo.innerHTML = sceneInfo.innerHTML + '<a href="#" onclick="char_knows_clue()">Character knows clue</a>    |    <a href="#" onclick="overhear_conversation()">Overhear conversation</a>    |    <a href="#" onclick="find_new_lead()">Find new lead</a>    |    <a href="#" onclick="find_hostage_options()">Find hostage options</a>    |    <a href="#" onclick="find_physical_injury()">Find physical injury</a><div id="output_area"></div>'
 }
 
+// Clears the current selection of suggestions
 function clear_suggestion_area() {
   output_area.innerHTML = "";
   bindings = [];
 }
 
-
+/***********************
+ *       SOURCES
+ **********************/
+// Renders source info
 function loadSources() {
   clear_output_area();
   sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>Sources</h2>";
@@ -954,6 +1031,11 @@ function loadSources() {
   session.answers(get_callback(get_all_bindings));
 }
 
+/***********************
+ *       ABILITIES
+ **********************/
+
+// Loads list of all investigative abilities 
 function loadInvestigativeAbilities() {
   clear_output_area();
   sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>Investigative Abilities</h2>";
@@ -973,7 +1055,7 @@ session.query("investigative_ability(Ability, Name, Description, Type).");
 session.answers(get_callback(get_all_bindings));
 }
 
-
+// Loads list of all general abilities 
 function loadGeneralAbilities() {
   clear_output_area();
   sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>General Abilities</h2>";
@@ -993,6 +1075,11 @@ session.query("general_ability(Ability, Name, Description, Type).");
 session.answers(get_callback(get_all_bindings));
 }
 
+/***********************
+ * ANTAGONIST REACTIONS
+ **********************/
+
+// Loads list of all antagonist reactions 
 function loadAntagonistReactions() {
   clear_output_area();
   sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>Antagonist Reactions</h2>";
@@ -1012,6 +1099,7 @@ session.query("antagonist_reaction(Tag, Trigger, Reaction, ReactionChallenge).")
 session.answers(get_callback(get_all_bindings));
 }
 
+// Displays antagonist reaction info
 function renderAntagonistReactions() {
   for (var i = 0; i < antagonistTags.length; i++) {
     var count = i + 1;
@@ -1032,6 +1120,7 @@ function renderAntagonistReactions() {
   }
 }
 
+// Checks if a particular antagonist reaction (by tag) is triggered 
 function checkAntagonistReaction(tag) {
   var result = false;
   var binding = function(answer) {
@@ -1043,30 +1132,12 @@ function checkAntagonistReaction(tag) {
   session.query(statement);
   session.answer(binding);
   return result;
-
-/*
-  // check on a case by case basis if the condition is satisfied
-  // TODO: replace comments with some kind of checking
-  if (tag == "antagonist_reaction_1") {
-    return checkIfPlayerHasProblem("easier_in_than_out");
-  } else if (tag == "antagonist_reaction_2") {
-    // check if fuller tried to buy schematics from viv
-  } else if (tag == "antagonist_reaction_3") {
-    // viv got a hold in the challenge fighting marty the mouth
-  } else if (tag == "antagonist_reaction_4") {
-    // Lt Adams escorted Viv home from the morgue
-  } else if (tag == "antagonist_reaction_5") {
-    var result = ( checkIfPlayerHasProblem("hand_to_mouth")|| checkIfPlayerHasProblem("no_good_deed"));
-    return result;
-  } else if (tag == "antagonist_reaction_6") {
-    return checkIfPlayerHasProblem("sucker_for_a_pretty_face");
-  } else if (tag == "antagonist_reaction_7") {
-    return checkIfPlayerHasProblem("anything_for_the_story");
-  } else if (tag = "antagonist_reaction_8") {
-    return checkIfPlayerHasProblem("hot_tempered");
-  }*/
 }
 
+/***********************
+ *       PUSHES
+ **********************/
+// Handles increasing the push value 
 function incrementPush(value) {
   var newValue = value + 1;
   var binding = function(answer) {
@@ -1079,6 +1150,7 @@ function incrementPush(value) {
   session.answer(binding);
 }
 
+// Handles decreasing the push value 
 function decrementPush(value) {
   var newValue = value - 1;
   var binding = function(answer) {
@@ -1091,18 +1163,10 @@ function decrementPush(value) {
   session.answer(binding);
 }
 
-/***********************************
-* Prolog suggestion functions
-* 
-************************************/
-
-function print(answers) {
-  for (var i = 0; i < answers.length; i++) {
-    var answer = answers[i];
-    output_area.innerHTML = output_area.innerHTML + answer + "\n";
-  }
-}
-
+/***********************
+ * FOR PROLOG SUGGESTIONS
+ **********************/
+// Handles list of characters who know clues
 function char_knows_clue() {
   clear_suggestion_area();
   output_area.innerHTML = "";
@@ -1119,6 +1183,7 @@ function char_knows_clue() {
   session.answers(get_callback(get_all_bindings));
 }
 
+// Handles conversations that can be overheard between two characters 
 function overhear_conversation() {
   clear_suggestion_area();
   output_area.innerHTML = "";
@@ -1136,6 +1201,7 @@ function overhear_conversation() {
   session.answers(get_callback(get_all_bindings));
 }
 
+// A clue that goes to a place the player hasn't already visited 
 function find_new_lead() {
   clear_suggestion_area();
   var get_all_bindings = function(answers) {
@@ -1150,6 +1216,7 @@ function find_new_lead() {
   session.answers(get_callback(get_all_bindings));
 }
 
+// People to be taken hostage by Fuller at the end of the game 
 function find_hostage_options() {
   clear_suggestion_area();
   var get_all_bindings = function(answers) {
@@ -1164,6 +1231,7 @@ function find_hostage_options() {
   session.answers(get_callback(get_all_bindings));
 }
 
+// List of physical injuries possible 
 function find_physical_injury() {
   clear_suggestion_area();
   var get_all_bindings = function(answers) {
@@ -1178,11 +1246,9 @@ function find_physical_injury() {
   session.answers(get_callback(get_all_bindings));
 }
 
-
-/****************************************
-* Handling click events 
-*
-****************************************/
+/***********************
+ * HANDLING CLICK EVENTS
+ **********************/
 
 // When you click the checkbox for a clue, have this update the result in the database
 $(document).on("click", "input[name='clue']", function () {
@@ -1199,6 +1265,7 @@ $(document).on("click", "input[name='clue']", function () {
   session.answer(binding);
 });
 
+// If a clue leads to a new scene, update the graph to reflect this 
 function checkIfClueLeadsToScene(clue, checked) {
   var binding = function(answer) {
     // check if clue goes somewhere
@@ -1282,7 +1349,7 @@ $(document).on("click", "input[name='scene']", function () {
   session.query(statement);
   session.answer(binding);
 
-  //Update the graph to reflect that the scene is completed
+  // Update the graph to reflect that the scene is completed
   if (checked == true) {
     graphDefinition = graphDefinition + "class " + currentScene + " completed;";  
   } else {
@@ -1293,6 +1360,7 @@ $(document).on("click", "input[name='scene']", function () {
   loadGraph();
 });
 
+// If the player visits a scene with a particular character, indicate that that character has been met 
 function updateCharactersAsMet(checked) {
   var get_all_bindings = function(answers) {
     for (var i = 0; i < answers.length; i++) {
@@ -1340,6 +1408,7 @@ $(document).on("click", "input[name='reaction']", function () {
   loadGraph();
 });
 
+// If the player gains a problem that will trigger an antagonist reaction, update the antagonist reaction to reflect this
 function updateAntagonistReaction(problemNumber, checked) {
   var tag = "";
   if (problemNumber == 1) {
@@ -1372,5 +1441,4 @@ function updateAntagonistReaction(problemNumber, checked) {
   session.answer(binding);
 
   loadGraph();
-
 }
