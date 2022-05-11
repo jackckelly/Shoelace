@@ -20,6 +20,7 @@ var antagonistTags = [];
 var antagonistTriggers = []; 
 var antagonistReactions = [];
 var antagonistChallenges = [];
+var dropdown = "";
 
 //initializing the graphs for scene and characters 
 var graphDefinition = "graph TD\nsadies_sob_story[<font color='white' class='node'>Sadie's Sob Story</font>]\nfullers_electrical_repair[Fuller's Electrical Repair]\ncharming_charlie[Charming Charlie]\nthe_psychical_investigator[The Psychical Investigator]\nthe_peculiar_death_of_myron_fink[The Peculiar Death of Myron Fink]\nfuller_himself[Fuller Himself]\ntemple_of_nephthys[Temple of Nephthys]\nthe_leg_breaker[The Leg Breaker]\ncharlie_comes_clean[Charlie Comes Clean]\nwhat_the_cops_know[What the Cops Know]\ninterviewing_the_neighbors[Interviewing the Neighbors]\ngeorges_apartment[George's Apartment]\naddie_needs_answers[Addie Needs Answers]\nmen_gone_missing[Men Gone Missing]\nbreaking_into_fullers[Breaking Into Fuller's]\nthe_thing_in_the_morgue[The Thing in the Morgue]\nquestioning_pearl[Questioning Pearl]\nmiracle_machine[Miracle Machine]\ngoing_on_the_grid[Going on the Grid]\nsadie_and_the_scoop[Sadie and the Scoop]\nsadies_sob_story --> fullers_electrical_repair\nsadies_sob_story --> the_peculiar_death_of_myron_fink\nsadies_sob_story --> what_the_cops_know\nfullers_electrical_repair --> fuller_himself\nfullers_electrical_repair --> charming_charlie\ncharming_charlie --> the_peculiar_death_of_myron_fink\ncharming_charlie --> fuller_himself\ncharming_charlie --> the_leg_breaker\ncharming_charlie --> temple_of_nephthys\nthe_psychical_investigator --> temple_of_nephthys\nthe_peculiar_death_of_myron_fink --> what_the_cops_know\nthe_peculiar_death_of_myron_fink --> interviewing_the_neighbors\nfuller_himself --> charming_charlie\nfuller_himself --> the_psychical_investigator\nfuller_himself --> temple_of_nephthys\nfuller_himself --> what_the_cops_know\nfuller_himself --> georges_apartment\ntemple_of_nephthys --> the_leg_breaker\ntemple_of_nephthys --> miracle_machine\ntemple_of_nephthys --> addie_needs_answers\nthe_leg_breaker --> charlie_comes_clean\nthe_leg_breaker --> breaking_into_fullers\ncharlie_comes_clean --> breaking_into_fullers\nwhat_the_cops_know --> the_peculiar_death_of_myron_fink\nwhat_the_cops_know --> the_thing_in_the_morgue\ninterviewing_the_neighbors --> georges_apartment\ngeorges_apartment --> questioning_pearl\ngeorges_apartment --> the_psychical_investigator\naddie_needs_answers --> men_gone_missing\nmen_gone_missing --> breaking_into_fullers\nbreaking_into_fullers --> sadie_and_the_scoop\nquestioning_pearl --> miracle_machine\nmiracle_machine --> going_on_the_grid\ngoing_on_the_grid --> breaking_into_fullers\n\nclassDef default fill:#333,stroke:#fff,color:white,stroke-width:4px;classDef completed fill:#777,stroke:#333,stroke-width:4px;";
@@ -63,18 +64,18 @@ var bindings = [];
  * Handles clicking link in the nav bar
  * 
  ******************************** 
-*/
-document.getElementById('clues_link').onclick = loadClues;
-document.getElementById('scenes_link').onclick = loadAll;
-document.getElementById('player_link').onclick = loadPlayerSheet;
-document.getElementById('edges_link').onclick = loadEdges;
-document.getElementById('problems_link').onclick = loadProblems;
-document.getElementById('characters_link').onclick = loadCharacters;
-document.getElementById('suggestions_link').onclick = loadSuggestions;
-document.getElementById('sources_link').onclick = loadSources;
-document.getElementById('investigative_abilities_link').onclick = loadInvestigativeAbilities; 
-document.getElementById('general_abilities_link').onclick = loadGeneralAbilities;
-document.getElementById('antagonist_reactions_link').onclick = loadAntagonistReactions;
+ */
+ document.getElementById('clues_link').onclick = loadClues;
+ document.getElementById('scenes_link').onclick = loadAll;
+ document.getElementById('player_link').onclick = loadPlayerSheet;
+ document.getElementById('edges_link').onclick = loadEdges;
+ document.getElementById('problems_link').onclick = loadProblems;
+ document.getElementById('characters_link').onclick = loadCharacters;
+ document.getElementById('suggestions_link').onclick = loadSuggestions;
+ document.getElementById('sources_link').onclick = loadSources;
+ document.getElementById('investigative_abilities_link').onclick = loadInvestigativeAbilities; 
+ document.getElementById('general_abilities_link').onclick = loadGeneralAbilities;
+ document.getElementById('antagonist_reactions_link').onclick = loadAntagonistReactions;
 
 
 // The starting function to load in the starting scene
@@ -198,13 +199,13 @@ function loadSceneText() {
       var answer = answers[i];
       var result_name = answer.lookup("Text");
       currentSceneText.push(result_name);
-      }
-      loadSceneClues();
     }
-
-    session.query("scene_text(" + currentScene + ", Text).");
-    session.answers(get_callback(get_all_bindings));
+    loadSceneClues();
   }
+
+  session.query("scene_text(" + currentScene + ", Text).");
+  session.answers(get_callback(get_all_bindings));
+}
 
 // Displays a list of all of the clues in the current scene 
 function loadSceneClues() {
@@ -805,7 +806,7 @@ function loadPlayerInvestigativeAbilities() {
     }
     htmlOutput = htmlOutput + "</div>";
     sceneInfo.innerHTML = sceneInfo.innerHTML + htmlOutput;
-   
+
     bindings = []; 
     loadPlayerPushes();
   }
@@ -989,7 +990,7 @@ function loadCharacters() {
  *     SUGGESTIONS
  **********************/
  // Loads the bar for clickable suggestions
-function loadSuggestions() {
+ function loadSuggestions() {
   clear_output_area(); 
   sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>GM Suggestions</h2>"; 
   sceneInfo.innerHTML = sceneInfo.innerHTML + '<a href="#" onclick="char_knows_clue()">Character knows clue</a>    |    <a href="#" onclick="overhear_conversation()">Overhear conversation</a>    |    <a href="#" onclick="find_new_lead()">Find new lead</a>    |    <a href="#" onclick="find_hostage_options()">Find hostage options</a>    |    <a href="#" onclick="find_physical_injury()">Find physical injury</a><div id="dropdown_area"></div><div id="output_area"></div>'
@@ -1045,19 +1046,19 @@ function loadInvestigativeAbilities() {
   clear_output_area();
   sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>Investigative Abilities</h2>";
   var get_all_bindings = function(answers) {
-  for (var i = 0; i < answers.length; i++) {
-    var answer = answers[i];
-    var result_name = answer.lookup("Name");
-    var result_type = answer.lookup("Type");
-    var result_description = answer.lookup("Description");
-    if (result_name !== null){
-      sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>" + result_name + " (" + result_type + ")</h3><p>" + result_description + "</p>";
+    for (var i = 0; i < answers.length; i++) {
+      var answer = answers[i];
+      var result_name = answer.lookup("Name");
+      var result_type = answer.lookup("Type");
+      var result_description = answer.lookup("Description");
+      if (result_name !== null){
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>" + result_name + " (" + result_type + ")</h3><p>" + result_description + "</p>";
+      }
     }
+    bindings = [];
   }
-  bindings = [];
-}
-session.query("investigative_ability(Ability, Name, Description, Type).");
-session.answers(get_callback(get_all_bindings));
+  session.query("investigative_ability(Ability, Name, Description, Type).");
+  session.answers(get_callback(get_all_bindings));
 }
 
 // Loads list of all general abilities 
@@ -1067,17 +1068,17 @@ function loadGeneralAbilities() {
   var get_all_bindings = function(answers) {
     for (var i = 0; i < answers.length; i++) {
       var answer = answers[i];
-    var result_name = answer.lookup("Name");
-    var result_type = answer.lookup("Type");
-    var result_description = answer.lookup("Description");
-    if (result_name !== null){
-      sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>" + result_name + " (" + result_type + ")</h3><p>" + result_description + "</p>";
+      var result_name = answer.lookup("Name");
+      var result_type = answer.lookup("Type");
+      var result_description = answer.lookup("Description");
+      if (result_name !== null){
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>" + result_name + " (" + result_type + ")</h3><p>" + result_description + "</p>";
+      }
     }
+    bindings = [];
   }
-  bindings = [];
-}
-session.query("general_ability(Ability, Name, Description, Type).");
-session.answers(get_callback(get_all_bindings));
+  session.query("general_ability(Ability, Name, Description, Type).");
+  session.answers(get_callback(get_all_bindings));
 }
 
 /***********************
@@ -1089,19 +1090,19 @@ function loadAntagonistReactions() {
   clear_output_area();
   sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>Antagonist Reactions</h2>";
   var get_all_bindings = function(answers) {
-  for (var i = 0; i < answers.length; i++) {
-    var answer = answers[i];
-    antagonistTags[i] =  answer.lookup("Tag");
-    antagonistTriggers[i] =  answer.lookup("Trigger");
-    antagonistReactions[i] = answer.lookup("Reaction");
-    antagonistChallenges[i] = answer.lookup("ReactionChallenge");
-  }
-  bindings = [];
-  renderAntagonistReactions();
+    for (var i = 0; i < answers.length; i++) {
+      var answer = answers[i];
+      antagonistTags[i] =  answer.lookup("Tag");
+      antagonistTriggers[i] =  answer.lookup("Trigger");
+      antagonistReactions[i] = answer.lookup("Reaction");
+      antagonistChallenges[i] = answer.lookup("ReactionChallenge");
+    }
+    bindings = [];
+    renderAntagonistReactions();
   }
 
-session.query("antagonist_reaction(Tag, Trigger, Reaction, ReactionChallenge).");
-session.answers(get_callback(get_all_bindings));
+  session.query("antagonist_reaction(Tag, Trigger, Reaction, ReactionChallenge).");
+  session.answers(get_callback(get_all_bindings));
 }
 
 // Displays antagonist reaction info
@@ -1168,110 +1169,6 @@ function decrementPush(value) {
   session.answer(binding);
 }
 
-/***********************
- * FOR PROLOG SUGGESTIONS
- **********************/
-// Handles list of characters who know clues
-function char_knows_clue() {
-  clear_dropdown_area();
-  clear_suggestion_area();
-  output_area.innerHTML = "";
-  var get_all_bindings = function(answers) {
-    for (var i = 0; i < answers.length; i++) {
-      var answer = answers[i];
-      var result_name = answer.lookup("CharName");
-      var result_clue = answer.lookup("ClueDesc");
-      dropdown_area.innerHTML = dropdown_area.innerHTML + "<p>" + result_name + " knows the clue: " + result_clue + "</p>";
-    } 
-  }
-
-  session.query("char_knows_clue(CharTag, CharName, ClueTag, ClueDesc, Scene).");
-  session.answers(get_callback(get_all_bindings));
-}
-
-// Handles conversations that can be overheard between two characters 
-function overhear_conversation() {
-  clear_suggestion_area();
-  output_area.innerHTML = "";
-  var get_all_bindings = function(answers) {
-    for (var i = 0; i < answers.length; i++) {
-      var answer = answers[i];
-      var result_name = answer.lookup("Char1Name");
-      var result_name2 = answer.lookup("Char2Name");
-      var result_clue = answer.lookup("ClueDesc");
-      output_area.innerHTML = output_area.innerHTML + "<p>" + result_name + " tells secret to " + result_name2 + ": " + result_clue + "</p>";
-    } 
-  }
-
-  session.query("overhear_conversation(Char1, Char1Name, Char2, Char2Name, Clue, ClueDesc).");
-  session.answers(get_callback(get_all_bindings));
-}
-
-// A clue that goes to a place the player hasn't already visited 
-function find_new_lead() {
-  clear_suggestion_area();
-  clear_dropdown_area();
-  var dropdown = "<form><select name='menu' id='menu'><option value='any'>---Any scene---</option><option value='sadies_sob_story'>Sadie's Sob Story</option><option value='fuller_himself'>Fuller Himself</option></select><input type='button' id='btn' value='Submit' onClick='render_find_new_lead();'/></form>";
-  dropdown_area.innerHTML = dropdown_area.innerHTML + dropdown;
-}
-
-// Output based on the user's selection 
-function render_find_new_lead() {
-  clear_suggestion_area();
-  var urlmenu = document.getElementById( 'menu' );
-  var input = urlmenu.value; 
-  var query;
-  if (input == "any") {
-    query = "find_new_lead(Clue, ClueDesc, Scene, SceneName, PrevScene, PrevSceneName)."
-  } else {
-    query = "find_new_lead(Clue, ClueDesc, " + input + ", SceneName, PrevScene, PrevSceneName)."
-  }
-
-  var get_all_bindings = function(answers) {
-    if (answers.length > 0) {
-      for (var i = 0; i < answers.length; i++) {
-        var answer = answers[i];
-        var result_name = answer.lookup("ClueDesc");
-        var result_prev_name = answer.lookup("PrevSceneName")
-        output_area.innerHTML = output_area.innerHTML + "<p><strong>[From scene " + result_prev_name + "]</strong> " + result_name + "</p>";
-      } 
-    } else {
-      output_area.innerHTML = output_area.innerHTML + "<p><strong>No results found</strong></p>";
-    }
-  }
-  session.query(query);
-  session.answers(get_callback(get_all_bindings));
-}
-
-// People to be taken hostage by Fuller at the end of the game 
-function find_hostage_options() {
-  clear_suggestion_area();
-  var get_all_bindings = function(answers) {
-    for (var i = 0; i < answers.length; i++) {
-      var answer = answers[i];
-      var result_name = answer.lookup("Char");
-      output_area.innerHTML = output_area.innerHTML + "<p>" + result_name + "</p>";
-    } 
-  }
-
-  session.query("find_hostage_options(Char).");
-  session.answers(get_callback(get_all_bindings));
-}
-
-// List of physical injuries possible 
-function find_physical_injury() {
-  clear_suggestion_area();
-  var get_all_bindings = function(answers) {
-    for (var i = 0; i < answers.length; i++) {
-      var answer = answers[i];
-      var result_name = answer.lookup("ExtraProblem");
-      output_area.innerHTML = output_area.innerHTML + "<p>" + result_name + "</p>";
-    } 
-  }
-
-  session.query("find_physical_injury(Challenge, ExtraProblem).");
-  session.answers(get_callback(get_all_bindings));
-}
 
 /***********************
  * HANDLING CLICK EVENTS
@@ -1467,4 +1364,132 @@ function updateAntagonistReaction(problemNumber, checked) {
   session.answer(binding);
 
   loadGraph();
+}
+
+
+/***********************
+ * FOR PROLOG SUGGESTIONS
+ **********************/
+
+// Handles list of characters who know clues
+function char_knows_clue() {
+  clear_dropdown_area();
+  clear_suggestion_area();
+  output_area.innerHTML = "";
+  var get_all_bindings = function(answers) {
+    for (var i = 0; i < answers.length; i++) {
+      var answer = answers[i];
+    var result_name = answer.lookup("CharName");
+    var result_clue = answer.lookup("ClueDesc");
+    dropdown_area.innerHTML = dropdown_area.innerHTML + "<p>" + result_name + " knows the clue: " + result_clue + "</p>";
+  }
+}
+
+session.query("char_knows_clue(CharTag, CharName, ClueTag, ClueDesc, Scene).");
+session.answers(get_callback(get_all_bindings));
+}
+
+// Handles conversations that can be overheard between two characters
+function overhear_conversation() {
+  clear_suggestion_area();
+  output_area.innerHTML = "";
+  var get_all_bindings = function(answers) {
+    for (var i = 0; i < answers.length; i++) {
+      var answer = answers[i];
+      var result_name = answer.lookup("Char1Name");
+      var result_name2 = answer.lookup("Char2Name");
+      var result_clue = answer.lookup("ClueDesc");
+      output_area.innerHTML = output_area.innerHTML + "<p>" + result_name + " tells secret to " + result_name2 + ": " + result_clue + "</p>";
+    }
+  }
+
+session.query("overhear_conversation(Char1, Char1Name, Char2, Char2Name, Clue, ClueDesc).");
+session.answers(get_callback(get_all_bindings));
+}
+
+// A clue that goes to a place the player hasn't already visited
+function find_new_lead() {
+  clear_suggestion_area();
+  clear_dropdown_area();
+  dropdown = dropdown + "<form><select name='menu' id='menu'><option value='any'>---Any scene---</option>";
+  addScenesToDropdown();
+}
+
+// Gets all scenes from prolog and adds them to dropdown menu
+function addScenesToDropdown() {
+  var get_all_bindings = function(answers) {
+    
+    for (var i = 0; i < answers.length; i++) {
+      var answer = answers[i];
+      var result_tag = answer.lookup("Scene");
+      var result_name = answer.lookup("Name");
+      if (result_name !== null){
+        dropdown = dropdown + "<option value='" + result_tag + "'>" + result_name + "</option>";
+      }
+    }
+    dropdown = dropdown + "</select><input type='button' id='btn' value='Submit' onClick='render_find_new_lead();'/></form>";
+    dropdown_area.innerHTML = dropdown_area.innerHTML + dropdown; 
+  }
+
+  session.query("scene_name(Scene, Name).");
+  session.answers(get_callback(get_all_bindings));
+}
+
+// Output based on the user's selection
+function render_find_new_lead() {
+  clear_suggestion_area();
+  var urlmenu = document.getElementById( 'menu' );
+  var input = urlmenu.value;
+  
+  var query;
+  if (input == "any") {
+    query = "find_new_lead(Clue, ClueDesc, Scene, SceneName, PrevScene, PrevSceneName)."
+  } else {
+    query = "find_new_lead(Clue, ClueDesc, " + input + ", SceneName, PrevScene, PrevSceneName)."
+  }
+
+  var get_all_bindings = function(answers) {
+    if (answers.length > 0) {
+      for (var i = 0; i < answers.length; i++) {
+        var answer = answers[i];
+        var result_name = answer.lookup("ClueDesc");
+        var result_prev_name = answer.lookup("PrevSceneName")
+        output_area.innerHTML = output_area.innerHTML + "<p><strong>[From scene " + result_prev_name + "]</strong> " + result_name + "</p>";
+      }
+    } else {
+      output_area.innerHTML = output_area.innerHTML + "<p><strong>No results found</strong></p>";
+    }
+  }
+  session.query(query);
+  session.answers(get_callback(get_all_bindings));
+}
+
+// People to be taken hostage by Fuller at the end of the game
+function find_hostage_options() {
+  clear_suggestion_area();
+  var get_all_bindings = function(answers) {
+    for (var i = 0; i < answers.length; i++) {
+      var answer = answers[i];
+      var result_name = answer.lookup("Char");
+      output_area.innerHTML = output_area.innerHTML + "<p>" + result_name + "</p>";
+    }
+  }
+
+  session.query("find_hostage_options(Char).");
+  session.answers(get_callback(get_all_bindings));
+}
+
+// List of physical injuries possible
+function find_physical_injury() {
+  clear_suggestion_area();
+  var get_all_bindings = function(answers) {
+    for (var i = 0; i < answers.length; i++) {
+      var answer = answers[i];
+      var result_name = answer.lookup("ExtraProblem");
+      output_area.innerHTML = output_area.innerHTML + "<p>" + result_name + "</p>";
+    }
+  }
+
+  session.query("find_physical_injury(Challenge, ExtraProblem).");
+  session.answers(get_callback(get_all_bindings));
 }
