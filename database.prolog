@@ -266,7 +266,6 @@ scene_clues(temple_of_nephthys, now_that_she).
 scene_clues(temple_of_nephthys, madame_isis_hopes).
 scene_clues(temple_of_nephthys, if_asked_about).
 scene_characters(temple_of_nephthys, madame_isis).
-scene_characters(temple_of_nephthys, pearl_leblanc).
 scene(addie_needs_answers).
 scene_visited(addie_needs_answers, false).
 scene_name(addie_needs_answers, "Addie Needs Answers").
@@ -661,7 +660,7 @@ clue_description(as_far_as_pearl, "(Alternate lead-in, 'Miracle Machine') As far
 clue_known(as_far_as_pearl, false).
 clue_leads_to(as_far_as_pearl, miracle_machine).
 clue(she_insists_that).
-clue_description(she_insists_that, "(Alternate lead-in, 'Temple of Nephthys') She insists that she came here on her own initia- tive, though Assess Honesty suspects she's covering for someone who at least suggested it, to find the machine or at least the plans. If they had this machine at the temple, imagine the people it would draw in! (Knowing Pearl's history with the temple, Viv suspects a very personal motive in the girl's pursuit of the machine.)").
+clue_description(she_insists_that, "(Alternate lead-in, 'Temple of Nephthys') She insists that she came here on her own initiative, though Assess Honesty suspects she's covering for someone who at least suggested it, to find the machine or at least the plans. If they had this machine at the temple, imagine the people it would draw in! (Knowing Pearl's history with the temple, Viv suspects a very personal motive in the girl's pursuit of the machine.)").
 clue_known(she_insists_that, false).
 clue_leads_to(she_insists_that, temple_of_nephthys).
 clue(british_by_birth).
@@ -1369,9 +1368,11 @@ antagonist_reaction_triggered(antagonist_reaction_7, false).
 antagonist_reaction_triggered(antagonist_reaction_8, false).
 
 overhear_conversation(Char1, Char1Name, Char2, Char2Name, Clue, ClueDesc) :-
-	character_relationships(Char1, Char2, Relationship, positive),
+	character_relationship_valence(Char1, Char2, positive),
 	character_name(Char1, Char1Name),
 	character_name(Char2, Char2Name),
+	character_is_alive(Char1, true), 
+	character_is_alive(Char2, true),
     char_knows_clue(Char1, Char1Name, ClueTag, ClueDesc, Scene). 
 
 char_knows_clue(CharTag, CharName, ClueTag, ClueDesc, Scene) :-
@@ -1389,8 +1390,9 @@ find_new_lead(Clue, ClueDesc, Scene, SceneName, PrevScene, PrevSceneName) :-
     scene_name(PrevScene, PrevSceneName),
     scene_visited(Scene, false).
 
-find_hostage_options(Char) :- 
-    character_relationships(Char, player, Relationship, positive).
+find_hostage_options(Char, Name) :- 
+    character_relationship_valence(Char, player, positive),
+    character_name(Char, Name).
 
 find_physical_injury(Challenge, ProblemName, ProblemDescription) :- 
     (challenge_type(Challenge, fighting); challenge_type(Challenge, athletics)),

@@ -1382,8 +1382,11 @@ function char_knows_clue() {
 
 // Handles conversations that can be overheard between two characters
 function overhear_conversation() {
+  clear_dropdown_area();
   clear_suggestion_area();
-  output_area.innerHTML = "";
+  dropdown = dropdown + "<form><select name='menu' id='menu'><option value='any'>---Any character---</option><option value='howard_fuller'>Howard Fuller</option><option value='pearl_leblanc'>Pearl LeBlanc</ption><option value='madame_isis'>Madame Isis Neferi</option></select><input type='button' id='btn' value='Submit' onClick='render_overhear_conversation()'/></form>";
+  dropdown_area.innerHTML = dropdown_area.innerHTML + dropdown; 
+  /*
   var get_all_bindings = function(answers) {
     for (var i = 0; i < answers.length; i++) {
       var answer = answers[i];
@@ -1395,7 +1398,34 @@ function overhear_conversation() {
   }
 
 session.query("overhear_conversation(Char1, Char1Name, Char2, Char2Name, Clue, ClueDesc).");
+session.answers(get_callback(get_all_bindings));*/
+}
+
+function render_overhear_conversation() {
+    clear_suggestion_area();
+    var urlmenu = document.getElementById( 'menu' );
+    var input = urlmenu.value;
+    var query;
+
+    if (input == "any") {
+      query = "overhear_conversation(Char1, Char1Name, Char2, Char2Name, Clue, ClueDesc).";
+    } else {
+      query = "overhear_conversation(" + input + ", Char1Name, Char2, Char2Name, Clue, ClueDesc).";
+    }
+
+    var get_all_bindings = function(answers) {
+      for (var i = 0; i < answers.length; i++) {
+        var answer = answers[i];
+        var result_name = answer.lookup("Char1Name");
+        var result_name2 = answer.lookup("Char2Name");
+        var result_clue = answer.lookup("ClueDesc");
+        output_area.innerHTML = output_area.innerHTML + "<p>You overhear " + result_name + " tell a secret to " + result_name2 + ": " + result_clue + "</p>";
+      }
+    }
+
+session.query(query);
 session.answers(get_callback(get_all_bindings));
+  
 }
 
 // A clue that goes to a place the player hasn't already visited
@@ -1508,14 +1538,15 @@ function find_hostage_options() {
   clear_dropdown_area();
   clear_suggestion_area();
   var get_all_bindings = function(answers) {
+    console.log(answers);
     for (var i = 0; i < answers.length; i++) {
       var answer = answers[i];
-      var result_name = answer.lookup("Char");
+      var result_name = answer.lookup("Name");
       output_area.innerHTML = output_area.innerHTML + "<p>" + result_name + "</p>";
     }
   }
 
-  session.query("find_hostage_options(Char).");
+  session.query("find_hostage_options(Char, Name).");
   session.answers(get_callback(get_all_bindings));
 }
 
@@ -1532,7 +1563,7 @@ function find_physical_injury() {
       var result_string = "<p>" + result_name + ": " + result_description + "</p>";
       answerArray.push(result_string)
     }
-    var uniqueArray = [...new Set(answerArray)];
+    var uniqueArray = [...new Set(answerArray)]; // finds the unique elements of the answer array 
     output_area.innerHTML = output_area.innerHTML + uniqueArray; 
   }
 
