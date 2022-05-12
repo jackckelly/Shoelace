@@ -1538,7 +1538,6 @@ function find_hostage_options() {
   clear_dropdown_area();
   clear_suggestion_area();
   var get_all_bindings = function(answers) {
-    console.log(answers);
     for (var i = 0; i < answers.length; i++) {
       var answer = answers[i];
       var result_name = answer.lookup("Name");
@@ -1552,18 +1551,21 @@ function find_hostage_options() {
 
 // List of physical injuries possible
 function find_physical_injury() {
+  clear_dropdown_area();
   clear_suggestion_area();
+  var answerArray = [];
   var get_all_bindings = function(answers) {
     for (var i = 0; i < answers.length; i++) {
       var answer = answers[i];
-      var result_name = answer.lookup("ExtraProblem");
-      output_area.innerHTML = output_area.innerHTML + "<p>" + result_name + "</p>";
+      var result_name = answer.lookup("ProblemName");
+      var result_description = answer.lookup("ProblemDescription");
+      var result_string = "<p>" + result_name + ": " + result_description + "</p>";
+      answerArray.push(result_string)
     }
     var uniqueArray = [...new Set(answerArray)]; // finds the unique elements of the answer array 
     output_area.innerHTML = output_area.innerHTML + uniqueArray; 
-
   }
 
-  session.query("find_physical_injury(Challenge, ExtraProblem).");
+  session.query("find_physical_injury(Challenge, ProblemName, ProblemDescription).");
   session.answers(get_callback(get_all_bindings));
 }

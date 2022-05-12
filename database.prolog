@@ -987,14 +987,14 @@ challenge_setback(hang_onto_the_clue, "She runs like a gazelle, and you've had a
 challenge_extra_problem(hang_onto_the_clue, wrenched_ankle).
 challenge(getting_into_the_morgue).
 challenge_name(getting_into_the_morgue, "Getting into the Morgue").
-challenge_type(getting_into_the_morgue, "Stealth").
+challenge_type(getting_into_the_morgue, "stealth").
 challenge_advance(getting_into_the_morgue, "6", "With practiced ease, you slip into the mortuary wing of the building. It appears deserted: just you and the shadows. Earn an Edge: Edge 4, 'Cat Burglar'"). 
 challenge_hold(getting_into_the_morgue, "3", "5", "The police must have anticipated something like this. Two uniforms stand outside the door to the morgue. If you want access, you might have to go through channels. There’s still a chance to slip away quietly.").
 challenge_setback(getting_into_the_morgue, "As above, but you turn a corner and walk headfirst into one of the uniforms. See 'Chewed Out' below and gain Problem 10, 'O'Connor Isn’t Happy.'").
 challenge_extra_problem(getting_into_the_morgue, easier_in_than_out).
 challenge(seeing_finks_remains).
 challenge_name(seeing_finks_remains, "Seeing Fink's Remains").
-challenge_type(seeing_finks_remains, "Stability").
+challenge_type(seeing_finks_remains, "stability").
 challenge_advance(seeing_finks_remains, "9", "The overall condition of the body reminds you of the time you covered a train wreck. Not the sucker marks, of course, but there's a first time for everything. Earn an Edge: Earn Edge 5, 'The World Must Know'").
 challenge_hold(seeing_finks_remains, "5", "8", "Your horror makes you go weak in the knees. If you don’t get out of here soon, you’ll lose the contents of your stomach - perhaps for the second time.").
 challenge_setback(seeing_finks_remains, "See Hold, but also gain Problem 12, 'No One Is Safe'").
@@ -1009,32 +1009,32 @@ challenge_setback(cash_in_hand, "You take it, and keep all or give some to Sadie
 challenge_extra_problem(cash_in_hand, no_good_deed).
 challenge(spotting_marty_the_mouth).
 challenge_name(spotting_marty_the_mouth, "Spotting Marty the Mouth").
-challenge_type(spotting_marty_the_mouth, "Sense Trouble").
+challenge_type(spotting_marty_the_mouth, "sense trouble").
 challenge_advance(spotting_marty_the_mouth, "5", "You realize you’ve picked up a tail... and may choose to confront him straight away or step into an alley and attempt to get him at a disadvantage; see the 'Pinning Marty' Challenge below. Viv’s advantage gets folded into the Challenge’s Difficulty").
 challenge_setback(spotting_marty_the_mouth, "You don’t notice anything until you hear the sound of hurrying footsteps and a strong pair of hands steer you into an alley. Move to Challenge 'Jumped by Marty.'").
 challenge_extra_problem(spotting_marty_the_mouth, jumpy).
 challenge(pinning_marty).
 challenge_name(pinning_marty, "Pinning Marty").
-challenge_type(pinning_marty, "Fighting").
+challenge_type(pinning_marty, "fighting").
 challenge_advance(pinning_marty, "3", "You surprise your shadow and get him off his feet or pinned against a wall. Secures his cooperation. Invite the player to describe how she does it. Earn an Edge: Edge 7, 'Marty’s Respect'").
 challenge_hold(pinning_marty, "2", "or less", "Marty didn’t see it coming, but he’s been in the game long enough that he steps deftly aside and the two of you find yourselves facing off. Spend a Bargain Push to get him talking or give the Keeper a compelling description of how you win his cooperation, such as offering to share what you know.").
 challenge_extra_problem(pinning_marty, sprained_wrist).
 challenge(jumped_by_marty).
 challenge_name(jumped_by_marty, "Jumped by Marty").
-challenge_type(jumped_by_marty, "Fighting").
+challenge_type(jumped_by_marty, "fighting").
 challenge_advance(jumped_by_marty, "4", "You extricate yourself from your attacker and put him at a disadvantage. Secures his cooperation. Invite the player to describe how she does it. Earn an Edge: Edge 8, 'Sharp Reflexes'").
 challenge_hold(jumped_by_marty, "2", "3", "You manage to get free but he sidesteps your attempts to get him in a hold. Same results as Hold in 'Pinning Marty' Challenge above.").
 challenge_setback(jumped_by_marty, "Once he’s got what he wants, Marty lets you go. The bad news is what he wants. Problem 17, 'Marty's Got Your Notebook.'").
 challenge_extra_problem(jumped_by_marty, sprained_wrist).
 challenge(getting_past_the_guards).
 challenge_name(getting_past_the_guards, "Getting Past the Guards").
-challenge_type(getting_past_the_guards, "Stealth").
+challenge_type(getting_past_the_guards, "stealth").
 challenge_advance(getting_past_the_guards, "6", "You move like a cat in the shadows and gain entrance to the warehouse without the men outside even spotting you. Earn an Edge: On an 8+, gain Edge 9, 'On Edge'").
 challenge_setback(getting_past_the_guards, "Fuller’s guards hit you over the head and haul you inside to face the big man; move to 'Tied to the Chair.'").
 challenge_extra_problem(getting_past_the_guards, cocky).
 challenge_name(watching_the_devourer, "Watching the Devourer").
 challenge(watching_the_devourer).
-challenge_type(watching_the_devourer, "Stability").
+challenge_type(watching_the_devourer, "stability").
 challenge_extra_description(watching_the_devourer, "Spending Edges: Edge 5, 'The World Must Know,' for an extra die if Viv hasn't spent it on a Push, or any Edges that affect Stability or General/Mental.").
 challenge_advance(watching_the_devourer, "9", "You’ve discovered what killed Myron Fink, and that’s a start, right? You can't let yourself get sidetracked by horrors. Earn an Edge: On an 11+, gain Edge 10, 'Unflappable'").
 challenge_hold(watching_the_devourer, "5", "8", "You struggle to keep down the remains of your last meal. Either lose Edge 9, 'On Edge,' or lose a die in 'Dodge the Chloroform.'").
@@ -1042,7 +1042,7 @@ challenge_setback(watching_the_devourer, "Same as Hold but also gain Problem 21,
 challenge_extra_problem(watching_the_devourer, jaded).
 challenge(body_in_the_chair).
 challenge_name(body_in_the_chair, "Body in the Chair").
-challenge_type(body_in_the_chair, "Stability").
+challenge_type(body_in_the_chair, "stability").
 challenge_extra_description(body_in_the_chair, "Spending Edges: Edge 5, 'The World Must Know,' for an extra die if Viv hasn’t spent it on a Push, or any Edges that affect Stability or General/Mental.").
 challenge_advance(body_in_the_chair, "6", "You're closing on the answers; you just need to focus. Take a lot of deep breaths and keep going.").
 challenge_hold(body_in_the_chair, "3", "5", "You’ve rarely seen a body in such a mangled state. The smell of blood and bowels causes you to retch. Either lose Edge 9, 'On Edge,' or take a −4 penalty to 'Dodge the Chloroform.'").
@@ -1050,20 +1050,20 @@ challenge_setback(body_in_the_chair, "Same as Hold but also gain Problem 21, 'Al
 challenge_extra_problem(body_in_the_chair, jaded).
 challenge_name(dodge_the_chloroform, "Dodge the Chloroform").
 challenge(dodge_the_chloroform).
-challenge_type(dodge_the_chloroform, "Sense Trouble").
+challenge_type(dodge_the_chloroform, "sense trouble").
 challenge_advance(dodge_the_chloroform, "12", "You sense movement in the darkness and duck out of the way just as Fuller, chloroform in hand, looms up behind you.").
 challenge_hold(dodge_the_chloroform, "6", "11", "Fuller gets the chloroform over your mouth, but after the first inhalation, you have the sense to stop breathing. Head swimming, you can move to the test 'Fighting off Fuller.' Take 12 minus your result as a penalty to that test.").
 challenge_setback(dodge_the_chloroform, "You take a deep breath of something sweet, and then everything blurs. You stay at the edge of consciousness as someone maneuvers your body into a chair and binds your hands. Move to 'Tied to the Chair.'").
 challenge_extra_description(dodge_the_chloroform, "Spending Edges: Edge 9, 'On Edge,' or any Edges that affect Sense Trouble or General/Mental.").
 challenge(fighting_off_fuller).
 challenge_name(fighting_off_fuller, "Fighting off Fuller").
-challenge_type(fighting_off_fuller, "Fighting").
+challenge_type(fighting_off_fuller, "fighting").
 challenge_advance(fighting_off_fuller, "4", "Whether it's righteous anger or self-preservation, you unleash everything you’ve got and either knock Fuller out or secure his cooperation. Move to 'Fuller Fesses Up.'").
 challenge_extra_description(fighting_off_fuller, "Penalty: See 'Dodge the Chloroform' above.").
 challenge_setback(fighting_off_fuller, "Fuller's right hook finishes the work the chloroform started. Move to 'Tied to a Chair.'").
 challenge(they_came_from_beyond).
 challenge_name(they_came_from_beyond, "They Came from Beyond").
-challenge_type(they_came_from_beyond, "Stability").
+challenge_type(they_came_from_beyond, "stability").
 challenge_advance(they_came_from_beyond, "10", "Sure, nobody else has escaped this situation, but they didn't have all the facts. Hold it together, girl, and you can pull through.").
 challenge_setback(they_came_from_beyond, "Take on Problem 22, 'Haunted.'").
 challenge(antagonist_reaction_1_challenge).
@@ -1377,6 +1377,7 @@ antagonist_reaction_triggered(antagonist_reaction_6, false).
 antagonist_reaction_triggered(antagonist_reaction_7, false).
 antagonist_reaction_triggered(antagonist_reaction_8, false).
 
+
 overhear_conversation(Char1, Char1Name, Char2, Char2Name, Clue, ClueDesc) :-
 	character_relationship_valence(Char1, Char2, positive),
 	character_name(Char1, Char1Name),
@@ -1404,10 +1405,10 @@ find_hostage_options(Char, Name) :-
     character_relationship_valence(Char, player, positive),
     character_name(Char, Name).
 
-find_physical_injury(Challenge, ExtraProblem) :- 
-    challenge_type(Challenge, Type),
-    general_ability(Type, Name, Description, physical),
-    challenge_extra_problem(Challenge, ExtraProblem).
+find_physical_injury(Challenge, ProblemName, ProblemDescription) :- 
+    (challenge_type(Challenge, fighting); challenge_type(Challenge, athletics)),
+    challenge_extra_problem(Challenge, ExtraProblem),
+    problem(ExtraProblem, Number, ProblemName, ProblemDescription, false).
 
 change_clue_known(Clue, Description, Known) :-
 	clue_known(Clue, PrevKnown),
