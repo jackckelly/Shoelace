@@ -888,6 +888,10 @@ source_investigative_abilities(louisa_reynolds, psychology).
 
 
 :- dynamic(problem/5).
+:- dynamic(problem_number/2).
+:- dynamic(problem_name/2).
+:- dynamic(problem_type/2).
+:- dynamic(problem_description/2).
 
 problem(sucker_for_a_pretty_face, 1, "Sucker for a Pretty Face", "You change lovers as frequently as clothes. Of course you try not to sleep with your story's subjects, but sometimes it's the best way to get new information, right?", true).
 problem(hand_to_mouth, 2, "Hand-to-Mouth", "You got into this line of work to make a difference, not make dough. But even with the odd work you pick up around the office, you never know if you'll have next month's rent.", true).
@@ -955,42 +959,42 @@ edge(hardship_pay, 13, "Hardship Pay", "You convince your editor that the paper'
 
 challenge(other_peoples_mail).
 challenge_name(other_peoples_mail, "Other People's Mail").
-challenge_type(other_peoples_mail, filch).
+challenge_type(other_peoples_mail, "filch").
 challenge_advance(other_peoples_mail, "4", "You successfully purloin the letter. Grants access to alternate scene 'The Psychical Investigator'.").
 challenge_hold(other_peoples_mail, "2", "3", "As your fingers brush the edge of the letter, Fuller makes eye contact and his eyes begin to move downward. If you decide to play it off by deliberately noticing the letter's address, you may spend a Push to convince him you'll give the letter to Preston's fiancée. He demurs to this suggestion, but may later change his mind. Grants access to alternate scene 'The Psychical Investigator'.").
 challenge_setback(other_peoples_mail, "Fuller sees you tip the letter into your handbag. After snatching it back, he roughly escorts you out of the building and threatens to call the police if you set foot inside again. If you have not yet spoken to Charlie Fitzpatrick, she follows you onto the street to see if you know something about George.").
 challenge_extra_problem(other_peoples_mail, fuller_becomes_suspicious).
 challenge(focus_on_the_story_not_the_smile).
 challenge_name(focus_on_the_story_not_the_smile, "Focus On The Story, Not The Smile").
-challenge_type(focus_on_the_story_not_the_smile, cool).
+challenge_type(focus_on_the_story_not_the_smile, "cool").
 challenge_advance(focus_on_the_story_not_the_smile, "4", "When you interview enough women with charm and grit, you develop immunity to the type. Earn an Edge: Edge 1, 'Ice Queen'").
 challenge_hold(focus_on_the_story_not_the_smile, "2", "3", "Cute and you might even want to buy her a drink sometime, but you've got to treat Charlie like any other source - with a bit of distance and a grain of salt.").
 challenge_setback(focus_on_the_story_not_the_smile, "She's someone special alright. Whether your heart's beating faster or you're just surprised and impressed by finding her here, you've sure got a soft spot for her. Gain Problem 6, 'Soft Spot'").
 challenge_extra_problem(focus_on_the_story_not_the_smile, big_talker).
 challenge(catching_the_would_be_intruder).
 challenge_name(catching_the_would_be_intruder, "Catching the Would-Be Intruder").
-challenge_type(catching_the_would_be_intruder, athletics).
+challenge_type(catching_the_would_be_intruder, "athletics").
 challenge_advance(catching_the_would_be_intruder, "6", "You easily get to the stairs before her and force her to talk to you. Invite the player to describe how she gets the jump on Pearl so easily. Move to 'Questioning Pearl.' Earn an Edge: Edge 2, 'Sure-Footed'").
 challenge_hold(catching_the_would_be_intruder, "3", "5", "By the time you catch up to her on the stairs, she's pulled herself together and attempts to grab the schematics you retrieved from Preston's apartment. This may mean snatching your capacious purse or simply wresting the schematics from your hand. Challenge: 'Hang onto the Clue.'").
 challenge_setback(catching_the_would_be_intruder, "She runs like a gazelle, and you've had a few too many cigarettes lately. She's out the door, and you know you'll never catch her in the maze of alleys.").
 challenge_extra_problem(catching_the_would_be_intruder, wrenched_ankle).
 challenge(hang_onto_the_clue).
 challenge_name(hang_onto_the_clue, "Hang Onto the Clue").
-challenge_type(hang_onto_the_clue, fighting).
+challenge_type(hang_onto_the_clue, "fighting").
 challenge_advance(hang_onto_the_clue, "7", "Not today, sister! You twist away the schematics while keeping an iron grip on the young woman's wrist. Move to 'Questioning Pearl.' Earn an Edge: Edge 3, 'Pulled it Together'").
 challenge_hold(hang_onto_the_clue, "3", "6", "By the time you catch up to her on the stairs, she's pulled herself together and attempts to grab the schematics you retrieved from Preston's apartment. This may mean snatching your capacious purse or simply wresting the schematics from your hand. Challenge: 'Hang onto the Clue.'").
 challenge_setback(hang_onto_the_clue, "She runs like a gazelle, and you've had a few too many cigarettes lately. She's out the door, and you know you'll never catch her in the maze of alleys.").
 challenge_extra_problem(hang_onto_the_clue, wrenched_ankle).
 challenge(getting_into_the_morgue).
 challenge_name(getting_into_the_morgue, "Getting into the Morgue").
-challenge_type(getting_into_the_morgue, stealth).
+challenge_type(getting_into_the_morgue, "Stealth").
 challenge_advance(getting_into_the_morgue, "6", "With practiced ease, you slip into the mortuary wing of the building. It appears deserted: just you and the shadows. Earn an Edge: Edge 4, 'Cat Burglar'"). 
 challenge_hold(getting_into_the_morgue, "3", "5", "The police must have anticipated something like this. Two uniforms stand outside the door to the morgue. If you want access, you might have to go through channels. There’s still a chance to slip away quietly.").
 challenge_setback(getting_into_the_morgue, "As above, but you turn a corner and walk headfirst into one of the uniforms. See 'Chewed Out' below and gain Problem 10, 'O'Connor Isn’t Happy.'").
 challenge_extra_problem(getting_into_the_morgue, easier_in_than_out).
 challenge(seeing_finks_remains).
 challenge_name(seeing_finks_remains, "Seeing Fink's Remains").
-challenge_type(seeing_finks_remains, stability).
+challenge_type(seeing_finks_remains, "Stability").
 challenge_advance(seeing_finks_remains, "9", "The overall condition of the body reminds you of the time you covered a train wreck. Not the sucker marks, of course, but there's a first time for everything. Earn an Edge: Earn Edge 5, 'The World Must Know'").
 challenge_hold(seeing_finks_remains, "5", "8", "Your horror makes you go weak in the knees. If you don’t get out of here soon, you’ll lose the contents of your stomach - perhaps for the second time.").
 challenge_setback(seeing_finks_remains, "See Hold, but also gain Problem 12, 'No One Is Safe'").
@@ -998,39 +1002,39 @@ challenge_extra_problem(seeing_finks_remains, jaded).
 challenge(cash_in_hand).
 challenge_name(cash_in_hand, "Cash in Hand").
 challenge_extra_description(cash_in_hand, "Penalty: -2 if Viv holds Problem 2, 'Hand to Mouth'").
-challenge_type(cash_in_hand, cool).
+challenge_type(cash_in_hand, "cool").
 challenge_advance(cash_in_hand, "4", "You barely even consider it. Even though you need the money, you know how it would complicate things. Perhaps when this is over, your client can sell the plans herself. Earn an Edge: Edge 6, 'Professional Ethics'").
 challenge_hold(cash_in_hand, "2", "3", "You don’t take the money, but it hurts.").
 challenge_setback(cash_in_hand, "You take it, and keep all or give some to Sadie to ease your conscience. Invite the player to narrate what financial difficulty this solves for Viv: paying her rent, getting her typewriter out of hock, etc. But at what cost to her sense of professionalism, and to the case?").
 challenge_extra_problem(cash_in_hand, no_good_deed).
 challenge(spotting_marty_the_mouth).
 challenge_name(spotting_marty_the_mouth, "Spotting Marty the Mouth").
-challenge_type(spotting_marty_the_mouth, sense_trouble).
+challenge_type(spotting_marty_the_mouth, "Sense Trouble").
 challenge_advance(spotting_marty_the_mouth, "5", "You realize you’ve picked up a tail... and may choose to confront him straight away or step into an alley and attempt to get him at a disadvantage; see the 'Pinning Marty' Challenge below. Viv’s advantage gets folded into the Challenge’s Difficulty").
 challenge_setback(spotting_marty_the_mouth, "You don’t notice anything until you hear the sound of hurrying footsteps and a strong pair of hands steer you into an alley. Move to Challenge 'Jumped by Marty.'").
 challenge_extra_problem(spotting_marty_the_mouth, jumpy).
 challenge(pinning_marty).
 challenge_name(pinning_marty, "Pinning Marty").
-challenge_type(pinning_marty, fighting).
+challenge_type(pinning_marty, "Fighting").
 challenge_advance(pinning_marty, "3", "You surprise your shadow and get him off his feet or pinned against a wall. Secures his cooperation. Invite the player to describe how she does it. Earn an Edge: Edge 7, 'Marty’s Respect'").
 challenge_hold(pinning_marty, "2", "or less", "Marty didn’t see it coming, but he’s been in the game long enough that he steps deftly aside and the two of you find yourselves facing off. Spend a Bargain Push to get him talking or give the Keeper a compelling description of how you win his cooperation, such as offering to share what you know.").
 challenge_extra_problem(pinning_marty, sprained_wrist).
 challenge(jumped_by_marty).
 challenge_name(jumped_by_marty, "Jumped by Marty").
-challenge_type(jumped_by_marty, fighting).
+challenge_type(jumped_by_marty, "Fighting").
 challenge_advance(jumped_by_marty, "4", "You extricate yourself from your attacker and put him at a disadvantage. Secures his cooperation. Invite the player to describe how she does it. Earn an Edge: Edge 8, 'Sharp Reflexes'").
 challenge_hold(jumped_by_marty, "2", "3", "You manage to get free but he sidesteps your attempts to get him in a hold. Same results as Hold in 'Pinning Marty' Challenge above.").
 challenge_setback(jumped_by_marty, "Once he’s got what he wants, Marty lets you go. The bad news is what he wants. Problem 17, 'Marty's Got Your Notebook.'").
 challenge_extra_problem(jumped_by_marty, sprained_wrist).
 challenge(getting_past_the_guards).
 challenge_name(getting_past_the_guards, "Getting Past the Guards").
-challenge_type(getting_past_the_guards, stealth).
+challenge_type(getting_past_the_guards, "Stealth").
 challenge_advance(getting_past_the_guards, "6", "You move like a cat in the shadows and gain entrance to the warehouse without the men outside even spotting you. Earn an Edge: On an 8+, gain Edge 9, 'On Edge'").
 challenge_setback(getting_past_the_guards, "Fuller’s guards hit you over the head and haul you inside to face the big man; move to 'Tied to the Chair.'").
 challenge_extra_problem(getting_past_the_guards, cocky).
 challenge_name(watching_the_devourer, "Watching the Devourer").
 challenge(watching_the_devourer).
-challenge_type(watching_the_devourer, stability).
+challenge_type(watching_the_devourer, "Stability").
 challenge_extra_description(watching_the_devourer, "Spending Edges: Edge 5, 'The World Must Know,' for an extra die if Viv hasn't spent it on a Push, or any Edges that affect Stability or General/Mental.").
 challenge_advance(watching_the_devourer, "9", "You’ve discovered what killed Myron Fink, and that’s a start, right? You can't let yourself get sidetracked by horrors. Earn an Edge: On an 11+, gain Edge 10, 'Unflappable'").
 challenge_hold(watching_the_devourer, "5", "8", "You struggle to keep down the remains of your last meal. Either lose Edge 9, 'On Edge,' or lose a die in 'Dodge the Chloroform.'").
@@ -1038,7 +1042,7 @@ challenge_setback(watching_the_devourer, "Same as Hold but also gain Problem 21,
 challenge_extra_problem(watching_the_devourer, jaded).
 challenge(body_in_the_chair).
 challenge_name(body_in_the_chair, "Body in the Chair").
-challenge_type(body_in_the_chair, stability).
+challenge_type(body_in_the_chair, "Stability").
 challenge_extra_description(body_in_the_chair, "Spending Edges: Edge 5, 'The World Must Know,' for an extra die if Viv hasn’t spent it on a Push, or any Edges that affect Stability or General/Mental.").
 challenge_advance(body_in_the_chair, "6", "You're closing on the answers; you just need to focus. Take a lot of deep breaths and keep going.").
 challenge_hold(body_in_the_chair, "3", "5", "You’ve rarely seen a body in such a mangled state. The smell of blood and bowels causes you to retch. Either lose Edge 9, 'On Edge,' or take a −4 penalty to 'Dodge the Chloroform.'").
@@ -1046,60 +1050,66 @@ challenge_setback(body_in_the_chair, "Same as Hold but also gain Problem 21, 'Al
 challenge_extra_problem(body_in_the_chair, jaded).
 challenge_name(dodge_the_chloroform, "Dodge the Chloroform").
 challenge(dodge_the_chloroform).
-challenge_type(dodge_the_chloroform, sense_trouble).
+challenge_type(dodge_the_chloroform, "Sense Trouble").
 challenge_advance(dodge_the_chloroform, "12", "You sense movement in the darkness and duck out of the way just as Fuller, chloroform in hand, looms up behind you.").
 challenge_hold(dodge_the_chloroform, "6", "11", "Fuller gets the chloroform over your mouth, but after the first inhalation, you have the sense to stop breathing. Head swimming, you can move to the test 'Fighting off Fuller.' Take 12 minus your result as a penalty to that test.").
 challenge_setback(dodge_the_chloroform, "You take a deep breath of something sweet, and then everything blurs. You stay at the edge of consciousness as someone maneuvers your body into a chair and binds your hands. Move to 'Tied to the Chair.'").
 challenge_extra_description(dodge_the_chloroform, "Spending Edges: Edge 9, 'On Edge,' or any Edges that affect Sense Trouble or General/Mental.").
 challenge(fighting_off_fuller).
 challenge_name(fighting_off_fuller, "Fighting off Fuller").
-challenge_type(fighting_off_fuller, fighting).
+challenge_type(fighting_off_fuller, "Fighting").
 challenge_advance(fighting_off_fuller, "4", "Whether it's righteous anger or self-preservation, you unleash everything you’ve got and either knock Fuller out or secure his cooperation. Move to 'Fuller Fesses Up.'").
 challenge_extra_description(fighting_off_fuller, "Penalty: See 'Dodge the Chloroform' above.").
 challenge_setback(fighting_off_fuller, "Fuller's right hook finishes the work the chloroform started. Move to 'Tied to a Chair.'").
 challenge(they_came_from_beyond).
 challenge_name(they_came_from_beyond, "They Came from Beyond").
-challenge_type(they_came_from_beyond, stability).
+challenge_type(they_came_from_beyond, "Stability").
 challenge_advance(they_came_from_beyond, "10", "Sure, nobody else has escaped this situation, but they didn't have all the facts. Hold it together, girl, and you can pull through.").
 challenge_setback(they_came_from_beyond, "Take on Problem 22, 'Haunted.'").
 challenge(antagonist_reaction_1_challenge).
-challenge_type(antagonist_reaction_1_challenge, cool).
+challenge_type(antagonist_reaction_1_challenge, "cool").
 challenge_advance(antagonist_reaction_1_challenge, "6", "Gain Edge 11, 'Good Citizen'.").
 challenge_hold(antagonist_reaction_1_challenge, "2", "5", "They accept her argument, but give her the cold shoulder for a few days").
 challenge_setback(antagonist_reaction_1_challenge, "Gain Problem 23, 'Evicted'.").
 challenge_extra_problem(antagonist_reaction_1_challenge, no_good_deed).
 challenge(antagonist_reaction_2_challenge).
-challenge_type(antagonist_reaction_2_challenge, cool).
+challenge_type(antagonist_reaction_2_challenge, "cool").
 challenge_advance(antagonist_reaction_2_challenge, "10", "He gets away, but Viv did some damage. Edge 12, 'Still a Castle'").
 challenge_hold(antagonist_reaction_2_challenge, "5", "9", "He gets away without the schematics").
 challenge_setback(antagonist_reaction_2_challenge, "Viv loses the schematics").
 challenge_extra_problem(antagonist_reaction_2_challenge, wrenched_ankle).
+
 challenge(antagonist_reaction_4_challenge).
-challenge_type(antagonist_reaction_4_challenge, cool).
+challenge_type(antagonist_reaction_4_challenge, "cool").
 challenge_advance(antagonist_reaction_4_challenge, "6", "Edge 13, 'Hardship Pay'").
 challenge_hold(antagonist_reaction_4_challenge, "3", "5", "Viv wants a stiff drink after that conversation, but no harm done").
 challenge_setback(antagonist_reaction_4_challenge, "Problem 24, 'On Probation'").
 challenge_extra_problem(antagonist_reaction_4_challenge, cocky).
+
 challenge(antagonist_reaction_5_challenge).
-challenge_type(antagonist_reaction_5_challenge, fighting).
+challenge_type(antagonist_reaction_5_challenge, "fighting").
 challenge_advance(antagonist_reaction_5_challenge, "7", "Viv keeps her purse and her pride").
 challenge_hold(antagonist_reaction_5_challenge, "3", "6", "Viv manages to hold onto her purse but still takes on Problem 8, 'Wrenched Ankle'").
 challenge_setback(antagonist_reaction_5_challenge, "Viv loses her purse and takes on Problem 8, 'Wrenched Ankle'").
+
 challenge(antagonist_reaction_6_challenge).
-challenge_type(antagonist_reaction_6_challenge, cool).
+challenge_type(antagonist_reaction_6_challenge, "cool").
 challenge_advance(antagonist_reaction_6_challenge, "6", "Viv suavely maneuvers the flame out the door").
 challenge_hold(antagonist_reaction_6_challenge, "3", "5", "Viv manages to extract herself, but it's not smooth or polite").
 challenge_setback(antagonist_reaction_6_challenge, "Viv yields to temptation, and it ends messily, as always. −2 on the next General/ Mental test").
+
 challenge(antagonist_reaction_7_challenge).
-challenge_type(antagonist_reaction_7_challenge, stealth).
+challenge_type(antagonist_reaction_7_challenge, "stealth").
 challenge_advance(antagonist_reaction_7_challenge, "5", "He doesn't see Viv at all and appears unsure she even lives there").
 challenge_hold(antagonist_reaction_7_challenge, "2", "4", "Viv loses him in the alleys, but now knows he's located her address").
 challenge_setback(antagonist_reaction_7_challenge, "It takes Viv 30 minutes to convince him to go away. −2 on the next General/ Mental test").
+
 challenge(antagonist_reaction_8_challenge).
-challenge_type(antagonist_reaction_8_challenge, cool).
+challenge_type(antagonist_reaction_8_challenge, "cool").
 challenge_advance(antagonist_reaction_8_challenge, "9", " Viv bites back the urge to argue; +2 to the next Cool or Stability test").
 challenge_hold(antagonist_reaction_8_challenge, "3", "8", "The argument puts Viv's nerves on edge; −2 to the next Cool or Stability test").
 challenge_setback(antagonist_reaction_8_challenge, "Problem 24, 'On Probation'").
+
 
 :- dynamic(character/1).
 :- dynamic(character_is_alive/2).
@@ -1394,10 +1404,10 @@ find_hostage_options(Char, Name) :-
     character_relationship_valence(Char, player, positive),
     character_name(Char, Name).
 
-find_physical_injury(Challenge, ProblemName, ProblemDescription) :- 
-    (challenge_type(Challenge, fighting); challenge_type(Challenge, athletics)),
-    challenge_extra_problem(Challenge, ExtraProblem),
-    problem(ExtraProblem, Number, ProblemName, ProblemDescription, false).
+find_physical_injury(Challenge, ExtraProblem) :- 
+    challenge_type(Challenge, Type),
+    general_ability(Type, Name, Description, physical),
+    challenge_extra_problem(Challenge, ExtraProblem).
 
 change_clue_known(Clue, Description, Known) :-
 	clue_known(Clue, PrevKnown),
