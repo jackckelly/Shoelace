@@ -1375,18 +1375,8 @@ function updateAntagonistReaction(problemNumber, checked) {
 function char_knows_clue() {
   clear_dropdown_area();
   clear_suggestion_area();
-  output_area.innerHTML = "";
-  var get_all_bindings = function(answers) {
-    for (var i = 0; i < answers.length; i++) {
-      var answer = answers[i];
-    var result_name = answer.lookup("CharName");
-    var result_clue = answer.lookup("ClueDesc");
-    dropdown_area.innerHTML = dropdown_area.innerHTML + "<p>" + result_name + " knows the clue: " + result_clue + "</p>";
-  }
-}
-
-session.query("char_knows_clue(CharTag, CharName, ClueTag, ClueDesc, Scene).");
-session.answers(get_callback(get_all_bindings));
+  dropdown = dropdown + "<form><select name='menu' id='menu'><option value='any'>---Any character---</option>";
+  addCharactersToDropdown();
 }
 
 // Handles conversations that can be overheard between two characters
@@ -1409,8 +1399,8 @@ session.answers(get_callback(get_all_bindings));
 
 // A clue that goes to a place the player hasn't already visited
 function find_new_lead() {
-  clear_suggestion_area();
   clear_dropdown_area();
+  clear_suggestion_area();
   dropdown = dropdown + "<form><select name='menu' id='menu'><option value='any'>---Any scene---</option>";
   addScenesToDropdown();
 }
@@ -1418,7 +1408,6 @@ function find_new_lead() {
 // Gets all scenes from prolog and adds them to dropdown menu
 function addScenesToDropdown() {
   var get_all_bindings = function(answers) {
-    
     for (var i = 0; i < answers.length; i++) {
       var answer = answers[i];
       var result_tag = answer.lookup("Scene");
@@ -1427,11 +1416,60 @@ function addScenesToDropdown() {
         dropdown = dropdown + "<option value='" + result_tag + "'>" + result_name + "</option>";
       }
     }
-    dropdown = dropdown + "</select><input type='button' id='btn' value='Submit' onClick='render_find_new_lead();'/></form>";
+    dropdown = dropdown + "</select><input type='button' id='btn' value='Submit' onClick='render_find_new_lead()'/></form>";
     dropdown_area.innerHTML = dropdown_area.innerHTML + dropdown; 
   }
 
   session.query("scene_name(Scene, Name).");
+  session.answers(get_callback(get_all_bindings));
+}
+
+// Gets all characters from prolog and adds them to dropdown menu
+function addCharactersToDropdown() {
+  var get_all_bindings = function(answers) {
+    for (var i = 0; i < answers.length; i++) {
+      var answer = answers[i];
+      var result_tag = answer.lookup("Character");
+      var result_name = answer.lookup("Name");
+      if (result_name !== null){
+        dropdown = dropdown + "<option value='" + result_tag + "'>" + result_name + "</option>";
+      }
+    }
+    dropdown = dropdown + "</select><input type='button' id='btn' value='Submit' onClick='render_char_knows_clue()'/></form>";
+    dropdown_area.innerHTML = dropdown_area.innerHTML + dropdown; 
+  }
+
+  session.query("character_name(Character, Name).");
+  session.answers(get_callback(get_all_bindings));
+}
+
+function render_char_knows_clue() {
+  clear_suggestion_area();
+  var urlmenu = document.getElementById( 'menu' );
+  var input = urlmenu.value;
+  var query;
+
+  if (input == "any") {
+    query = "char_knows_clue(CharTag, CharName, ClueTag, ClueDesc, Scene)."
+  } else {
+    query = "char_knows_clue(" + input + ", CharName, ClueTag, ClueDesc, Scene)."
+  }
+
+  //output_area.innerHTML = "";
+  var get_all_bindings = function(answers) {
+    if (answers.length > 0) {
+      for (var i = 0; i < answers.length; i++) {
+        var answer = answers[i];
+        var result_name = answer.lookup("CharName");
+        var result_clue = answer.lookup("ClueDesc");
+        output_area.innerHTML = output_area.innerHTML + "<p>" + result_name + " knows the clue: " + result_clue + "</p>";
+      }
+    } else {
+      output_area.innerHTML = output_area.innerHTML + "<p><strong>No results found</strong></p>";
+    }
+  }
+
+  session.query(query);
   session.answers(get_callback(get_all_bindings));
 }
 
@@ -1440,8 +1478,8 @@ function render_find_new_lead() {
   clear_suggestion_area();
   var urlmenu = document.getElementById( 'menu' );
   var input = urlmenu.value;
-  
   var query;
+
   if (input == "any") {
     query = "find_new_lead(Clue, ClueDesc, Scene, SceneName, PrevScene, PrevSceneName)."
   } else {
@@ -1466,6 +1504,7 @@ function render_find_new_lead() {
 
 // People to be taken hostage by Fuller at the end of the game
 function find_hostage_options() {
+  clear_dropdown_area();
   clear_suggestion_area();
   var get_all_bindings = function(answers) {
     for (var i = 0; i < answers.length; i++) {
