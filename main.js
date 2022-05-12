@@ -1003,6 +1003,7 @@ function clear_suggestion_area() {
 }
 
 function clear_dropdown_area() {
+  dropdown = "";
   dropdown_area.innerHTML = "";
   bindings = [];
 }
