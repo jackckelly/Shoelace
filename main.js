@@ -111,7 +111,7 @@ function clear_output_area() {
 // Displays the name of the current scene
 function loadSceneName() {
   var binding = function(answer) {
-    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>" + answer.lookup("Name");  + "</h2>";
+    sceneInfo.innerHTML = sceneInfo.innerHTML + "<h2>" + answer.lookup("Name").id;  + "</h2>";
   }
   
   session.query("scene_name(" + currentScene + ", Name).");
@@ -155,7 +155,7 @@ function loadSceneLeadIns() {
       var answer = answers[i];
       var result_name = answer.lookup("Name");
       var result_tag = answer.lookup("OtherScene");
-      sceneInfo.innerHTML = sceneInfo.innerHTML + "<a onclick='setScene(" + result_tag + ")'; href='#'>" + result_name + "</a><br>";
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<a onclick='setScene(" + result_tag + ")'; href='#'>" + result_name.id + "</a><br>";
     }
     bindings = [];
     loadSceneLeadOuts();
@@ -176,7 +176,7 @@ function loadSceneLeadOuts() {
       var answer = answers[i];
       var result_name = answer.lookup("Name");
       var result_tag = answer.lookup("OtherScene");
-      sceneInfo.innerHTML = sceneInfo.innerHTML + "<a onclick='setScene(" + result_tag + ")'; href='#'>" + result_name + "</a><br>";
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<a onclick='setScene(" + result_tag + ")'; href='#'>" + result_name.id + "</a><br>";
     }
     bindings = [];
     loadSceneText();
@@ -198,7 +198,7 @@ function loadSceneText() {
     for (var i = 0; i < answers.length; i++) {
       var answer = answers[i];
       var result_name = answer.lookup("Text");
-      currentSceneText.push(result_name);
+      currentSceneText.push(result_name.id);
     }
     loadSceneClues();
   }
@@ -215,7 +215,7 @@ function loadSceneClues() {
       var result_name = answer.lookup("Description");
       var clue_known = answer.lookup("Known");
       if (result_name !== null){
-        currentSceneClues.push(result_name);
+        currentSceneClues.push(result_name.id); // TODO
         currentSceneCluesKnown.push(clue_known)
       }
     }
@@ -558,7 +558,7 @@ function renderChallenge(tag) {
   var binding = function(answer) {
     if (answer !== false) {
       challengeResult = "<div class='challenge'>"; 
-      challengeResult = challengeResult + "<h3>" + answer.lookup("Name") + "</h3>"; 
+      challengeResult = challengeResult + "<h3>" + answer.lookup("Name").id + "</h3>"; 
       challengeResult = challengeResult + "<p><em>" + answer.lookup("Type") + "</em></p>";
     }
     printChallengeExtraDescription(); 
@@ -572,7 +572,7 @@ function renderChallenge(tag) {
 function printChallengeExtraDescription() {
   var binding = function(answer) {
     if (answer !== false) {
-      challengeResult = challengeResult + "<p>" + answer.lookup("Description") + "</p>";
+      challengeResult = challengeResult + "<p>" + answer.lookup("Description").id + "</p>";
     }
     printChallengeAdvantage();
   }
@@ -586,7 +586,7 @@ function printChallengeAdvantage() {
   var binding = function(answer) {
     if (answer !== false) {
 
-      challengeResult = challengeResult + "<p><strong>Advance " + answer.lookup("AdvanceValue") + "+:</strong> " + answer.lookup("AdvanceDescription") + "</p>";
+      challengeResult = challengeResult + "<p><strong>Advance " + answer.lookup("AdvanceValue").id + "+: </strong> " + answer.lookup("AdvanceDescription").id + "</p>";
     }
     printChallengeHold();
   }
@@ -599,7 +599,7 @@ function printChallengeAdvantage() {
 function printChallengeHold() {
   var binding = function(answer) {
     if (answer !== false) {
-      challengeResult = challengeResult + "<p><strong>Hold " + answer.lookup("HoldHighValue") + "-" + answer.lookup("HoldLowValue") + ":</strong>" + answer.lookup("HoldDescription") + "</p>";
+      challengeResult = challengeResult + "<p><strong>Hold " + answer.lookup("HoldHighValue").id + "-" + answer.lookup("HoldLowValue").id + ": </strong>" + answer.lookup("HoldDescription").id + "</p>";
     }
     printChallengeSetback();
   }
@@ -612,7 +612,7 @@ function printChallengeHold() {
 function printChallengeSetback() {
   var binding = function(answer) {
     if (answer !== false) {
-      challengeResult = challengeResult + "<p><strong>Setback: </strong>" + answer.lookup("SetbackDescription") + "</p>"; 
+      challengeResult = challengeResult + "<p><strong>Setback: </strong>" + answer.lookup("SetbackDescription").id + "</p>"; 
     }
     printChallengeExtraProblem();
   }
@@ -625,7 +625,7 @@ function printChallengeSetback() {
 function printChallengeExtraProblem() {
   var binding = function(answer) {
     if (answer !== false) {
-      challengeResult = challengeResult + "<p><strong>Extra Problem: </strong>" + answer.lookup("Name") + "</p>"; 
+      challengeResult = challengeResult + "<p><strong>Extra Problem: </strong>" + answer.lookup("Name").id + "</p>"; 
     }
     renderChallengeText();
   }
@@ -645,7 +645,7 @@ function renderChallengeText() {
  **********************/
 
 // Gets list of all clues
-function loadClues() {
+function loadClues() { // TODO
   allClues = [];
   allCluesKnown = [];
   clear_output_area();
@@ -659,7 +659,7 @@ function loadClues() {
     var clue_known = answer.lookup("Known");
     var scene = answer.lookup("Name");
     if (result_name !== null){
-      allClues.push(result_name);
+      allClues.push(result_name.id);
       allCluesKnown.push(clue_known);
       allScenes.push(scene);
     }
@@ -674,11 +674,11 @@ session.answers(get_callback(get_all_bindings));
 // Prints out the page for All Clues
 function renderClues() {
   var sceneHeading = allScenes[0];
-  sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>" + sceneHeading + "</h3>";
+  sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>" + sceneHeading.id + "</h3>";
   for (var i = 0; i < allClues.length; i++) {
     if (allScenes[i].id !== sceneHeading.id) {
       sceneHeading = allScenes[i];
-      sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>" + sceneHeading + "</h3>";
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>" + sceneHeading.id + "</h3>";
     }
     var checkbox;
     var clue_known = allCluesKnown[i];
@@ -755,7 +755,7 @@ function loadPlayerEdges() {
         continuity = " (Continuity) ";
       }
       if (result_name !== null){
-        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><input type='checkbox' name='edge' checked><strong>" + result_name + "</strong>" + continuity + " -- " + result_description + "</p>";
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><input type='checkbox' name='edge' checked><strong>" + result_name + "</strong>" + continuity + " -- " + result_description.id + "</p>";
       }
     }
     bindings = [];
@@ -780,7 +780,7 @@ function loadPlayerProblems() {
         continuity = " (Continuity) ";
       }
       if (result_name !== null){
-        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><input type='checkbox' name='problem' checked><strong>" + result_name + "</strong> " + continuity + " -- " + result_description + "</p>";
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p><input type='checkbox' name='problem' checked><strong>" + result_name + "</strong> " + continuity + " -- " + result_description.id + "</p>";
       }
     }
     bindings = [];
@@ -801,7 +801,7 @@ function loadPlayerInvestigativeAbilities() {
       var answer = answers[i];
       var result_name = answer.lookup("Name");
       if (result_name !== null){
-        htmlOutput = htmlOutput + "<p>" + result_name + "</p>";
+        htmlOutput = htmlOutput + "<p>" + result_name.id + "</p>";
       }
     }
     htmlOutput = htmlOutput + "</div>";
@@ -827,9 +827,9 @@ function loadPlayerGeneralAbilities() {
       var value = answer.lookup("Value");
       if (result_name !== null){
         if (value > 1) {
-          htmlOutput = htmlOutput +  "<p>" + result_name + " 🎲 🎲 </p>";
+          htmlOutput = htmlOutput +  "<p>" + result_name.id + " 🎲 🎲 </p>";
         } else {
-          htmlOutput = htmlOutput + "<p>" + result_name + " 🎲 </p>";
+          htmlOutput = htmlOutput + "<p>" + result_name.id + " 🎲 </p>";
         } 
       }
     }
@@ -881,7 +881,7 @@ function loadEdges() {
         } else {
           checkbox = "<input type='checkbox' name='edge'>";
         }
-        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + checkbox + "<strong>" + result_name + "</strong> " + continuity + "-- " + result_description + "</p>";
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + checkbox + "<strong>" + result_name + "</strong> " + continuity + "-- " + result_description.id + "</p>";
       }
     }
     bindings = [];
@@ -933,7 +933,7 @@ function loadProblems() {
         } else {
           checkbox = "<input type='checkbox' name='problem'>";
         }
-        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + checkbox + "<strong>" + result_name + "</strong>" + continuity + " -- " + result_description + "</p>";
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + checkbox + "<strong>" + result_name + "</strong>" + continuity + " -- " + result_description.id + "</p>";
       }
     }
   }
@@ -1026,10 +1026,10 @@ function loadSources() {
       var result_ability = answer.lookup("AbilityName");
       if (result_name !== null && currentName !== result_tag){
         currentName = result_tag;
-        sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3><strong>" + result_name + "</strong> (" + result_profession + ")</h3><p>" + result_description + "</p><p><strong>Investigative Abilities</strong></p>";
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3><strong>" + result_name.id + "</strong> (" + result_profession.id + ")</h3><p>" + result_description.id + "</p><p><strong>Investigative Abilities</strong></p>";
       }
       if (result_name !== null) {
-        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + result_ability + "</p>";
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + result_ability.id + "</p>";
       }
     }
     bindings = [];
@@ -1053,7 +1053,7 @@ function loadInvestigativeAbilities() {
       var result_type = answer.lookup("Type");
       var result_description = answer.lookup("Description");
       if (result_name !== null){
-        sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>" + result_name + " (" + result_type + ")</h3><p>" + result_description + "</p>";
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>" + result_name.id + " (" + result_type + ")</h3><p>" + result_description.id + "</p>";
       }
     }
     bindings = [];
@@ -1073,7 +1073,7 @@ function loadGeneralAbilities() {
       var result_type = answer.lookup("Type");
       var result_description = answer.lookup("Description");
       if (result_name !== null){
-        sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>" + result_name + " (" + result_type + ")</h3><p>" + result_description + "</p>";
+        sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>" + result_name.id + " (" + result_type + ")</h3><p>" + result_description.id + "</p>";
       }
     }
     bindings = [];
@@ -1094,9 +1094,9 @@ function loadAntagonistReactions() {
     for (var i = 0; i < answers.length; i++) {
       var answer = answers[i];
       antagonistTags[i] =  answer.lookup("Tag");
-      antagonistTriggers[i] =  answer.lookup("Trigger");
-      antagonistReactions[i] = answer.lookup("Reaction");
-      antagonistChallenges[i] = answer.lookup("ReactionChallenge");
+      antagonistTriggers[i] =  answer.lookup("Trigger").id;
+      antagonistReactions[i] = answer.lookup("Reaction").id;
+      antagonistChallenges[i] = answer.lookup("ReactionChallenge").id;
     }
     bindings = [];
     renderAntagonistReactions();
@@ -1176,7 +1176,7 @@ function decrementPush(value) {
  **********************/
 
 // When you click the checkbox for a clue, have this update the result in the database
-$(document).on("click", "input[name='clue']", function () {
+$(document).on("click", "input[name='clue']", function () { // TODO
   var checked = $(this).prop('checked');
   var clueText = this.nextSibling.data;
   var binding = function(answer) {
@@ -1185,7 +1185,9 @@ $(document).on("click", "input[name='clue']", function () {
     checkIfClueLeadsToScene(clue, checked);
   }
 
-  var statement = "clue_known(Clue, PrevKnown), clue_description(Clue, " + clueText + "), retract( clue_known(Clue, PrevKnown) ), asserta( clue_known(Clue, " + checked + ")).";
+  var stringfiedClueText = "'" + clueText.replace(/'/g, "\\'") + "'";
+  console.log(stringfiedClueText);
+  var statement = "clue_known(Clue, PrevKnown), clue_description(Clue, " + stringfiedClueText + "), retract( clue_known(Clue, PrevKnown) ), asserta( clue_known(Clue, " + checked + ")).";
   session.query(statement);
   session.answer(binding);
 });
@@ -1386,19 +1388,6 @@ function overhear_conversation() {
   clear_suggestion_area();
   dropdown = dropdown + "<form><select name='menu' id='menu'><option value='any'>---Any character---</option><option value='howard_fuller'>Howard Fuller</option><option value='pearl_leblanc'>Pearl LeBlanc</ption><option value='madame_isis'>Madame Isis Neferi</option></select><input type='button' id='btn' value='Submit' onClick='render_overhear_conversation()'/></form>";
   dropdown_area.innerHTML = dropdown_area.innerHTML + dropdown; 
-  /*
-  var get_all_bindings = function(answers) {
-    for (var i = 0; i < answers.length; i++) {
-      var answer = answers[i];
-      var result_name = answer.lookup("Char1Name");
-      var result_name2 = answer.lookup("Char2Name");
-      var result_clue = answer.lookup("ClueDesc");
-      output_area.innerHTML = output_area.innerHTML + "<p>" + result_name + " tells secret to " + result_name2 + ": " + result_clue + "</p>";
-    }
-  }
-
-session.query("overhear_conversation(Char1, Char1Name, Char2, Char2Name, Clue, ClueDesc).");
-session.answers(get_callback(get_all_bindings));*/
 }
 
 function render_overhear_conversation() {
@@ -1416,10 +1405,10 @@ function render_overhear_conversation() {
     var get_all_bindings = function(answers) {
       for (var i = 0; i < answers.length; i++) {
         var answer = answers[i];
-        var result_name = answer.lookup("Char1Name");
-        var result_name2 = answer.lookup("Char2Name");
-        var result_clue = answer.lookup("ClueDesc");
-        output_area.innerHTML = output_area.innerHTML + "<p>You overhear " + result_name + " tell a secret to " + result_name2 + ": " + result_clue + "</p>";
+        var result_name = answer.lookup("Char1Name").id;
+        var result_name2 = answer.lookup("Char2Name").id;
+        var result_clue = answer.lookup("ClueDesc").id;
+        output_area.innerHTML = output_area.innerHTML + "<p>You overhear <strong>" + result_name + "</strong> tell a secret to <strong>" + result_name2 + "</strong>: " + result_clue + "</p>";
       }
     }
 
@@ -1491,9 +1480,9 @@ function render_char_knows_clue() {
     if (answers.length > 0) {
       for (var i = 0; i < answers.length; i++) {
         var answer = answers[i];
-        var result_name = answer.lookup("CharName");
-        var result_clue = answer.lookup("ClueDesc");
-        output_area.innerHTML = output_area.innerHTML + "<p>" + result_name + " knows the clue: " + result_clue + "</p>";
+        var result_name = answer.lookup("CharName").id;
+        var result_clue = answer.lookup("ClueDesc").id;
+        output_area.innerHTML = output_area.innerHTML + "<p><strong>" + result_name + "</strong> knows the clue: " + result_clue + "</p>";
       }
     } else {
       output_area.innerHTML = output_area.innerHTML + "<p><strong>No results found</strong></p>";
@@ -1521,8 +1510,8 @@ function render_find_new_lead() {
     if (answers.length > 0) {
       for (var i = 0; i < answers.length; i++) {
         var answer = answers[i];
-        var result_name = answer.lookup("ClueDesc");
-        var result_prev_name = answer.lookup("PrevSceneName")
+        var result_name = answer.lookup("ClueDesc").id;
+        var result_prev_name = answer.lookup("PrevSceneName").id;
         output_area.innerHTML = output_area.innerHTML + "<p><strong>[From scene " + result_prev_name + "]</strong> " + result_name + "</p>";
       }
     } else {
@@ -1540,7 +1529,7 @@ function find_hostage_options() {
   var get_all_bindings = function(answers) {
     for (var i = 0; i < answers.length; i++) {
       var answer = answers[i];
-      var result_name = answer.lookup("Name");
+      var result_name = answer.lookup("Name").id;
       output_area.innerHTML = output_area.innerHTML + "<p>" + result_name + "</p>";
     }
   }
@@ -1557,8 +1546,8 @@ function find_physical_injury() {
   var get_all_bindings = function(answers) {
     for (var i = 0; i < answers.length; i++) {
       var answer = answers[i];
-      var result_name = answer.lookup("ProblemName");
-      var result_description = answer.lookup("ProblemDescription");
+      var result_name = answer.lookup("ProblemName").id;
+      var result_description = answer.lookup("ProblemDescription").id;
       var result_string = "<p>" + result_name + ": " + result_description + "</p>";
       answerArray.push(result_string)
     }
