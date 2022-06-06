@@ -1116,7 +1116,7 @@ challenge_setback(antagonist_reaction_8_challenge, "Problem 24, 'On Probation'")
 :- dynamic(character_name/2).
 :- dynamic(character_description/2).
 :- dynamic(character_goal/2).
-:- dynamic(character_relation_valence/3).
+:- dynamic(character_relationship_valence/3).
 :- dynamic(character_relationship/3).
 :- dynamic(character_met/2).
 
