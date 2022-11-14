@@ -400,6 +400,13 @@ function renderScene() {
     for (var i = 11; i < 13; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
+  } else if (currentScene == "addie_needs_answers") {
+    for (var i = 0; i < 3; i++) {
+      sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
+    }
+    for (var i = 0; i < 7; i++) {
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+    }
   } else if (currentScene == "the_thing_in_the_morgue") {
     for (var i = 0; i < 2; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";

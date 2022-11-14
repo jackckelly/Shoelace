@@ -707,7 +707,7 @@ clue_leads_to(now_that_she, addie_needs_answers).
 clue(madame_isis_hopes).
 clue_description(madame_isis_hopes,"(Core, 'The Miracle Machine') Madame Isis hopes Viv can find George. His machine would change her line of work forever. She hasn't seen it in action, but George told her he will have it working this week. If it works, she might help him out with those money problems of his - as long as nobody else gets that machine for a few years. (Interactions with Pearl may change how this answer plays out, but the gist remains the same. She may call Pearl in at this point to return the schematics and offer to buy them from Viv if she can find the rest.)").
 clue_known(madame_isis_hopes, false).
-clue_leads_to(madame_isis_hopes, the_miracle_machine).
+clue_leads_to(madame_isis_hopes, miracle_machine).
 clue(if_asked_about).
 clue_description(if_asked_about,"If asked about Carrington, Madame Isis sniffs derisively and makes remarks about people with nothing better to do with their time.").
 clue_known(if_asked_about, false).
