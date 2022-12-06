@@ -3,6 +3,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/mermaid/6.0.0/mermaid.css" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/6.0.0/mermaid.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="tau-prolog.js" defer></script>
   <script src="main.js" defer></script>
   <link rel="stylesheet" href="style.css">
@@ -16,12 +17,37 @@
     <a href="#" id="scenes_link">Scenes</a>  |  <a href="#" id="clues_link">All Clues</a>    |    <a href="#" id="player_link">Player Sheet</a>    |    <a href="#" id="edges_link">Edges</a>    |    <a href="#" id="problems_link">Problems</a>    |    <a href="#" id="characters_link">Characters</a>    |   <a href="#" id="sources_link">Sources</a>   |   <a href="#" id="investigative_abilities_link">Investigative Abilities</a>   |   <a href="#" id="general_abilities_link">General Abilities</a>   |   <a href="#" id="antagonist_reactions_link">Antagonist Reactions</a>   |    <a href="#" id="suggestions_link">GM Suggestions</a>
   </div>
   <div class="row">
-  <div class="column">
-    <div id="graphInfo">
+    <div class="column">
+      <div id="graphInfo">
+      </div>
+    </div>
+    <div class="column">
+      <div id="sceneInfo">
+      </div>
     </div>
   </div>
-  <div class="column">
-    <div id="sceneInfo">
-  </div>
+  <div class="wrapper">
+    <footer id="suggestions-footer">
+      <button id="suggestions-toggle">Suggestions</button>
+      <div id="suggestions-container">
+          <p> 
+            Respond as
+            <select id="npc-select"></select>
+            <button id="suggestions-start">Go!</button>
+          </p>
+          <div id="suggestions-feed-container">
+            <p><b>Suggestions</b></p>
+            <div id="suggestions-feed"></div>
+          </div>
+          <div id="questions-feed-container">
+            <p><b>Questions</b></p>
+            <div id="questions-feed"></div>
+          </div>
+          <div id="transcription-feed-container">
+            <p><b>Transcription</b></p>
+            <div id="transcription-feed"></div>
+          </div>
+      </div>
+    </footer>
   </div>
 </body>

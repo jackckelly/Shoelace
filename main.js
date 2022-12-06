@@ -1,3 +1,4 @@
+
 mermaid.initialize({
   startOnLoad: true,
   securityLevel: 'loose',
@@ -6,6 +7,7 @@ mermaid.initialize({
 // The starting scene for the module 
 var currentScene = "sadies_sob_story";
 var binding = "";
+
 
 // Some arrays that store information fetched from Prolog 
 var currentSceneText = []; 
@@ -1604,4 +1606,238 @@ function find_physical_injury() {
 
   session.query("find_physical_injury(Challenge, ProblemName, ProblemDescription).");
   session.answers(get_callback(get_all_bindings));
+}
+
+
+//***********************
+//     SUGGESTIONS
+//***********************
+
+//UI
+var suggestionsToggle = document.getElementById('suggestions-toggle');
+var suggestionsContainer = document.getElementById('suggestions-container');
+
+function hideFooter() {
+  suggestionsContainer.style.display = "block";
+}
+
+function showFooter() {
+  suggestionsContainer.style.display = 'none';
+}
+suggestionsToggle.onclick = function() {
+  if (suggestionsContainer.style.display === "block") {
+    suggestionsContainer.style.display = 'none';
+  } else {
+    suggestionsContainer.style.display = 'block';
+  }
+}
+
+//Transcription
+// get last word said element
+var transcriptionFeed = document.getElementById('transcription-feed');
+var questionsFeed = document.getElementById('questions-feed');
+var suggestionsFeed = document.getElementById('suggestions-feed');
+const SpeechRecognition = window.SpeechRecognition || webkitSpeechRecognition;
+//const SpeechGrammarList = window.SpeechGrammarList || webkitSpeechGrammarList;
+//const SpeechRecognitionEvent = window.SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
+
+
+// new instance of speech recognition
+var recognition = new SpeechRecognition();
+
+
+var final_timestamps = {};
+var unfinalized_timestamps = {}
+// set params
+
+var statementCount = 0;
+
+var questions = [];
+recognition.onresult = function(event){
+  // delve into words detected results & get the latest
+  // total results detected
+  console.log(event);
+  // get length of latest results
+
+  let results_buffer = event.results;
+  let transcription = [];
+  updated_unfinalized_timestamps = {}
+  for (var i = 0; i < results_buffer.length; i++) {
+    if (!(i in final_timestamps) && results_buffer[i].isFinal) {
+      final_timestamps[i]["text"] = results_buffer[i][0].transcript;
+      final_timestamps[i]["timestamp"] = results_buffer.timestamp;
+    } else if (results_buffer[i].isFinal) {
+      updated_unfinalized_timestamps[i]["text"] = results_buffer[i][0].transcript;
+      updated_unfinalized_timestamps[i]["timestamp"] = results_buffer.timestamp;
+    }
+  }
+  unfinalized_timestamps = updated_unfinalized_timestamps;
+
+  if (results_buffer.length > statementCount && results_buffer[statementCount].isFinal) {
+    for (var i = 0; i < results_buffer.length; i++) {
+      transcription.push(results_buffer[i][0].transcript);
+    } 
+
+    let question_prompt = getQuestionPrompt(transcription);
+    gptRequest(question_prompt, function (response) {
+      var question = response.data.choices[0].text;
+      console.log(question);
+      if (question.includes("?")) {
+        questionsFeed.innerHTML = questionsFeed.innerHTML ? questionsFeed.innerHTML + "<li>" +  question + "</li>" : "<li>" +  question + "</li>";
+      }
+      let character_prompt = getCharacterPrompt(question)
+      gptRequest(character_prompt, function (character_response) {
+        let text = character_response.data.choices[0].text;
+        suggestionsFeed.innerHTML = suggestionsFeed.innerHTML + "<li>" +  text + "</li>";
+      });
+    });
+
+    statementCount += 1;
+  }
+
+
+  // get last word detected
+  var displayText = ""
+
+  for (var i = Math.max(0 - 3, 0); i < results_buffer.length; i++) {
+    displayText = displayText + "<li>" + results_buffer[i][0].transcript + "</li>"
+  }
+
+  transcriptionFeed.innerHTML =  displayText;
+};
+
+// speech error handling
+recognition.onerror = function(event){
+  console.log('error?');
+  console.log(event);
+}
+
+
+function processSpeech() {
+
+}
+
+var processSpeechInterval = null;
+
+recognition.onstart = function(event){
+  processSpeechInterval = setInterval(processSpeech, 100);
+  console.log('start');
+}
+
+recognition.onend = function(event){
+  processSpeechInterval.clearInterval();
+}
+
+
+var startButton =  document.getElementById('suggestions-start');
+
+var audioStarted = false;
+startButton.onclick = function() {
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.start();
+}
+
+
+// GPT 3
+var API_KEY = ""
+var OpenAI = null;
+
+fetch('./.config.json')
+    .then((response) => response.json())
+    .then(function (json) {
+      API_KEY = json["API_KEY"]
+      OpenAI = axios.create({
+        baseURL: 'https://api.openai.com/v1/',
+        timeout: 100000,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': "*",
+          'Authorization': 'Bearer ' + API_KEY
+        }
+      });
+    });
+
+ 
+function gptRequest(prompt, callback) {
+  OpenAI({
+    "method": "post",
+    "url": "/completions",
+    "data": {
+      "model": "text-davinci-003",
+      "prompt": prompt,
+      "max_tokens": 200,
+      "top_p": 1,
+      "n": 1,
+      "stream": false,
+      "logprobs": null,
+      "stop": "\n"
+    },
+  }).catch(function (error) {
+    console.log(error.toJSON());
+  }).then(function(response) {
+    if (response.status == 200) {
+      callback(response);
+    }
+  });
+}
+
+
+function getQuestionPrompt(transcription){
+
+    var prompt = `Find and identify a question in the text
+
+Input:
+just a question
+curious about it
+what is your favorite color
+it's raining today so
+
+Output:
+What is your favorite color?
+
+Input:
+so you are a barber, i believe
+what's your favorite part of that job?
+i think you're doing great
+
+Output:
+What is your favorite part of your job as a barber?
+
+Input:
+${transcription.map((t) => t.trim()).join("\n")}
+
+Output:
+`;
+
+  return prompt;
+}
+
+function getCharacterPrompt(question){
+
+  let prompt = `Sadie Cain is a garment worker engaged to George Preston. She believes that while the course of true love may not always run smooth, love still prevails. 
+Sadie Cain speaks in the soft, defensive tone of someone who has gone through her story several times already. She's cried too long to have any tears left. Instead, her eyes reflect a quiet blankness.
+Sadie's fiancé, George Preston, disappeared three days ago under mysterious circumstances. She thinks the police are framing him for a murder, just like those articles Viv wrote about police frame-ups a few years ago. She wants Viv to find him and to prove him innocent.
+
+She will share the following information only if asked about it directly: 
+- She met George at the New York Public Library. She loves George because she found him entirely different from your ordinary Joe. He read books about the human brain and the spirit world and all kinds of things. He thought a lot. George would have gone to college, only his family couldn't afford it.
+- George works as an electrical repairman at Fuller's Electrical Repair, just a couple blocks north of Fulton Street in downtown Brooklyn.
+- Sadie admits she doesn't see George every night, which the police took to mean he two- times her. They just don't understand George. Someday you'll hear about him as a famous inventor. At night, he works on building his machine and Mr. Fuller lets him use the workbench. Some nights, he comes by her place but others he works so late that he just sleeps at the shop. She mostly sees him on weekends.
+- George was on the verge of an amazing breakthrough: a machine that was going to change everything. If asked what the machine does, Sadie falters. George never actually told her; he said
+
+As Sadie Cain, you answer questions from the detective:
+
+Q: What is your name?
+A: My name is Sadie Cain.
+
+Q: What do you think about herbal medicine?
+A: Oh dear, I don't know anything about that. 
+
+Q: How are you feeling?
+A: Awful, you must help me find George. I hope nothing has happened to him!
+
+Q: ${question}
+A: `;
+return prompt;
+
 }
