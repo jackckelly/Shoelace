@@ -1610,7 +1610,7 @@ function find_physical_injury() {
 
 
 //***********************
-//     SUGGESTIONS
+//     AI SUGGESTIONS
 //***********************
 
 
@@ -1618,6 +1618,9 @@ const TRANSCRIPTION_DISPLAY_TIMEOUT = 20 * 1000
 const TRANSCRIPTION_USE_TIMEOUT = 10 * 1000
 const QUESTION_DISPLAY_TIMEOUT = 30 * 1000
 const SUGGESTION_DISPLAY_TIMEOUT = 60 * 1000
+
+
+
 
 //UI
 var suggestionsToggle = document.getElementById('suggestions-toggle');
@@ -1648,17 +1651,16 @@ const SpeechRecognition = window.SpeechRecognition || webkitSpeechRecognition;
 //const SpeechRecognitionEvent = window.SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
 
 
-// new instance of speech recognition
-var recognition = new SpeechRecognition();
+// speech recognition globals
 
-
+var recognition = null;
+var session_id = Date.now();
 var final_transcriptions = [];
-var unfinalized_transcriptions = []
-
+var unfinalized_transcriptions = [];
 var questions = [];
-var question_to_index = {}
+var question_to_index = {};
 
-recognition.onresult = function(event){
+function onRecognitionResult(event){
   // delve into words detected results & get the latest
   // total results detected
   console.log(event);
@@ -1731,12 +1733,13 @@ function renderSuggestions() {
 }
 
 // speech error handling
-recognition.onerror = function(event){
+function onRecognitionError(event){
   console.log('error?');
   console.log(event);
 }
 
 function processSpeech() {
+  let target_session_id = session_id;
   const recent_final = final_transcriptions.filter((t) => (performance.now() - t.timestamp) < TRANSCRIPTION_USE_TIMEOUT)
   const recent = recent_final.concat(unfinalized_transcriptions);
 
@@ -1749,6 +1752,9 @@ function processSpeech() {
   let question_prompt = getQuestionPrompt(transcriptions);
 
   gptRequest(question_prompt, function (response) {
+
+    if (!isActive || target_session_id !== session_id) { return; }
+
     let question = response.data.choices[0].text;
     console.log(question);
     if (!(question.includes("?"))) { return; }
@@ -1774,10 +1780,11 @@ function processSpeech() {
       }
       question_to_index[question] = question_id
     }
-    renderQuestions();
+    renderSuggestions();
     let character_prompt = getCharacterPrompt(question)
     console.log(character_prompt);
     gptRequest(character_prompt, function(character_response) {
+      if (!isActive || target_session_id !== session_id) { return; }
       let suggestion = character_response.data.choices[0].text;
       let parent_question_id = question_to_index[question];
       let parent_question = questions[parent_question_id];
@@ -1792,25 +1799,69 @@ function processSpeech() {
 
 var processSpeechInterval = null;
 
-recognition.onstart = function(event){
-  processSpeechInterval = setInterval(processSpeech, 3000);
-  console.log('start');
+function onRecognitionStart(event) {
+  console.log("recognition start");
 }
 
-recognition.onend = function(event){
-  clearInterval(processSpeechInterval);
+function onRecognitionEnd(event) {
+  console.log('end');
+  if (isActive) {
+    updateIsActive(false);
+  }
+  renderAll();
 }
-
 
 var startButton =  document.getElementById('suggestions-start');
+var resetButton =  document.getElementById('suggestions-reset');
 
-var audioStarted = false;
-startButton.onclick = function() {
-  recognition.continuous = true;
-  recognition.interimResults = true;
-  recognition.start();
+var isActive = false;
+
+function updateIsActive(newIsActive) {
+
+  if (newIsActive === isActive) {
+    return;
+  }
+  isActive = newIsActive;
+
+  if (isActive) {
+    processSpeechInterval = setInterval(processSpeech, 3000);
+    if (recognition !== null) {
+      recognition.start();
+    }
+    startButton.innerHTML = "Pause"
+  } else {
+    clearInterval(processSpeechInterval);
+    if (recognition !== null) {
+      recognition.stop(); 
+    }
+    startButton.innerHTML = "Go!"
+  }
 }
 
+function newSuggestionSession() {
+  updateIsActive(false);
+  session_id = Date.now();
+  recognition = new SpeechRecognition();
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.onresult = (event) => onRecognitionResult(event);
+  recognition.onstart = onRecognitionStart;
+  recognition.onend = onRecognitionError;
+  recognition.onend = onRecognitionEnd;
+  final_transcriptions = [];
+  unfinalized_transcriptions = [];
+  questions = [];
+  question_to_index = {};
+  renderAll();
+}
+
+startButton.onclick = function() {
+  updateIsActive(!isActive);
+}
+
+resetButton.onclick = function() {
+  newSuggestionSession();
+}
 
 // GPT 3
 var API_KEY = ""
@@ -1855,6 +1906,11 @@ function gptRequest(prompt, callback) {
   });
 }
 
+function renderAll(){
+  renderTranscription();
+  renderQuestions();
+  renderSuggestions();
+}
 
 function getQuestionPrompt(transcription){
 
@@ -1919,3 +1975,5 @@ A: `;
 return prompt;
 
 }
+
+newSuggestionSession();

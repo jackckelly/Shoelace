@@ -3,7 +3,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/mermaid/6.0.0/mermaid.css" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/6.0.0/mermaid.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js" defer></script>
   <script src="tau-prolog.js" defer></script>
   <script src="main.js" defer></script>
   <link rel="stylesheet" href="style.css">
@@ -44,7 +44,9 @@
           <p> 
             Respond as
             <select id="npc-select"></select>
+            <br>
             <button id="suggestions-start">Go!</button>
+            <button id="suggestions-reset">Reset</button>
           </p>
       </div>
     </footer>
