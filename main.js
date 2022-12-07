@@ -1613,6 +1613,12 @@ function find_physical_injury() {
 //     SUGGESTIONS
 //***********************
 
+
+const TRANSCRIPTION_DISPLAY_TIMEOUT = 20 * 1000
+const TRANSCRIPTION_USE_TIMEOUT = 10 * 1000
+const QUESTION_DISPLAY_TIMEOUT = 30 * 1000
+const SUGGESTION_DISPLAY_TIMEOUT = 60 * 1000
+
 //UI
 var suggestionsToggle = document.getElementById('suggestions-toggle');
 var suggestionsContainer = document.getElementById('suggestions-container');
@@ -1646,65 +1652,83 @@ const SpeechRecognition = window.SpeechRecognition || webkitSpeechRecognition;
 var recognition = new SpeechRecognition();
 
 
-var final_timestamps = {};
-var unfinalized_timestamps = {}
-// set params
-
-var statementCount = 0;
+var final_transcriptions = [];
+var unfinalized_transcriptions = []
 
 var questions = [];
+var question_to_index = {}
+
 recognition.onresult = function(event){
   // delve into words detected results & get the latest
   // total results detected
   console.log(event);
+  console.log(performance.now());
   // get length of latest results
 
   let results_buffer = event.results;
-  let transcription = [];
-  updated_unfinalized_timestamps = {}
+
+  var updated_unfinalized_transcriptions = []
   for (var i = 0; i < results_buffer.length; i++) {
-    if (!(i in final_timestamps) && results_buffer[i].isFinal) {
-      final_timestamps[i]["text"] = results_buffer[i][0].transcript;
-      final_timestamps[i]["timestamp"] = results_buffer.timestamp;
-    } else if (results_buffer[i].isFinal) {
-      updated_unfinalized_timestamps[i]["text"] = results_buffer[i][0].transcript;
-      updated_unfinalized_timestamps[i]["timestamp"] = results_buffer.timestamp;
+    if (i >= final_transcriptions.length && results_buffer[i].isFinal) {
+      final_transcriptions.push({
+        "text": results_buffer[i][0].transcript,
+        "timestamp": event.timeStamp,
+      })
+    } else if (!(results_buffer[i].isFinal)) {
+      updated_unfinalized_transcriptions.push({
+        "text": results_buffer[i][0].transcript,
+        "timestamp": event.timeStamp,
+      })
     }
   }
-  unfinalized_timestamps = updated_unfinalized_timestamps;
+  // Global State Update
+  unfinalized_transcriptions = updated_unfinalized_transcriptions;
 
-  if (results_buffer.length > statementCount && results_buffer[statementCount].isFinal) {
-    for (var i = 0; i < results_buffer.length; i++) {
-      transcription.push(results_buffer[i][0].transcript);
-    } 
-
-    let question_prompt = getQuestionPrompt(transcription);
-    gptRequest(question_prompt, function (response) {
-      var question = response.data.choices[0].text;
-      console.log(question);
-      if (question.includes("?")) {
-        questionsFeed.innerHTML = questionsFeed.innerHTML ? questionsFeed.innerHTML + "<li>" +  question + "</li>" : "<li>" +  question + "</li>";
-      }
-      let character_prompt = getCharacterPrompt(question)
-      gptRequest(character_prompt, function (character_response) {
-        let text = character_response.data.choices[0].text;
-        suggestionsFeed.innerHTML = suggestionsFeed.innerHTML + "<li>" +  text + "</li>";
-      });
-    });
-
-    statementCount += 1;
-  }
-
-
-  // get last word detected
-  var displayText = ""
-
-  for (var i = Math.max(0 - 3, 0); i < results_buffer.length; i++) {
-    displayText = displayText + "<li>" + results_buffer[i][0].transcript + "</li>"
-  }
-
-  transcriptionFeed.innerHTML =  displayText;
+  // render state
+  renderTranscription();
 };
+
+function renderTranscription(){
+  let ts = performance.now();
+  var displayText = "";
+  for (var i = 0; i < final_transcriptions.length; i++) {
+    transcription = final_transcriptions[i];
+    if ((ts - transcription.timestamp) < TRANSCRIPTION_DISPLAY_TIMEOUT) {
+      displayText = displayText + "<li>" + final_transcriptions[i]["text"] + "</li>";
+    }
+  }
+
+  for (var i = 0; i < unfinalized_transcriptions.length; i++) {
+    transcription = unfinalized_transcriptions[i];
+    displayText = displayText + "<li>" + unfinalized_transcriptions[i]["text"] + "</li>";
+  }
+  transcriptionFeed.innerHTML = displayText;
+}
+
+function renderQuestions() {
+  var displayText = ""
+  let ts = performance.now()
+  let recent_questions = questions.filter((q) => (ts - q.last_updated) < QUESTION_DISPLAY_TIMEOUT)
+  for (var i = 0; i < recent_questions.length; i++) {
+    displayText = displayText +  "<li>" +  recent_questions[i].text + "</li>";
+  }
+  questionsFeed.innerHTML = displayText;
+}
+
+function renderSuggestions() {
+  var displayText = ""
+  let ts = performance.now()
+  let recent_questions = questions.filter((q) => (ts - q.last_updated) < QUESTION_DISPLAY_TIMEOUT)
+  for (let i = 0; i < recent_questions.length; i++) {
+    let question = recent_questions[i]
+    displayText = displayText +  "<p>" +  question.text + "</p>";
+    let recent_suggestions = question.suggestions.filter((s) => (ts - s.timestamp) < SUGGESTION_DISPLAY_TIMEOUT);
+    for (let j = 0; j < recent_suggestions.length; j++) {
+      displayText = displayText + "<li>" +  recent_suggestions[j].text + "</li>"
+    }
+  }
+  suggestionsFeed.innerHTML = displayText;
+}
 
 // speech error handling
 recognition.onerror = function(event){
@@ -1712,20 +1736,69 @@ recognition.onerror = function(event){
   console.log(event);
 }
 
-
 function processSpeech() {
+  const recent_final = final_transcriptions.filter((t) => (performance.now() - t.timestamp) < TRANSCRIPTION_USE_TIMEOUT)
+  const recent = recent_final.concat(unfinalized_transcriptions);
 
+  if (recent.length == 0) {
+    console.log("no recent transcription")
+    return;
+  }
+
+  let transcriptions = recent.map((t) => t.text);
+  let question_prompt = getQuestionPrompt(transcriptions);
+
+  gptRequest(question_prompt, function (response) {
+    let question = response.data.choices[0].text;
+    console.log(question);
+    if (!(question.includes("?"))) { return; }
+
+    if (question in question_to_index) {
+      let question_id = question_to_index[question]
+      let q = questions[question_id]
+      q["last_updated"] = performance.now()
+    } else {
+      questions.push({
+        "text": question,
+        "last_updated": performance.now(),
+        "suggestions": []
+      })
+      let question_id = questions.length - 1;
+
+      // this should make it async safe; probably can comment it out
+      for (let i = 0; i < questions.length; i++) {
+        if (questions[i].text == question){
+          question_id = i
+          break;
+        }
+      }
+      question_to_index[question] = question_id
+    }
+    renderQuestions();
+    let character_prompt = getCharacterPrompt(question)
+    console.log(character_prompt);
+    gptRequest(character_prompt, function(character_response) {
+      let suggestion = character_response.data.choices[0].text;
+      let parent_question_id = question_to_index[question];
+      let parent_question = questions[parent_question_id];
+      parent_question.suggestions.push({
+        "text": suggestion,
+        "timestamp": performance.now(),
+      })
+      renderSuggestions();
+    });
+  });
 }
 
 var processSpeechInterval = null;
 
 recognition.onstart = function(event){
-  processSpeechInterval = setInterval(processSpeech, 100);
+  processSpeechInterval = setInterval(processSpeech, 3000);
   console.log('start');
 }
 
 recognition.onend = function(event){
-  processSpeechInterval.clearInterval();
+  clearInterval(processSpeechInterval);
 }
 
 
@@ -1785,7 +1858,7 @@ function gptRequest(prompt, callback) {
 
 function getQuestionPrompt(transcription){
 
-    var prompt = `Find and identify a question in the text
+    var prompt = `Find and identify a question in an error-prone transcript
 
 Input:
 just a question
@@ -1824,6 +1897,11 @@ She will share the following information only if asked about it directly:
 - George works as an electrical repairman at Fuller's Electrical Repair, just a couple blocks north of Fulton Street in downtown Brooklyn.
 - Sadie admits she doesn't see George every night, which the police took to mean he two- times her. They just don't understand George. Someday you'll hear about him as a famous inventor. At night, he works on building his machine and Mr. Fuller lets him use the workbench. Some nights, he comes by her place but others he works so late that he just sleeps at the shop. She mostly sees him on weekends.
 - George was on the verge of an amazing breakthrough: a machine that was going to change everything. If asked what the machine does, Sadie falters. George never actually told her; he said
+- George didn't have a lot of friends, but he grew up with one of his coworkers - Charlie Fitzpatrick. As kids, they'd planned to travel the world together.
+- George rents a one-room apartment in one of the decrepit older buildings up by the Navy Yard. 'Just until we have enough money for one of the nicer new apartments.' The landlord, Mr. Simpson, won't let her into his room.
+- Everyone persecuted George just for coming from a poor family, but he was going to make something of himself, Sadie knows it.
+- If asked, she produces a photograph of a gangling young man with light hair and eyes, but seems reluctant to let it go. He seems to look at something beyond the photographer.
+- The police questioned her several times, but all she knows is what they told her - someone in George's building got killed. And they insist George did it.
 
 As Sadie Cain, you answer questions from the detective:
 

@@ -127,7 +127,7 @@ svg {
   display:none;
   background:white;
   color:black;
-  width:99%
+  width:99%;
   min-height:80px;
   text-align:left;
   padding:15px;
@@ -137,3 +137,17 @@ svg {
   border-color: #333;
 }
 
+
+#suggestions-feed-container {
+  display:block;
+  max-height: 800px;
+  overflow-y:scroll;
+}
+
+#questions-feed-container {
+  display:none;
+}
+
+#transcription-feed-container {
+  display:none;
+}
