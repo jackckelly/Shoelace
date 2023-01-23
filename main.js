@@ -81,8 +81,6 @@ var bindings = [];
  document.getElementById('antagonist_reactions_link').onclick = loadAntagonistReactions;
 
 
-// The starting function to load in the starting scene
-loadAll();
 
 function loadAll() {
   currentSceneText = []; 
@@ -103,6 +101,7 @@ function loadScene() {
   loadSceneType();
   loadSceneCompleted(); 
   loadSceneLeadIns();
+  newSuggestionSession();
 }
 
 // Clears the output area so that it can be populated with a new page 
@@ -1653,7 +1652,7 @@ const SpeechRecognition = window.SpeechRecognition || webkitSpeechRecognition;
 
 // speech recognition globals
 
-var recognition = null;
+var recognition = new SpeechRecognition();
 var session_id = Date.now();
 var final_transcriptions = [];
 var unfinalized_transcriptions = [];
@@ -1781,7 +1780,9 @@ function processSpeech() {
       question_to_index[question] = question_id
     }
     renderSuggestions();
-    let character_prompt = getCharacterPrompt(question)
+    let character = getCharacter();
+    if (character == null) { return; }
+    let character_prompt = getCharacterPrompt(question, character);
     console.log(character_prompt);
     gptRequest(character_prompt, function(character_response) {
       if (!isActive || target_session_id !== session_id) { return; }
@@ -1824,30 +1825,44 @@ function updateIsActive(newIsActive) {
   isActive = newIsActive;
 
   if (isActive) {
-    processSpeechInterval = setInterval(processSpeech, 3000);
-    if (recognition !== null) {
+    processSpeechInterval = setInterval(processSpeech, 4000);
+    if (!(recognition == null)) {
       recognition.start();
     }
     startButton.innerHTML = "Pause"
   } else {
     clearInterval(processSpeechInterval);
-    if (recognition !== null) {
+    if (!(recognition == null)) {
       recognition.stop(); 
     }
     startButton.innerHTML = "Go!"
   }
 }
 
+function getCharacter() {
+  let choice = characterSelector.value
+  if (currentScene in sceneSuggestionData) {
+    let scene = sceneSuggestionData[currentScene]
+    for (let i = 0; i < scene.length; i++) {
+      if (scene[i].name === choice) {
+        return scene[i];
+      }
+    }
+  }
+  return null;
+}
+
 function newSuggestionSession() {
   updateIsActive(false);
+  renderSuggestionControls();
   session_id = Date.now();
   recognition = new SpeechRecognition();
   recognition.continuous = true;
   recognition.interimResults = true;
   recognition.onresult = (event) => onRecognitionResult(event);
-  recognition.onstart = onRecognitionStart;
-  recognition.onend = onRecognitionError;
-  recognition.onend = onRecognitionEnd;
+  recognition.onstart = (event) => onRecognitionStart(event);
+  recognition.onerror = (event) => onRecognitionError(event);
+  recognition.onend = (event) => onRecognitionEnd(event);
   final_transcriptions = [];
   unfinalized_transcriptions = [];
   questions = [];
@@ -1900,7 +1915,7 @@ function gptRequest(prompt, callback) {
   }).catch(function (error) {
     console.log(error.toJSON());
   }).then(function(response) {
-    if (response.status == 200) {
+    if (response.status === 200) {
       callback(response);
     }
   });
@@ -1910,6 +1925,31 @@ function renderAll(){
   renderTranscription();
   renderQuestions();
   renderSuggestions();
+}
+
+var suggestionsControls = document.getElementById("suggestions-control");
+var characterSelector = document.getElementById("npc-select");
+var suggestionsStatus = document.getElementById("suggestions-status");
+
+function renderSuggestionControls(){
+  if (currentScene in sceneSuggestionData) {
+    let characters = sceneSuggestionData[currentScene].map((character) => character.name);
+    if (characters.length > 0) {
+      suggestionsControls.style.display = "block";
+      suggestionsStatus.style.display = "none";
+      characterSelector.disabled = false;
+      startButton.disabled = false;
+      resetButton.disabled = false;
+      characterSelector.innerHTML = characters.map((character) => `<option value="${character}">${character}</option>`).join("\n")
+      characterSelector.value = characters[0];
+      return;
+    }
+  }
+  suggestionsControls.style.display = "none";
+  suggestionsStatus.style.display = "block";
+  characterSelector.disabled = true;
+  startButton.disabled = true;
+  resetButton.disabled = true;
 }
 
 function getQuestionPrompt(transcription){
@@ -1942,38 +1982,104 @@ Output:
   return prompt;
 }
 
-function getCharacterPrompt(question){
+function getCharacterPrompt(question, character){
 
-  let prompt = `Sadie Cain is a garment worker engaged to George Preston. She believes that while the course of true love may not always run smooth, love still prevails. 
-Sadie Cain speaks in the soft, defensive tone of someone who has gone through her story several times already. She's cried too long to have any tears left. Instead, her eyes reflect a quiet blankness.
-Sadie's fiancé, George Preston, disappeared three days ago under mysterious circumstances. She thinks the police are framing him for a murder, just like those articles Viv wrote about police frame-ups a few years ago. She wants Viv to find him and to prove him innocent.
+  let description = character.description.join("\n")
+  let clues = character.clues.map((clue) => "- " + clue).join("\n")
 
-She will share the following information only if asked about it directly: 
-- She met George at the New York Public Library. She loves George because she found him entirely different from your ordinary Joe. He read books about the human brain and the spirit world and all kinds of things. He thought a lot. George would have gone to college, only his family couldn't afford it.
-- George works as an electrical repairman at Fuller's Electrical Repair, just a couple blocks north of Fulton Street in downtown Brooklyn.
-- Sadie admits she doesn't see George every night, which the police took to mean he two- times her. They just don't understand George. Someday you'll hear about him as a famous inventor. At night, he works on building his machine and Mr. Fuller lets him use the workbench. Some nights, he comes by her place but others he works so late that he just sleeps at the shop. She mostly sees him on weekends.
-- George was on the verge of an amazing breakthrough: a machine that was going to change everything. If asked what the machine does, Sadie falters. George never actually told her; he said
-- George didn't have a lot of friends, but he grew up with one of his coworkers - Charlie Fitzpatrick. As kids, they'd planned to travel the world together.
-- George rents a one-room apartment in one of the decrepit older buildings up by the Navy Yard. 'Just until we have enough money for one of the nicer new apartments.' The landlord, Mr. Simpson, won't let her into his room.
-- Everyone persecuted George just for coming from a poor family, but he was going to make something of himself, Sadie knows it.
-- If asked, she produces a photograph of a gangling young man with light hair and eyes, but seems reluctant to let it go. He seems to look at something beyond the photographer.
-- The police questioned her several times, but all she knows is what they told her - someone in George's building got killed. And they insist George did it.
+  let prompt = `${description}
 
-As Sadie Cain, you answer questions from the detective:
+${character.name} will share the following information only if asked about it directly: 
+${clues}
+
+As ${character.name}, you answer questions from the detective:
 
 Q: What is your name?
-A: My name is Sadie Cain.
+A: My name is ${character.name}.
 
-Q: What do you think about herbal medicine?
-A: Oh dear, I don't know anything about that. 
+Q: What do you think about politics?
+A: Oh, I don't know anything about that.
 
-Q: How are you feeling?
-A: Awful, you must help me find George. I hope nothing has happened to him!
+Q: Who am I?
+A: You're a detective investigating George's disappearance, Vivian Sinclair.
 
 Q: ${question}
 A: `;
-return prompt;
+    return prompt;
 
 }
 
-newSuggestionSession();
+var sceneSuggestionData = {
+  "sadies_sob_story": [{
+    "name": "Sadie Cain",
+    "description": [
+      "Sadie Cain is a garment worker engaged to George Preston. She believes that while the course of true love may not always run smooth, love still prevails.",
+      "Sadie Cain speaks in the soft, defensive tone of someone who has gone through her story several times already. She's cried too long to have any tears left. Instead, her eyes reflect a quiet blankness.",
+      "Sadie's fiancé, George Preston, disappeared three days ago under mysterious circumstances. She thinks the police are framing him for a murder, just like those articles Viv wrote about police frame-ups a few years ago. She wants Viv to find him and to prove him innocent."
+    ],
+    "clues": [
+      "She met George at the New York Public Library. She loves George because she found him entirely different from your ordinary Joe. He read books about the human brain and the spirit world and all kinds of things. He thought a lot. George would have gone to college, only his family couldn't afford it.",
+      "George works as an electrical repairman at Fuller's Electrical Repair, just a couple blocks north of Fulton Street in downtown Brooklyn.",
+      "Sadie admits she doesn't see George every night, which the police took to mean he two- times her. They just don't understand George. Someday you'll hear about him as a famous inventor. At night, he works on building his machine and Mr. Fuller lets him use the workbench. Some nights, he comes by her place but others he works so late that he just sleeps at the shop. She mostly sees him on weekends.",
+      "George was on the verge of an amazing breakthrough: a machine that was going to change everything. If asked what the machine does, Sadie falters. George never actually told her; he said",
+      "George didn't have a lot of friends, but he grew up with one of his coworkers - Charlie Fitzpatrick. As kids, they'd planned to travel the world together.",
+      "George rents a one-room apartment in one of the decrepit older buildings up by the Navy Yard. 'Just until we have enough money for one of the nicer new apartments.' The landlord, Mr. Simpson, won't let her into his room.",
+      "Everyone persecuted George just for coming from a poor family, but he was going to make something of himself, Sadie knows it.",
+      "If asked, she produces a photograph of a gangling young man with light hair and eyes, but seems reluctant to let it go. He seems to look at something beyond the photographer.",
+      "The police questioned her several times, but all she knows is what they told her - someone in George's building got killed. And they insist George did it."
+    ],
+    "attitude": "positive"
+  }],
+  "fullers_electrical_repair": [{
+    "name": "Petunia Adams",
+    "description": [
+      "Petunia Adams works at Fuller's Electrical Repair as Mr. Fuller's secretary.",
+      "A well-scrubbed young woman of about 25 in a sensible cotton print frock, Petunia maintains an immaculate bun and an all-business attitude 'to keep the boys at bay.' She considers herself a kind of 'den mother' to the 'boys' in the shop, even those a decade older than herself. ",
+      "She always thought George different from the other boys. Bit of a dreamer. Sometimes used to just stare off into space. Why, one time she thought she saw him squinting as though he were trying to see something just out of view."
+    ],
+    "clues": [
+      "Yes, George worked on a machine after hours. Several of the boys have pet projects, and Mr. Fuller kindly lets them use his space.",
+      "She doesn't know about George's device. Oh, but Richard was trying to build a bicycle-powered electric washer because his mother's farm doesn't yet have electricity. Something about generators. She thought that sounded very practical.",
+      "George's looked more like a phonograph, or perhaps a projector like at the movies.",
+      "No, he must have taken it with him because it's not here now."
+    ],
+    "attitude": "positive"
+  }],
+  "fuller_himself": [{
+    "name": "Howard Fuller",
+    "description": [
+      "Howard Fuller is the founder of Fuller's Electrical Repair.",
+      "Like many of those he now employs, Howard Fuller once dreamed of inventing something as revolutionary as the electric icebox or razor. Once he realized the insufficiency of his genius, he focused on something only slightly easier to achieve: making his business a success. He hires only the best, keeps them working from eight to six, and guarantees repaired items 'as good as new or your money back.'",
+      "Fuller varies his posture between overlooking his domain, arms akimbo, and smoking a pipe with his feet on the desk."
+    ],
+    "clues": [
+      "He last saw George four nights ago when he, Fuller, locked up. The boy stayed late to work on his device, same as always. But Fuller clarifies he doesn't play favorites: George supplies his own materials and must replace any tools he breaks.",
+      "He locks up around 8 p.m. But several of the boys have keys, including George.",
+      "If she wants to know more about George, she should talk to Charlie Fitzpatrick. Fuller indicates her on the floor below. Those two grew up together, and are still thick as thieves. It was George who talked him into hiring Charlie.",
+      "Had he thought of George as a murderer? No, but you know those sensitive types and the police make a good case. Why else would he have run off ?",
+      "George never leaves the device here; he must have taken it home to his apartment.",
+      "He thinks the machine has something to do with radio waves, but doesn't know very much about it. George played his hand close to his chest.",
+      "Either prompted by Viv's questioning him about the dame Charlie mentions, or remembering just as Viv turns to leave the office, Fuller brings up the other girl who came by on Saturday asking about George. 'Pearl something-or-other. She gave me a card. Ah, there it is.' From under a heap on his desk, he produces a card bearing the name Madame Isis Neferi, a phone number, a street address in Brooklyn Heights, and Temple of Nephthys. 'Madame Isis, that wasn't her, but she begged me to call her if George came back or I got a lead on what she called his ‘miracle machine.' Strange girl.'",
+    ],
+    "attitude": "neutral"
+  }],
+  "charming_charlie": [],
+  "what_the_cops_know": [],
+  "the_peculiar_death_of_myron_fink": [],
+  "interviewing_the_neighbors": [],
+  "georges_apartment": [],
+  "questioning_pearl": [],
+  "the_psychical_investigator": [],
+  "temple_of_nephthys": [],
+  "addie_needs_answers": [],
+  "the_thing_in_the_morgue": [],
+  "miracle_machine": [],
+  "the_leg_breaker": [],
+  "going_on_the_grid": [],
+  "men_gone_missing": [],
+  "charlie_comes_clean": [],
+  "breaking_into_fullers": [],
+  "sadie_and_the_scoop": [],
+}
+
+loadAll();
