@@ -547,14 +547,14 @@ function renderAntagonistReactionTrigger(antagonistReaction) {
 }
 
 // Renders a clue as checked or unchecked if it is known or not
-function renderClue(clue, known) {
+function renderClue(clue, known, number) {
   var checkbox;
   if (known == "true") {
     checkbox = "<input type='checkbox' name='clue' checked>";
   } else {
     checkbox = "<input type='checkbox' name='clue'>";
   }
-  sceneInfo.innerHTML = sceneInfo.innerHTML + "<p class='hangingindent'>" + checkbox + clue + "</p>";
+  sceneInfo.innerHTML = sceneInfo.innerHTML + `<p class='hangingindent' id=clue-${number}>` + checkbox + clue + "</p>";
 }
 
 /***********************
@@ -2083,3 +2083,28 @@ var sceneSuggestionData = {
 }
 
 loadAll();
+
+
+//***********************
+//     HIGHLIGHT MODE
+//***********************
+
+function getHighlightPrompt(question){
+
+  let clues = currentSceneClues.description.join("\n")
+  let clueString = character.clues.map((element, index) => `${index + 2}. ${element}`).join("\n")
+
+  let prompt = `Given a list of statements, return the number of the statement that contains the most relevant information. If no statement is relevant, return None.
+  1. We are currently in New York City. 
+  ${clueString}
+
+Q: Where are we right now?
+A: 1
+
+Q: What is the meaning of life?
+A: None
+
+Q: ${question}
+A: `;
+    return prompt;
+}
