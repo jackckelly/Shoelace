@@ -159,3 +159,23 @@ svg {
 #suggestions-status {
   display:none;
 }
+
+
+@keyframes highlightAnimation {
+  0% {
+      background: yellow
+  }
+
+  80% {
+    background: yellow;
+  }
+
+  100% {
+      background: none;
+  }
+}
+
+
+.highlight {
+  animation: highlightAnimation 5s;
+}

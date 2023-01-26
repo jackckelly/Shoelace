@@ -235,13 +235,13 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 4; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 5; i < 6; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 4; i < currentSceneCluesKnown.length; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 6; i < currentSceneText.length; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
@@ -251,14 +251,14 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < currentSceneClues.length; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
   } else if (currentScene == "fuller_himself") {
     for (var i = 0; i < 4; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < currentSceneClues.length; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 4; i < currentSceneText.length; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
@@ -270,13 +270,13 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 4; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 2; i < 3; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 4; i < 8; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 3; i < 4; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
@@ -286,13 +286,13 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 3; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 2; i < 3; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 3; i < 6; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
   } else if (currentScene == "the_peculiar_death_of_myron_fink") {
     for (var i = 0; i < 4; i++) {
@@ -303,13 +303,13 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 4; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 6; i < 7; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 4; i < 7; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 7; i < 8; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
@@ -319,28 +319,28 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 4; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Minnie Boyer</h3>";
     for (var i = 1; i < 2; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 4; i < 8; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>August Williams</h3>";
     for (var i = 2; i < 3; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 8; i < 12; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Violet Blake</h3>";
     for (var i = 3; i < 4; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 12; i < 15; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
   } else if (currentScene == "georges_apartment") {
     for (var i = 0; i < 4; i++) {
@@ -353,7 +353,7 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 4; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 2; i < 3; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
@@ -371,13 +371,13 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 5; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 4; i < 7; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 5; i < 8; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
   } else if (currentScene == "temple_of_nephthys") {
     for (var i = 0; i < 5; i++) {
@@ -388,7 +388,7 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 7; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 7; i < 8; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
@@ -406,7 +406,7 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 7; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]), i;
     }
   } else if (currentScene == "the_thing_in_the_morgue") {
     for (var i = 0; i < 2; i++) {
@@ -426,7 +426,7 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 4; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 9; i < 10; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
@@ -437,7 +437,7 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 3; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 2; i < 3; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
@@ -462,7 +462,7 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 9; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 3; i < 7; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
@@ -472,20 +472,20 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 5; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
   } else if (currentScene == "men_gone_missing") {
     for (var i = 0; i < 2; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 5; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 2; i < 4; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 5; i < 8; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
   } else if (currentScene == "charlie_comes_clean") {
     for (var i = 0; i < 6; i++) {
@@ -554,7 +554,7 @@ function renderClue(clue, known, number) {
   } else {
     checkbox = "<input type='checkbox' name='clue'>";
   }
-  sceneInfo.innerHTML = sceneInfo.innerHTML + `<p class='hangingindent' id=clue-${number}>` + checkbox + clue + "</p>";
+  sceneInfo.innerHTML = sceneInfo.innerHTML + `<p class='hangingindent' id=clue-${number + 1}>` + checkbox + clue + "</p>";
 }
 
 /***********************
@@ -1609,16 +1609,13 @@ function find_physical_injury() {
 
 
 //***********************
-//     AI SUGGESTIONS
+//     LM SUGGESTIONS
 //***********************
-
 
 const TRANSCRIPTION_DISPLAY_TIMEOUT = 20 * 1000
 const TRANSCRIPTION_USE_TIMEOUT = 10 * 1000
 const QUESTION_DISPLAY_TIMEOUT = 30 * 1000
 const SUGGESTION_DISPLAY_TIMEOUT = 60 * 1000
-
-
 
 
 //UI
@@ -1658,6 +1655,8 @@ var final_transcriptions = [];
 var unfinalized_transcriptions = [];
 var questions = [];
 var question_to_index = {};
+var highlightEnabled = true;
+var conversationEnabled = false;
 
 function onRecognitionResult(event){
   // delve into words detected results & get the latest
@@ -1731,6 +1730,7 @@ function renderSuggestions() {
   suggestionsFeed.innerHTML = displayText;
 }
 
+
 // speech error handling
 function onRecognitionError(event){
   console.log('error?');
@@ -1780,21 +1780,45 @@ function processSpeech() {
       question_to_index[question] = question_id
     }
     renderSuggestions();
-    let character = getCharacter();
-    if (character == null) { return; }
-    let character_prompt = getCharacterPrompt(question, character);
-    console.log(character_prompt);
-    gptRequest(character_prompt, function(character_response) {
-      if (!isActive || target_session_id !== session_id) { return; }
-      let suggestion = character_response.data.choices[0].text;
-      let parent_question_id = question_to_index[question];
-      let parent_question = questions[parent_question_id];
-      parent_question.suggestions.push({
-        "text": suggestion,
-        "timestamp": performance.now(),
-      })
-      renderSuggestions();
-    });
+
+    // conversation suggestions
+    if (conversationEnabled) {
+      let character = getCharacter();
+      if (character != null) {
+        let character_prompt = getCharacterPrompt(question, character);
+        console.log(character_prompt);
+        gptRequest(character_prompt, function(character_response) {
+          if (!isActive || target_session_id !== session_id) { return; }
+          let suggestion = character_response.data.choices[0].text;
+          let parent_question_id = question_to_index[question];
+          let parent_question = questions[parent_question_id];
+          parent_question.suggestions.push({
+            "text": suggestion,
+            "timestamp": performance.now(),
+          })
+          renderSuggestions();
+        });
+      }
+    }
+    if (highlightEnabled) {
+      let clues = currentSceneClues;
+      let highlight_prompt = getHighlightPrompt(question, clues);
+      console.log(highlight_prompt);
+      gptRequest(highlight_prompt, function(highlight_response) {
+        if (!isActive || target_session_id !== session_id) { return; }
+        let suggestion = highlight_response.data.choices[0].text;
+        console.log(suggestion);
+        let clueArray = suggestion.trim()
+          .slice(1, -1)
+          .split(",")
+          .map((e) => parseInt(e)- 1)
+          .filter((e) => !isNaN(e) && e >= 0 && e < currentSceneClues.length)
+        console.log(clueArray)
+        for (const c of clueArray){
+          highlightClue(c);
+        }
+      });
+    }
   });
 }
 
@@ -2089,22 +2113,33 @@ loadAll();
 //     HIGHLIGHT MODE
 //***********************
 
-function getHighlightPrompt(question){
+function getHighlightPrompt(question, clues){
 
-  let clues = currentSceneClues.description.join("\n")
-  let clueString = character.clues.map((element, index) => `${index + 2}. ${element}`).join("\n")
+  let clueString = currentSceneClues.map((element, index) => `${index + 2}. ${element}`).join("\n")
 
-  let prompt = `Given a list of statements, return the number of the statement that contains the most relevant information. If no statement is relevant, return None.
+  let prompt = `Given a list of statements, return a list of statement numbers that answer the given question. If no statements answer the question, return None.
   1. We are currently in New York City. 
   ${clueString}
 
 Q: Where are we right now?
-A: 1
+A: [1]
 
-Q: What is the meaning of life?
+Q: What is my name?
 A: None
 
 Q: ${question}
 A: `;
     return prompt;
 }
+
+// adapted from https://www.harrytheo.com/blog/2021/02/restart-a-css-animation-with-javascript/
+function highlightClue(clueId) {
+
+  let elementName = `clue-${clueId}`;
+  var element = document.getElementById(elementName); 
+  element.classList.remove("highlight"); 
+  // trigger a DOM reflow 
+  void element.offsetWidth; 
+  element.classList.add("highlight");
+  element.scrollIntoView();
+ }
