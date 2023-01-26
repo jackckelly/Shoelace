@@ -2138,7 +2138,6 @@ function highlightClue(clueId) {
   let elementName = `clue-${clueId}`;
   var element = document.getElementById(elementName); 
   element.classList.remove("highlight"); 
-  // trigger a DOM reflow 
   void element.offsetWidth; 
   element.classList.add("highlight");
   element.scrollIntoView();
