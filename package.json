@@ -1,0 +1,29 @@
+{
+  "dependencies": {
+    "npm-start": "^1.4.2",
+    "package.json": "^2.0.1",
+    "serve": "^14.1.2"
+  },
+  "name": "shoelace",
+  "description": "See the latest build of the project at: https://www.devi-a.com/FatalFrequenciesFrontend",
+  "version": "1.0.0",
+  "main": "main.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main.js",
+    "client": "npm run start --prefix client",
+    "server": "nodemon index.js",
+    "dev": "concurrently \"npm run client\" \"npm run server\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jack-transform/Shoelace.git"
+  },
+  "author": "Jack Kelly",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jack-transform/Shoelace/issues"
+  },
+  "homepage": "https://github.com/jack-transform/Shoelace#readme"
+}

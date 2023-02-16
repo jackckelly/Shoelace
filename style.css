@@ -102,3 +102,80 @@ svg {
   margin-left: 20px;
   padding: 10px;
 }
+
+#suggestions-footer {
+  width:45%;
+  position:fixed;
+  bottom:0;
+  margin:0 auto;
+}
+
+#suggestions-toggle {
+  cursor:pointer;
+  width: 100px;
+  margin: 0 auto;
+  padding: 15px 0;
+  background: #333;
+  color: #fff;
+  border: 0;
+  text-align: center;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+#suggestions-container {
+  display:none;
+  background:white;
+  color:black;
+  width:99%;
+  min-height:80px;
+  text-align:left;
+  padding:15px;
+  border-top-right-radius: 10px;
+  border-width: thick;
+  border-style: solid;
+  border-color: #333;
+}
+
+
+#suggestions-feed-container {
+  display:block;
+  max-height: 800px;
+  overflow-y:scroll;
+}
+
+#questions-feed-container {
+  display:none;
+}
+
+#transcription-feed-container {
+  display:none;
+}
+
+#suggestions-control {
+  display:block;
+}
+
+#suggestions-status {
+  display:none;
+}
+
+
+@keyframes highlightAnimation {
+  0% {
+      background: yellow
+  }
+
+  80% {
+    background: yellow;
+  }
+
+  100% {
+      background: none;
+  }
+}
+
+
+.highlight {
+  animation: highlightAnimation 5s;
+}

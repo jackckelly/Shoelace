@@ -1,3 +1,4 @@
+
 mermaid.initialize({
   startOnLoad: true,
   securityLevel: 'loose',
@@ -6,6 +7,7 @@ mermaid.initialize({
 // The starting scene for the module 
 var currentScene = "sadies_sob_story";
 var binding = "";
+
 
 // Some arrays that store information fetched from Prolog 
 var currentSceneText = []; 
@@ -79,8 +81,6 @@ var bindings = [];
  document.getElementById('antagonist_reactions_link').onclick = loadAntagonistReactions;
 
 
-// The starting function to load in the starting scene
-loadAll();
 
 function loadAll() {
   currentSceneText = []; 
@@ -101,6 +101,7 @@ function loadScene() {
   loadSceneType();
   loadSceneCompleted(); 
   loadSceneLeadIns();
+  newSuggestionSession();
 }
 
 // Clears the output area so that it can be populated with a new page 
@@ -234,13 +235,13 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 4; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 5; i < 6; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 4; i < currentSceneCluesKnown.length; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 6; i < currentSceneText.length; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
@@ -250,14 +251,14 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < currentSceneClues.length; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
   } else if (currentScene == "fuller_himself") {
     for (var i = 0; i < 4; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < currentSceneClues.length; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 4; i < currentSceneText.length; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
@@ -269,13 +270,13 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 4; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 2; i < 3; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 4; i < 8; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 3; i < 4; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
@@ -285,13 +286,13 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 3; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 2; i < 3; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 3; i < 6; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
   } else if (currentScene == "the_peculiar_death_of_myron_fink") {
     for (var i = 0; i < 4; i++) {
@@ -302,13 +303,13 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 4; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 6; i < 7; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 4; i < 7; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 7; i < 8; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
@@ -318,28 +319,28 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 4; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Minnie Boyer</h3>";
     for (var i = 1; i < 2; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 4; i < 8; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>August Williams</h3>";
     for (var i = 2; i < 3; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 8; i < 12; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     sceneInfo.innerHTML = sceneInfo.innerHTML + "<h3>Violet Blake</h3>";
     for (var i = 3; i < 4; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 12; i < 15; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
   } else if (currentScene == "georges_apartment") {
     for (var i = 0; i < 4; i++) {
@@ -352,7 +353,7 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 4; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 2; i < 3; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
@@ -370,13 +371,13 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 5; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 4; i < 7; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 5; i < 8; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
   } else if (currentScene == "temple_of_nephthys") {
     for (var i = 0; i < 5; i++) {
@@ -387,7 +388,7 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 7; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 7; i < 8; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
@@ -405,7 +406,7 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 7; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]), i;
     }
   } else if (currentScene == "the_thing_in_the_morgue") {
     for (var i = 0; i < 2; i++) {
@@ -425,7 +426,7 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 4; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 9; i < 10; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
@@ -436,7 +437,7 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 3; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 2; i < 3; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
@@ -461,7 +462,7 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 9; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 3; i < 7; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
@@ -471,20 +472,20 @@ function renderScene() {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 5; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
   } else if (currentScene == "men_gone_missing") {
     for (var i = 0; i < 2; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 0; i < 5; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
     for (var i = 2; i < 4; i++) {
       sceneInfo.innerHTML = sceneInfo.innerHTML + "<p>" + currentSceneText[i] + "</p>";
     }
     for (var i = 5; i < 8; i++) {
-      renderClue(currentSceneClues[i], currentSceneCluesKnown[i]);
+      renderClue(currentSceneClues[i], currentSceneCluesKnown[i], i);
     }
   } else if (currentScene == "charlie_comes_clean") {
     for (var i = 0; i < 6; i++) {
@@ -546,14 +547,14 @@ function renderAntagonistReactionTrigger(antagonistReaction) {
 }
 
 // Renders a clue as checked or unchecked if it is known or not
-function renderClue(clue, known) {
+function renderClue(clue, known, number) {
   var checkbox;
   if (known == "true") {
     checkbox = "<input type='checkbox' name='clue' checked>";
   } else {
     checkbox = "<input type='checkbox' name='clue'>";
   }
-  sceneInfo.innerHTML = sceneInfo.innerHTML + "<p class='hangingindent'>" + checkbox + clue + "</p>";
+  sceneInfo.innerHTML = sceneInfo.innerHTML + `<p class='hangingindent' id=clue-${number + 1}>` + checkbox + clue + "</p>";
 }
 
 /***********************
@@ -1605,3 +1606,539 @@ function find_physical_injury() {
   session.query("find_physical_injury(Challenge, ProblemName, ProblemDescription).");
   session.answers(get_callback(get_all_bindings));
 }
+
+
+//***********************
+//     LM SUGGESTIONS
+//***********************
+
+const TRANSCRIPTION_DISPLAY_TIMEOUT = 20 * 1000
+const TRANSCRIPTION_USE_TIMEOUT = 10 * 1000
+const QUESTION_DISPLAY_TIMEOUT = 30 * 1000
+const SUGGESTION_DISPLAY_TIMEOUT = 60 * 1000
+
+
+//UI
+var suggestionsToggle = document.getElementById('suggestions-toggle');
+var suggestionsContainer = document.getElementById('suggestions-container');
+
+function hideFooter() {
+  suggestionsContainer.style.display = "block";
+}
+
+function showFooter() {
+  suggestionsContainer.style.display = 'none';
+}
+suggestionsToggle.onclick = function() {
+  if (suggestionsContainer.style.display === "block") {
+    suggestionsContainer.style.display = 'none';
+  } else {
+    suggestionsContainer.style.display = 'block';
+  }
+}
+
+//Transcription
+// get last word said element
+var transcriptionFeed = document.getElementById('transcription-feed');
+var questionsFeed = document.getElementById('questions-feed');
+var suggestionsFeed = document.getElementById('suggestions-feed');
+const SpeechRecognition = window.SpeechRecognition || webkitSpeechRecognition;
+//const SpeechGrammarList = window.SpeechGrammarList || webkitSpeechGrammarList;
+//const SpeechRecognitionEvent = window.SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
+
+
+// speech recognition globals
+
+var recognition = new SpeechRecognition();
+var session_id = Date.now();
+var final_transcriptions = [];
+var unfinalized_transcriptions = [];
+var questions = [];
+var question_to_index = {};
+var highlightEnabled = true;
+var conversationEnabled = false;
+
+function onRecognitionResult(event){
+  // delve into words detected results & get the latest
+  // total results detected
+  console.log(event);
+  console.log(performance.now());
+  // get length of latest results
+
+  let results_buffer = event.results;
+
+  var updated_unfinalized_transcriptions = []
+  for (var i = 0; i < results_buffer.length; i++) {
+    if (i >= final_transcriptions.length && results_buffer[i].isFinal) {
+      final_transcriptions.push({
+        "text": results_buffer[i][0].transcript,
+        "timestamp": event.timeStamp,
+      })
+    } else if (!(results_buffer[i].isFinal)) {
+      updated_unfinalized_transcriptions.push({
+        "text": results_buffer[i][0].transcript,
+        "timestamp": event.timeStamp,
+      })
+    }
+  }
+  // Global State Update
+  unfinalized_transcriptions = updated_unfinalized_transcriptions;
+
+  // render state
+  renderTranscription();
+};
+
+function renderTranscription(){
+  let ts = performance.now();
+  var displayText = "";
+  for (var i = 0; i < final_transcriptions.length; i++) {
+    transcription = final_transcriptions[i];
+    if ((ts - transcription.timestamp) < TRANSCRIPTION_DISPLAY_TIMEOUT) {
+      displayText = displayText + "<li>" + final_transcriptions[i]["text"] + "</li>";
+    }
+  }
+
+  for (var i = 0; i < unfinalized_transcriptions.length; i++) {
+    transcription = unfinalized_transcriptions[i];
+    displayText = displayText + "<li>" + unfinalized_transcriptions[i]["text"] + "</li>";
+  }
+  transcriptionFeed.innerHTML = displayText;
+}
+
+function renderQuestions() {
+  var displayText = ""
+  let ts = performance.now()
+  let recent_questions = questions.filter((q) => (ts - q.last_updated) < QUESTION_DISPLAY_TIMEOUT)
+  for (var i = 0; i < recent_questions.length; i++) {
+    displayText = displayText +  "<li>" +  recent_questions[i].text + "</li>";
+  }
+  questionsFeed.innerHTML = displayText;
+}
+
+function renderSuggestions() {
+  var displayText = ""
+  let ts = performance.now()
+  let recent_questions = questions.filter((q) => (ts - q.last_updated) < QUESTION_DISPLAY_TIMEOUT)
+  for (let i = 0; i < recent_questions.length; i++) {
+    let question = recent_questions[i]
+    displayText = displayText +  "<p>" +  question.text + "</p>";
+    let recent_suggestions = question.suggestions.filter((s) => (ts - s.timestamp) < SUGGESTION_DISPLAY_TIMEOUT);
+    for (let j = 0; j < recent_suggestions.length; j++) {
+      displayText = displayText + "<li>" +  recent_suggestions[j].text + "</li>"
+    }
+  }
+  suggestionsFeed.innerHTML = displayText;
+}
+
+
+// speech error handling
+function onRecognitionError(event){
+  console.log('error?');
+  console.log(event);
+}
+
+function processSpeech() {
+  let target_session_id = session_id;
+  const recent_final = final_transcriptions.filter((t) => (performance.now() - t.timestamp) < TRANSCRIPTION_USE_TIMEOUT)
+  const recent = recent_final.concat(unfinalized_transcriptions);
+
+  if (recent.length == 0) {
+    console.log("no recent transcription")
+    return;
+  }
+
+  let transcriptions = recent.map((t) => t.text);
+  let question_prompt = getQuestionPrompt(transcriptions);
+
+  gptRequest(question_prompt, function (response) {
+
+    if (!isActive || target_session_id !== session_id) { return; }
+
+    let question = response.data.choices[0].text;
+    console.log(question);
+    if (!(question.includes("?"))) { return; }
+
+    if (question in question_to_index) {
+      let question_id = question_to_index[question]
+      let q = questions[question_id]
+      q["last_updated"] = performance.now()
+    } else {
+      questions.push({
+        "text": question,
+        "last_updated": performance.now(),
+        "suggestions": []
+      })
+      let question_id = questions.length - 1;
+
+      // this should make it async safe; probably can comment it out
+      for (let i = 0; i < questions.length; i++) {
+        if (questions[i].text == question){
+          question_id = i
+          break;
+        }
+      }
+      question_to_index[question] = question_id
+    }
+    renderSuggestions();
+
+    // conversation suggestions
+    if (conversationEnabled) {
+      let character = getCharacter();
+      if (character != null) {
+        let character_prompt = getCharacterPrompt(question, character);
+        console.log(character_prompt);
+        gptRequest(character_prompt, function(character_response) {
+          if (!isActive || target_session_id !== session_id) { return; }
+          let suggestion = character_response.data.choices[0].text;
+          let parent_question_id = question_to_index[question];
+          let parent_question = questions[parent_question_id];
+          parent_question.suggestions.push({
+            "text": suggestion,
+            "timestamp": performance.now(),
+          })
+          renderSuggestions();
+        });
+      }
+    }
+    if (highlightEnabled) {
+      let clues = currentSceneClues;
+      let highlight_prompt = getHighlightPrompt(question, clues);
+      console.log(highlight_prompt);
+      gptRequest(highlight_prompt, function(highlight_response) {
+        if (!isActive || target_session_id !== session_id) { return; }
+        let suggestion = highlight_response.data.choices[0].text;
+        console.log(suggestion);
+        let clueArray = suggestion.trim()
+          .slice(1, -1)
+          .split(",")
+          .map((e) => parseInt(e)- 1)
+          .filter((e) => !isNaN(e) && e >= 0 && e < currentSceneClues.length)
+        console.log(clueArray)
+        for (const c of clueArray){
+          highlightClue(c);
+        }
+      });
+    }
+  });
+}
+
+var processSpeechInterval = null;
+
+function onRecognitionStart(event) {
+  console.log("recognition start");
+}
+
+function onRecognitionEnd(event) {
+  console.log('end');
+  if (isActive) {
+    updateIsActive(false);
+  }
+  renderAll();
+}
+
+var startButton =  document.getElementById('suggestions-start');
+var resetButton =  document.getElementById('suggestions-reset');
+
+var isActive = false;
+
+function updateIsActive(newIsActive) {
+
+  if (newIsActive === isActive) {
+    return;
+  }
+  isActive = newIsActive;
+
+  if (isActive) {
+    processSpeechInterval = setInterval(processSpeech, 4000);
+    if (!(recognition == null)) {
+      recognition.start();
+    }
+    startButton.innerHTML = "Pause"
+  } else {
+    clearInterval(processSpeechInterval);
+    if (!(recognition == null)) {
+      recognition.stop(); 
+    }
+    startButton.innerHTML = "Go!"
+  }
+}
+
+function getCharacter() {
+  let choice = characterSelector.value
+  if (currentScene in sceneSuggestionData) {
+    let scene = sceneSuggestionData[currentScene]
+    for (let i = 0; i < scene.length; i++) {
+      if (scene[i].name === choice) {
+        return scene[i];
+      }
+    }
+  }
+  return null;
+}
+
+function newSuggestionSession() {
+  updateIsActive(false);
+  renderSuggestionControls();
+  session_id = Date.now();
+  recognition = new SpeechRecognition();
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.onresult = (event) => onRecognitionResult(event);
+  recognition.onstart = (event) => onRecognitionStart(event);
+  recognition.onerror = (event) => onRecognitionError(event);
+  recognition.onend = (event) => onRecognitionEnd(event);
+  final_transcriptions = [];
+  unfinalized_transcriptions = [];
+  questions = [];
+  question_to_index = {};
+  renderAll();
+}
+
+startButton.onclick = function() {
+  updateIsActive(!isActive);
+}
+
+resetButton.onclick = function() {
+  newSuggestionSession();
+}
+
+// GPT 3
+var API_KEY = ""
+var OpenAI = null;
+
+fetch('./.config.json')
+    .then((response) => response.json())
+    .then(function (json) {
+      API_KEY = json["API_KEY"]
+      OpenAI = axios.create({
+        baseURL: 'https://api.openai.com/v1/',
+        timeout: 100000,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': "*",
+          'Authorization': 'Bearer ' + API_KEY
+        }
+      });
+    });
+
+ 
+function gptRequest(prompt, callback) {
+  OpenAI({
+    "method": "post",
+    "url": "/completions",
+    "data": {
+      "model": "text-davinci-003",
+      "prompt": prompt,
+      "max_tokens": 200,
+      "top_p": 1,
+      "n": 1,
+      "stream": false,
+      "logprobs": null,
+      "stop": "\n"
+    },
+  }).catch(function (error) {
+    console.log(error.toJSON());
+  }).then(function(response) {
+    if (response.status === 200) {
+      callback(response);
+    }
+  });
+}
+
+function renderAll(){
+  renderTranscription();
+  renderQuestions();
+  renderSuggestions();
+}
+
+var suggestionsControls = document.getElementById("suggestions-control");
+var characterSelector = document.getElementById("npc-select");
+var suggestionsStatus = document.getElementById("suggestions-status");
+
+function renderSuggestionControls(){
+  if (currentScene in sceneSuggestionData) {
+    let characters = sceneSuggestionData[currentScene].map((character) => character.name);
+    if (characters.length > 0) {
+      suggestionsControls.style.display = "block";
+      suggestionsStatus.style.display = "none";
+      characterSelector.disabled = false;
+      startButton.disabled = false;
+      resetButton.disabled = false;
+      characterSelector.innerHTML = characters.map((character) => `<option value="${character}">${character}</option>`).join("\n")
+      characterSelector.value = characters[0];
+      return;
+    }
+  }
+  suggestionsControls.style.display = "none";
+  suggestionsStatus.style.display = "block";
+  characterSelector.disabled = true;
+  startButton.disabled = true;
+  resetButton.disabled = true;
+}
+
+function getQuestionPrompt(transcription){
+
+    var prompt = `Find and identify a question in an error-prone transcript
+
+Input:
+just a question
+curious about it
+what is your favorite color
+it's raining today so
+
+Output:
+What is your favorite color?
+
+Input:
+so you are a barber, i believe
+what's your favorite part of that job?
+i think you're doing great
+
+Output:
+What is your favorite part of your job as a barber?
+
+Input:
+${transcription.map((t) => t.trim()).join("\n")}
+
+Output:
+`;
+
+  return prompt;
+}
+
+function getCharacterPrompt(question, character){
+
+  let description = character.description.join("\n")
+  let clues = character.clues.map((clue) => "- " + clue).join("\n")
+
+  let prompt = `${description}
+
+${character.name} will share the following information only if asked about it directly: 
+${clues}
+
+As ${character.name}, you answer questions from the detective:
+
+Q: What is your name?
+A: My name is ${character.name}.
+
+Q: What do you think about politics?
+A: Oh, I don't know anything about that.
+
+Q: Who am I?
+A: You're a detective investigating George's disappearance, Vivian Sinclair.
+
+Q: ${question}
+A: `;
+    return prompt;
+
+}
+
+var sceneSuggestionData = {
+  "sadies_sob_story": [{
+    "name": "Sadie Cain",
+    "description": [
+      "Sadie Cain is a garment worker engaged to George Preston. She believes that while the course of true love may not always run smooth, love still prevails.",
+      "Sadie Cain speaks in the soft, defensive tone of someone who has gone through her story several times already. She's cried too long to have any tears left. Instead, her eyes reflect a quiet blankness.",
+      "Sadie's fiancé, George Preston, disappeared three days ago under mysterious circumstances. She thinks the police are framing him for a murder, just like those articles Viv wrote about police frame-ups a few years ago. She wants Viv to find him and to prove him innocent."
+    ],
+    "clues": [
+      "She met George at the New York Public Library. She loves George because she found him entirely different from your ordinary Joe. He read books about the human brain and the spirit world and all kinds of things. He thought a lot. George would have gone to college, only his family couldn't afford it.",
+      "George works as an electrical repairman at Fuller's Electrical Repair, just a couple blocks north of Fulton Street in downtown Brooklyn.",
+      "Sadie admits she doesn't see George every night, which the police took to mean he two- times her. They just don't understand George. Someday you'll hear about him as a famous inventor. At night, he works on building his machine and Mr. Fuller lets him use the workbench. Some nights, he comes by her place but others he works so late that he just sleeps at the shop. She mostly sees him on weekends.",
+      "George was on the verge of an amazing breakthrough: a machine that was going to change everything. If asked what the machine does, Sadie falters. George never actually told her; he said",
+      "George didn't have a lot of friends, but he grew up with one of his coworkers - Charlie Fitzpatrick. As kids, they'd planned to travel the world together.",
+      "George rents a one-room apartment in one of the decrepit older buildings up by the Navy Yard. 'Just until we have enough money for one of the nicer new apartments.' The landlord, Mr. Simpson, won't let her into his room.",
+      "Everyone persecuted George just for coming from a poor family, but he was going to make something of himself, Sadie knows it.",
+      "If asked, she produces a photograph of a gangling young man with light hair and eyes, but seems reluctant to let it go. He seems to look at something beyond the photographer.",
+      "The police questioned her several times, but all she knows is what they told her - someone in George's building got killed. And they insist George did it."
+    ],
+    "attitude": "positive"
+  }],
+  "fullers_electrical_repair": [{
+    "name": "Petunia Adams",
+    "description": [
+      "Petunia Adams works at Fuller's Electrical Repair as Mr. Fuller's secretary.",
+      "A well-scrubbed young woman of about 25 in a sensible cotton print frock, Petunia maintains an immaculate bun and an all-business attitude 'to keep the boys at bay.' She considers herself a kind of 'den mother' to the 'boys' in the shop, even those a decade older than herself. ",
+      "She always thought George different from the other boys. Bit of a dreamer. Sometimes used to just stare off into space. Why, one time she thought she saw him squinting as though he were trying to see something just out of view."
+    ],
+    "clues": [
+      "Yes, George worked on a machine after hours. Several of the boys have pet projects, and Mr. Fuller kindly lets them use his space.",
+      "She doesn't know about George's device. Oh, but Richard was trying to build a bicycle-powered electric washer because his mother's farm doesn't yet have electricity. Something about generators. She thought that sounded very practical.",
+      "George's looked more like a phonograph, or perhaps a projector like at the movies.",
+      "No, he must have taken it with him because it's not here now."
+    ],
+    "attitude": "positive"
+  }],
+  "fuller_himself": [{
+    "name": "Howard Fuller",
+    "description": [
+      "Howard Fuller is the founder of Fuller's Electrical Repair.",
+      "Like many of those he now employs, Howard Fuller once dreamed of inventing something as revolutionary as the electric icebox or razor. Once he realized the insufficiency of his genius, he focused on something only slightly easier to achieve: making his business a success. He hires only the best, keeps them working from eight to six, and guarantees repaired items 'as good as new or your money back.'",
+      "Fuller varies his posture between overlooking his domain, arms akimbo, and smoking a pipe with his feet on the desk."
+    ],
+    "clues": [
+      "He last saw George four nights ago when he, Fuller, locked up. The boy stayed late to work on his device, same as always. But Fuller clarifies he doesn't play favorites: George supplies his own materials and must replace any tools he breaks.",
+      "He locks up around 8 p.m. But several of the boys have keys, including George.",
+      "If she wants to know more about George, she should talk to Charlie Fitzpatrick. Fuller indicates her on the floor below. Those two grew up together, and are still thick as thieves. It was George who talked him into hiring Charlie.",
+      "Had he thought of George as a murderer? No, but you know those sensitive types and the police make a good case. Why else would he have run off ?",
+      "George never leaves the device here; he must have taken it home to his apartment.",
+      "He thinks the machine has something to do with radio waves, but doesn't know very much about it. George played his hand close to his chest.",
+      "Either prompted by Viv's questioning him about the dame Charlie mentions, or remembering just as Viv turns to leave the office, Fuller brings up the other girl who came by on Saturday asking about George. 'Pearl something-or-other. She gave me a card. Ah, there it is.' From under a heap on his desk, he produces a card bearing the name Madame Isis Neferi, a phone number, a street address in Brooklyn Heights, and Temple of Nephthys. 'Madame Isis, that wasn't her, but she begged me to call her if George came back or I got a lead on what she called his ‘miracle machine.' Strange girl.'",
+    ],
+    "attitude": "neutral"
+  }],
+  "charming_charlie": [],
+  "what_the_cops_know": [],
+  "the_peculiar_death_of_myron_fink": [],
+  "interviewing_the_neighbors": [],
+  "georges_apartment": [],
+  "questioning_pearl": [],
+  "the_psychical_investigator": [],
+  "temple_of_nephthys": [],
+  "addie_needs_answers": [],
+  "the_thing_in_the_morgue": [],
+  "miracle_machine": [],
+  "the_leg_breaker": [],
+  "going_on_the_grid": [],
+  "men_gone_missing": [],
+  "charlie_comes_clean": [],
+  "breaking_into_fullers": [],
+  "sadie_and_the_scoop": [],
+}
+
+loadAll();
+
+
+//***********************
+//     HIGHLIGHT MODE
+//***********************
+
+function getHighlightPrompt(question, clues){
+
+  let clueString = currentSceneClues.map((element, index) => `${index + 2}. ${element}`).join("\n")
+
+  let prompt = `Given a list of statements, return a list of statement numbers that answer the given question. If no statements answer the question, return None.
+  1. We are currently in New York City. 
+  ${clueString}
+
+Q: Where are we right now?
+A: [1]
+
+Q: What is my name?
+A: None
+
+Q: ${question}
+A: `;
+    return prompt;
+}
+
+// adapted from https://www.harrytheo.com/blog/2021/02/restart-a-css-animation-with-javascript/
+function highlightClue(clueId) {
+
+  let elementName = `clue-${clueId}`;
+  var element = document.getElementById(elementName); 
+  element.classList.remove("highlight"); 
+  void element.offsetWidth; 
+  element.classList.add("highlight");
+  element.scrollIntoView();
+ }
