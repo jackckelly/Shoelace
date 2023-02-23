@@ -2,8 +2,8 @@
 
 class DB {
     constructor(){
-        this.session = pl.create()
-        this.session.consult("./src/database.prolog");
+        //this.session = pl.create()
+       // this.session.consult("./src/database.prolog");
     
         // Array of variable bindings, one per answer, returned by prolog query
         // You'll need to keep this in here to get the Prolog queries/bindings working
@@ -23,12 +23,12 @@ class DB {
             if (answer == false) 
             {
             // We're done finding answers. Execute funcWhenDone with the bindings.
-            funcWhenDone(bindings);
+            funcWhenDone(this.bindings);
             }
             else 
             {
             // We've gotten another non-false answer - add it to the bindings.
-            bindings.push(answer);
+            this.bindings.push(answer);
             }
         }
         return callbackFunc;
@@ -40,7 +40,7 @@ class DB {
             answer.lookup("Name").id;
         }
         
-        this.session.query("scene_name(" + scene + ", Name).");
+        //this.session.query("scene_name(" + scene + ", Name).");
         return this.session.answer(binding);
     }
 }
