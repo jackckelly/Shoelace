@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import mermaid from 'mermaid'
 import './App.css'
+import allClues from './clues.json';
+import allScenes from './scenes.json';
 import DB from './db.js'
 
 
@@ -21,6 +23,9 @@ const Views = {
 function App() {
   const [currentScene, setCurrentScene] = useState("sadies_sob_story")
   const [currentView, setView] = useState("scenes")
+  const [visitedScenes, setVisitedScenes] = useState(new Set());
+  const [knownClues, setKnownClues] = useState(new Set());
+
   const db = {};
 
   return ( 
@@ -47,10 +52,10 @@ function App() {
         </div>
         <div className="column">
           { currentView === Views.Scenes &&
-            <Scenes sceneName={currentScene} db={db}/>
+            <Scenes sceneName={currentScene} knownClues={knownClues} setKnownClues={setKnownClues}/>
           }
           { currentView === Views.Clues &&
-            <Clues/>
+            <Clues knownClues={knownClues} setKnownClues={setKnownClues}/>
           }
           { currentView === Views.PlayerSheet &&
             <PlayerSheet/>
@@ -87,15 +92,69 @@ function App() {
 
 
 
-function Scenes({ sceneName, db }) {
+function Scenes({ sceneName, knownClues, setKnownClues}) {
+  
+  function onChangeClueKnown (event) {
+    var item = event.target.id
+    var newClueKnown = new Set(knownClues)
+    if (knownClues.has(item)) {
+      newClueKnown.delete(item)
+    }
+    else {
+      newClueKnown.add(item)
+    }
+    setKnownClues(newClueKnown); 
+  }
+
+  var sceneData = allScenes[sceneName]
+  let sceneBody = sceneData.scene_text.map((item, i) => {
+    return (
+      <p key={i}>{item}</p>
+    );
+  });
+
+  let clueBody = sceneData.scene_clues.map((item, i) => {
+    return (
+      <li key = {item}><label><input id={item} type="checkbox" onChange={onChangeClueKnown} checked={knownClues.has(item)}/>{allClues[item]}</label></li>
+    );
+  });
+
   return (
-    <h3>CURRENT SCENE: {sceneName}</h3>
+    <div id="scene">
+      <h3>{sceneData.name}</h3>
+      {sceneBody}
+      {clueBody}
+    </div>
   )
 }
 
-function Clues() {
+function Clues(knownClues, setKnownClues) {
+
+  function onChangeClueKnown(event) {
+    var item = event.target.id
+    var newClueKnown = new Set(knownClues)
+    if (knownClues.has(item)) {
+      newClueKnown.delete(item)
+    }
+    else {
+      newClueKnown.add(item)
+    }
+    setKnownClues(newClueKnown); 
+  }
+
+  
+  var clueSet = Object.keys(allScenes).map((property) => {
+    return (
+      <div id={property}>
+        <h3>{allScenes[property].name}</h3>
+      </div>
+    )
+  })
+
   return (
-    <h3>CLUES not yet implemented</h3>
+    <div id="clues">
+      {clueSet}
+    </div>
   )
 }
 
