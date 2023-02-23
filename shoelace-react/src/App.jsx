@@ -52,10 +52,10 @@ function App() {
         </div>
         <div className="column">
           { currentView === Views.Scenes &&
-            <Scenes sceneName={currentScene} knownClues={knownClues} setKnownClues={setKnownClues}/>
+            <Scenes sceneName={currentScene} knownClues={knownClues} setKnownClues={setKnownClues} visitedScenes={visitedScenes} setVisitedScenes = {setVisitedScenes}/>
           }
           { currentView === Views.Clues &&
-            <Clues knownClues={knownClues} setKnownClues={setKnownClues}/>
+            <Clues knownClues={knownClues} setKnownClues={setKnownClues} />
           }
           { currentView === Views.PlayerSheet &&
             <PlayerSheet/>
@@ -92,7 +92,7 @@ function App() {
 
 
 
-function Scenes({ sceneName, knownClues, setKnownClues}) {
+function Scenes({ sceneName, knownClues, setKnownClues, visitedScenes, setVisitedScenes}) {
   
   function onChangeClueKnown (event) {
     var item = event.target.id
@@ -104,6 +104,17 @@ function Scenes({ sceneName, knownClues, setKnownClues}) {
       newClueKnown.add(item)
     }
     setKnownClues(newClueKnown); 
+  }
+
+  function onChangeVisitedScene() {
+    var newVisitedScenes = new Set(visitedScenes)
+    if (visitedScenes.has(sceneName)) {
+      newVisitedScenes.delete(sceneName)
+    }
+    else {
+      newVisitedScenes.add(sceneName)
+    }
+    setVisitedScenes(newVisitedScenes); 
   }
 
   var sceneData = allScenes[sceneName]
@@ -122,6 +133,7 @@ function Scenes({ sceneName, knownClues, setKnownClues}) {
   return (
     <div id="scene">
       <h3>{sceneData.name}</h3>
+      <label><input type="checkbox" onChange={onChangeVisitedScene} checked={visitedScenes.has(sceneName)}/><i>Visited?</i></label>
       {sceneBody}
       {clueBody}
     </div>
