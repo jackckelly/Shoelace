@@ -1,4 +1,4 @@
-# Fatal Frequencies Visualization
+# Shoelace
 
 See the latest build of the project at: https://www.devi-a.com/FatalFrequenciesFrontend
 
